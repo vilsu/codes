@@ -4,11 +4,17 @@ $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123"
 
 // to process questions sent from the lomake_question.php
 
+
 // no questions from ananymous
 include 'handle_login_status.php';
 if(!$logged_in){
-    header("Location: /codes/index.php");
     die("You are not logged_in");
+    //header("Location: /codes/index.php");
+}
+
+// TODO bugaa: vaikka on kirjautneena, niin ei nayta tata
+if($logged_in){
+    die("Your question is sent");
 }
 
 $question_body = $_POST['body'];
@@ -41,5 +47,5 @@ if(!$result) {
     exit;
 }
 
-pg_close($dbconn);
+//pg_close($dbconn);
 ?>

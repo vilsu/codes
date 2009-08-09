@@ -1,5 +1,7 @@
 <?php
 
+$dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+
 // to handle questions from ../lomakkeet/lomake_answer.php
 
 // no questions from ananymous
@@ -19,6 +21,6 @@ $result = pg_prepare($dbconn, "query2", "INSERT INTO answers (answer, questions_
 // $answer tulee lomakkeelta, kun taas $questions_question_id tulee URL:ista 
 $result = pg_execute($dbconn, "query2", array($_POST['answer'], $_GET['questions_question_id']));
 
-pg_close($dbconn);
+//pg_close($dbconn);
 
 ?>
