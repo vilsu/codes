@@ -9,5 +9,3 @@
 
     <input type="submit" value="OK" />
 </form>
-
-<a href="lomakkeet/lomake_registration.php">Register</a>

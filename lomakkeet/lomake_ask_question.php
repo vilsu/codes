@@ -1,4 +1,4 @@
-<form method="post" action="handlers/handle_new_question.php">
+<form method="post" action="/handlers/handle_new_question.php">
     <p>Title:
         <input name="title" type="text" cols="92" />
     </p>
@@ -14,12 +14,15 @@
 
     
     <?php
-    include '../handlers/handle_login_status.php';
+    include 'handle_login_status.php';
     if(!$logged_in) {
+        echo "<div id='notice'>";
         echo "<p>Ole kirjautuneena, niin voit kysya.</p>";
-        include 'lomakkeet/lomake_login.php';
+        include 'lomake_login.php';
+        echo "</div>";
+    }
     else {
-        <input type="submit" value="OK" />
+        echo "<input type='submit' value='OK' />";
     }
     ?>
     

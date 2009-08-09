@@ -26,11 +26,13 @@ include 'handle_login_status.php';
 <ul>
 <?php
     if(!$logged_in) {
-        echo "<li><a href='?registration'>Register</a></li>";
-        echo "<li><a href='?login'>Login</a></li></li>";
+        
+        <li><a href="lomake_registration.php">Register</a></li>
     }
+    else {
+        <li><a href="lomake_login.php">Login</a></li>
 ?>
-        <li><a href="?about">About</a></li>
+        <li><a href="about.php">About</a></li>
 </ul>
 </div>
 
@@ -63,24 +65,6 @@ include 'handle_login_status.php';
 
 <div id="mainbar">
 <?php
-
-// REGISTRATION at USERBAR
-if (array_key_exists('registration', $_GET)) {
-    // change the layout by adding question form by getting data
-    include 'lomake_registration.php';
-}
-
-// LOGIN at USERBAR
-if (array_key_exists('login', $_GET)) {
-    // change the layout by adding question form by getting data
-    include 'lomake_login.php';
-}
-
-// ABOUT 
-if (array_key_exists('about', $_GET)) {
-    // change the layout by adding question form by getting data
-    include 'about.php';
-}
 
 // ASK QUESTION -view
 if (array_key_exists('ask_question', $_GET)) {
