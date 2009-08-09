@@ -12,11 +12,15 @@
         <input name="tags" type="text" cols="92" />
     </p> 
 
-    <input type="submit" value="OK" />
     
-    <!-- TODO tarkastus tahan
-         Jos ei ei ole kirjautuneena, tee
-
-    include 'lomakkeet/lomake_login.php';
-    -->
+    <?php
+    include '../handlers/handle_login_status.php';
+    if(!$logged_in) {
+        echo "<p>Ole kirjautuneena, niin voit kysya.</p>";
+        include 'lomakkeet/lomake_login.php';
+    else {
+        <input type="submit" value="OK" />
+    }
+    ?>
+    
 </form>

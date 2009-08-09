@@ -1,4 +1,7 @@
 <?php 
+
+set_include_path=':/home/noa/Dropbox/tietokantasovellus/Sami/codes/handlers:/home/noa/Dropbox/tietokantasovellus/Sami/codes/lomakkeet:'
+
 // otetaan yhteys kantaan
 $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 if(!$dbconn) {
@@ -7,7 +10,7 @@ if(!$dbconn) {
 }
 
 // check the login status
-include 'handlers/login_status.php';
+include 'handle_login_status.php';
 ?>
 
 <html>
