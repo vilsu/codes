@@ -1,4 +1,4 @@
-<form method="post" action="handlers/handle_registration.php">
+<form method="post" action="/codes/handlers/handle_registration.php">
     <p>Username:
         <input name="username" type="text" cols="92" />
     </p>
