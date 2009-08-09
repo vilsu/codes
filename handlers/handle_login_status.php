@@ -1,13 +1,16 @@
 <?php
 
+$dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 // Check for the existing Cookie
 // TODO muuta $_COOKIE to $_SESSION such that cookies are stored to Server
 
-if (isset($_COOKIE['login']) ) {
+// TODO this does not work
+// print_r($_COOKIE['login_cookie'] gives nothing
+if (isset($_COOKIE['login_cookie']) ) {
     //1. read the first word in Cookie of the form 
         //"email@gmail.com,ca05106e445c15197f7213bc12648524
     //Then, store this word to $email 
-    $cookie_tripped = explode(",", $_COOKIE['login']);   
+    $cookie_tripped = explode(",", $_COOKIE['login_cookie']);   
     $email = $cookie_tripped[0];
     $result = pg_prepare($dbconn, "query1", 'SELECT passhash_md5 FROM users 
                          WHERE email = $1;');

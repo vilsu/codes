@@ -1,11 +1,13 @@
 <?php
 
+$dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+
 // to process questions sent from the lomake_question.php
 
 // no questions from ananymous
 include 'handle_login_status.php';
 if(!$logged_in){
-    header("Location: index.php");
+    header("Location: /codes/index.php");
     die("You are not logged_in");
 }
 

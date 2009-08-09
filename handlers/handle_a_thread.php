@@ -5,7 +5,7 @@
 // no questions from ananymous
 include 'handle_login_status.php';
 if(!$logged_in){
-    header("Location: index.php");
+    header("Location: /codes/index.php");
     die("You are not logged_in");
 }
 

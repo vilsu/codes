@@ -1,9 +1,12 @@
 <?php
 
+// not a duplicate
+$dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+
 // to see the login status
 include 'handle_login_status.php';
 if($logged_in) {
-    header("Location: index.php");
+    header("Location: /codes/index.php");
     die("You are logged in");
 }
 
@@ -15,7 +18,7 @@ $email = $_POST['email'];
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
      // palataan paasivulle
-    header("Location: index.php");
+    header("Location: /codes/index.php");
     die("Wrong email-address");
 }
 
@@ -28,7 +31,7 @@ if(!$result) {
 }
 
 // palataan paasivulle
-header("Location: index.php");
+header("Location: /codes/index.php");
 die("Successful registration");
 
 pg_close($dbconn);
