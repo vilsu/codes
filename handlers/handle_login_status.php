@@ -1,5 +1,5 @@
 <?php
-//$dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+$dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
 
 $result = pg_prepare($dbconn, "query22", "SELECT passhash_md5 FROM users
@@ -57,6 +57,24 @@ if (isset($_POST['email'])) {
         $logged_in = false;
     }
 }
+
+// tarkistetaan, etta salasana on oikein
+if (isset($_GET['email'])) {
+    $passhash_md5 = pg_execute($dbconn, "query22", array($_GET['email']));
+
+    if (!$passhash_md5) {
+        echo "An error occurred - hhhhhh!\n";
+        exit;
+    }
+
+    if ($passhash_md5 == $_GET['passhash_md5']) {
+        $logged_in = true;
+    } else {
+        $logged_in = false;
+    }
+}
+
+
 
 
 // no pg_close() here

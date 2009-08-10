@@ -10,29 +10,61 @@ if($logged_in) {
     die("You are logged in");
 }
 
-// haetaan muuttujien arvot lomakkeelta
-// We do not save passwords in plain text
+// INDEPENDENT VARIABLES
 $username = $_POST['username'];
 $passhash_md5 = md5($_POST['password']);
 $email = $_POST['email'];
 
+
+// DATA PROCESSING
+
+// Limitations
+
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
      // palataan paasivulle
-    header("Location: /codes/index.php");
+    header("'Location: /codes/index.php?'
+        . 'registration'
+        . '&'
+        . 'registration_wrong_email'");
     die("Wrong email-address");
 }
 
-$result = pg_prepare($dbconn, "query1", 'INSERT INTO users (username, email, passhash_md5)
-    VALUES ($1, $2, $3);');
-$result = pg_execute($dbconn, "query1", array($username, $email, $passhash_md5));
-if(!$result) {
-    echo "An error occurred - Hhhhhhhhhhh!\n";
-    exit;
+
+// we do not allow one email address have many accounts
+$result = pg_prepare($dbconn, "query11", 'SELECT count(email) FROM users
+    WHERE email = $1;');
+$result = pg_execute($dbconn, "query11", array($email));
+// luetaan data
+while ($row = pg_fetch_row($result)) {
+    $number_of_emails = $row[0];
 }
+if($number_of_emails > 0) {
+    header("'Location: /codes/index.php?'
+        . 'registration'
+        . '&'
+        . '2email'");
+    //die("Unsuccessful login");
+} else {
+    // Save to db
 
-// palataan paasivulle
-header("Location: /codes/index.php");
-die("Successful registration");
+    $result = pg_prepare($dbconn, "query1", 'INSERT INTO users (username, email, passhash_md5)
+        VALUES ($1, $2, $3);');
+    $result = pg_execute($dbconn, "query1", array($username, $email, $passhash_md5));
+    if(!$result) {
+        echo "An error occurred - Hhhhhhhhhhh!\n";
+        exit;
+    }
 
-pg_close($dbconn);
+    $result = "'Location: /codes/index.php?'
+            . 'successful_registration'
+            . '&'
+            . 'email='
+            . $email 
+            . '&'
+            . 'passhash_md5='
+            . $passhash_md5";
+    // palataan paasivulle
+    header($result);
+
+//pg_close($dbconn);
 ?>

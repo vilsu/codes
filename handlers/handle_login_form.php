@@ -25,14 +25,26 @@ while ($row = pg_fetch_row($result)) {
     $password_original = $row[0];
 }
 
+
 if ($password_original == md5($_POST['password'])) {
-    header("Location: /codes/index.php?ask_question&" . "email=" . $_POST['email'] . "&" . "passhash_md5=" . md5($_POST['password']) );
+    $result = ("Location: /codes/index.php?ask_question"
+            . "&"
+            . "successful_login"
+            . "&"                  // this is not HTML: we need no escapes
+            . "email="
+            . $_POST['email']
+            . "&"
+            . "passhash_md5="
+            . md5($_POST['password']) );
+
+    header($result);    
     include '/codes/handlers/handle_login_status.php';
     die("oikea salasana");
 
 } else {
-    die("wrong email/password");
+    header("Location: /codes/index.php?unsuccessful_login");
 }
+
 
 //pg_close($dbconn);
 ?>

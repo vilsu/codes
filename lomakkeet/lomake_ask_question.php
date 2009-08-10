@@ -11,5 +11,4 @@
     <p>Tags:
         <input name="tags" type="text" cols="92" />
     </p> 
-
-</form>
+<!-- no form -tag, since it is at index.php -->
