@@ -22,11 +22,14 @@ $email = $_POST['email'];
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
      // palataan paasivulle
-    header("'Location: /codes/index.php?'
-        . 'registration'
-        . '&'
-        . 'registration_wrong_email'");
-    die("Wrong email-address");
+
+    $result = "Location: /codes/index.php?"
+                . "registration"
+                . "&"
+                . "registration_wrong_email"
+                ;
+    header($result);
+    die("Wrong email-address.");
 }
 
 
@@ -53,18 +56,20 @@ if($number_of_emails > 0) {
     if(!$result) {
         echo "An error occurred - Hhhhhhhhhhh!\n";
         exit;
-    }
+    } 
 
-    $result = "'Location: /codes/index.php?'
-            . 'successful_registration'
-            . '&'
-            . 'email='
+    $result = "Location: /codes/index.php?"
+            . "successful_registration"
+            . "&"
+            . "email="
             . $email 
-            . '&'
-            . 'passhash_md5='
-            . $passhash_md5";
+            . "&"
+            . "passhash_md5="
+            . $passhash_md5
+        ;
     // palataan paasivulle
     header($result);
+}
 
 //pg_close($dbconn);
 ?>

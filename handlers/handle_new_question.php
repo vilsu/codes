@@ -64,6 +64,7 @@ $result = pg_prepare($dbconn, "query77", "INSERT INTO questions
     VALUES ($1, $2, $3);");
 $result = pg_execute($dbconn, "query77", array($body, $title, $user_id));
 
+// TODO bugaa: email ja passhash_md5 ei kulkeudu, kun kysymys on lahetetty
 if($result) {
     $header = ("Location: /codes/index.php?" 
         . "question_sent"

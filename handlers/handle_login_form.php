@@ -8,7 +8,11 @@ $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123"
 // tarkistetaan datan oikeus
 if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
     // palataan paasivulle
-    //header("Location: /codes/index.php");
+    header("Location: /codes/index.php?"
+        . "unsuccessful_login" 
+        . "&"
+        . "login"
+    );
     die("Wrong email-address");
 }
 
