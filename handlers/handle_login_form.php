@@ -9,9 +9,9 @@ $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123"
 if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
     // palataan paasivulle
     header("Location: /codes/index.php?"
-        . "unsuccessful_login" 
-        . "&"
         . "login"
+        . "&"
+        . "unsuccessful_login" 
     );
     die("Wrong email-address");
 }
@@ -46,9 +46,12 @@ if ($password_original == md5($_POST['password'])) {
     die("oikea salasana");
 
 } else {
-    header("Location: /codes/index.php?unsuccessful_login");
+    header("Location: /codes/index.php?"
+        . "unsuccessful_login"
+        . "&"
+        . "login"
+    );
 }
-
 
 //pg_close($dbconn);
 ?>

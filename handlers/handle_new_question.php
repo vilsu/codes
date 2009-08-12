@@ -4,6 +4,12 @@ $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123"
 
 // to process question sent from the lomake_ask_question.php
 
+// INDEPENDENT VARIABLES
+    //  $_POST['body']
+    //  $_POST['title']
+    //  $_GET['email']
+    //  $_GET['passhash_md5']
+    //  $user_id
 
 // no questions from ananymous
 include 'handle_login_status.php';
@@ -14,28 +20,31 @@ include 'handle_login_status.php';
 //}
 
 
-// INDEPENDENT VARIABLES
 
 // TODO bugaa: vaikka on kirjautneena, niin ei nayta tata
 $body = $_POST['body'];
 $title = $_POST['title'];
+
 $email = $_GET['email'];
 $passhash_md5 = $_GET['passhash_md5'];
-// $user_id
-// 
-//
+
 
 // DATA PROCESSING TO GET VARIABLES
 //
 // USER_ID
 $result = pg_prepare($dbconn, "query1", "SELECT user_id FROM users 
     WHERE email = $1;");
-$result = pg_execute($dbconn, "query1", array($_email));
+$result = pg_execute($dbconn, "query1", array($email));
 // to read the value
+
+
+
 while ($row = pg_fetch_row($result)) {
     $user_id = $row[0];
 }
-//
+
+
+///*{{{*/
 //
 // TAGS
 // to get tags to an array 
@@ -56,7 +65,7 @@ while ($row = pg_fetch_row($result)) {
 //    $result . $i = pg_execute($dbconn, "query2", array($tags_array[$i], $user_id));
 //}
 //
-////
+/////*}}}*/
 //
 // Body of the question TO DB 
 $result = pg_prepare($dbconn, "query77", "INSERT INTO questions
@@ -65,20 +74,21 @@ $result = pg_prepare($dbconn, "query77", "INSERT INTO questions
 $result = pg_execute($dbconn, "query77", array($body, $title, $user_id));
 
 // TODO bugaa: email ja passhash_md5 ei kulkeudu, kun kysymys on lahetetty
-if($result) {
+if(isset($result)) {
     $header = ("Location: /codes/index.php?" 
         . "question_sent"
         . "&"
         . "email="
-        . $_GET['email']
+        . $email
         . "&"
         . "passhash_md5="
-        . $_GET['passhash_md5']
+        . $passhash_md5
         );
     header($header);
 } else {
     header("Location: /codes/index.php?unsuccessful");
 }
+
 
 //pg_close($dbconn);
 ?>

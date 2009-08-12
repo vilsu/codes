@@ -4,12 +4,12 @@ $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123"
 
 $result = pg_prepare($dbconn, "query22", "SELECT passhash_md5 FROM users
         WHERE email=$1;");
-//if(is_null($result)) {
+//if(is_null($result)) {/*{{{*/
 //    throw new Exception("No valid Result");
 //}
 //
 
-echo pg_last_error($dbconn);
+//echo pg_last_error($dbconn);
 
 //try{
 //    $result = pg_prepare($dbconn, "query22", "SELECT passhash_md5 FROM users
@@ -40,7 +40,7 @@ echo pg_last_error($dbconn);
 //    } else {
 //        $logged_in = false;
 //    }
-//}
+//}/*}}}*/
 //
 // ekaa kertaa kirjautuu
 if (isset($_POST['email'])) {
@@ -64,7 +64,7 @@ if (isset($_GET['email'])) {
 
     if (!$passhash_md5) {
         echo "An error occurred - hhhhhh!\n";
-        exit;
+        exit("Et ole kirjautuneena");
     }
 
     if ($passhash_md5 == $_GET['passhash_md5']) {
@@ -73,7 +73,6 @@ if (isset($_GET['email'])) {
         $logged_in = false;
     }
 }
-
 
 
 
