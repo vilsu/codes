@@ -26,11 +26,10 @@ include './official_content/html_head_body.php';
 
     <div id="mainbar">
     <?php
-        include './views/registration_at_userbar.php';
-        include './views/login_at_userbar.php';
-        include './views/logout_at_userbar.php';
-
-        include './views/about.php';
+        // Notices
+        include './views/registration_at_userbar_notice.php';
+        include './views/login_at_userbar_notice.php';
+        include './views/logout_at_userbar_notice.php';
 
         include 'views/ask_question.php';
 
@@ -39,6 +38,9 @@ include './official_content/html_head_body.php';
 
         include 'views/successful_notice.php';
         include 'views/unsuccessful_notice.php';
+
+        // Static content
+        include './views/about.php';
     ?>
     </div>
 </div>
