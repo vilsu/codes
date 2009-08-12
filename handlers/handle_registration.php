@@ -64,13 +64,14 @@ if($number_of_emails > 0) {
             . "SID="
             .  htmlspecialchars($SID)   // SESSION
             . "&"
-            . "email="
-            . $email 
+//            . "email="
+//            . $email 
             . "&"
             . "passhash_md5="
             . $passhash_md5
         ;
     // palataan paasivulle
+    $_SESSION['email'] = $_POST['email'];
     header($result);
 }
 
