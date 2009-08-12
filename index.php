@@ -1,6 +1,14 @@
 <?php 
 set_include_path(':/var/www/codes/handlers/:/var/www/codes/lomakkeet/:');
 
+session_start();
+
+if (empty($_SESSION['count'])) {
+ $_SESSION['count'] = 1;
+} else {
+ $_SESSION['count']++;
+}
+
 // otetaan yhteys kantaan
 $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 if(!$dbconn) {
@@ -82,11 +90,15 @@ if (isset($_GET['email'])) {
     if (isset($_GET['email'])) {
 
         if(isset($_GET['ask_question'])) {
-            echo  ("<li id='ask_question_active'><a href='?ask_question&amp;email=" .
-            $_GET['email'] . 
-            "&amp;passhash_md5=" . 
-            $_GET['passhash_md5'] . 
-            "'>Ask question</a></li>");
+            echo  ("<li id='ask_question_active'><a href='?ask_question&amp;"
+                .  htmlspecialchars(SID)   // SESSION
+                . "&amp;"
+                . "email=" 
+                . $_GET['email'] 
+                . "&amp;passhash_md5="
+                . $_GET['passhash_md5'] 
+                . "'>Ask question</a></li>
+                ");
 
         }
         else {

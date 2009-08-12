@@ -37,12 +37,10 @@ $result = pg_prepare($dbconn, "query1", "SELECT user_id FROM users
 $result = pg_execute($dbconn, "query1", array($email));
 // to read the value
 
-
-
+echo $result;
 while ($row = pg_fetch_row($result)) {
     $user_id = $row[0];
 }
-
 
 ///*{{{*/
 //
@@ -71,12 +69,14 @@ while ($row = pg_fetch_row($result)) {
 $result = pg_prepare($dbconn, "query77", "INSERT INTO questions
     (body, title, users_user_id)
     VALUES ($1, $2, $3);");
-$result = pg_execute($dbconn, "query77", array($body, $title, $user_id));
+$result = pg_query($dbconn, "query77", array($body, $title, "sami2@gmail.com"));
 
 // TODO bugaa: email ja passhash_md5 ei kulkeudu, kun kysymys on lahetetty
 if(isset($result)) {
     $header = ("Location: /codes/index.php?" 
         . "question_sent"
+        . "&"
+        .  htmlspecialchars(SID)   // SESSION
         . "&"
         . "email="
         . $email

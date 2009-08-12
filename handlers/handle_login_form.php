@@ -35,6 +35,8 @@ if ($password_original == md5($_POST['password'])) {
             . "&"
             . "successful_login"
             . "&"                  // this is not HTML: we need no escapes
+            .  htmlspecialchars(SID)   // SESSION
+            . "&"
             . "email="
             . $_POST['email']
             . "&"

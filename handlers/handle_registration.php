@@ -61,6 +61,9 @@ if($number_of_emails > 0) {
     $result = "Location: /codes/index.php?"
             . "successful_registration"
             . "&"
+            . "SID="
+            .  htmlspecialchars($SID)   // SESSION
+            . "&"
             . "email="
             . $email 
             . "&"
