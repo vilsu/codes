@@ -10,11 +10,10 @@
 
     function session_defaults() {
         $_SESSION['logged_in'] = false;
-        $_SESSION['SID'] = 0;
         $_SESSION['username'] = '';
     }
 
-    if (!isset($_SESSION['SID'])) {
+    if (!isset($_SESSION['logged_in'])) {
         session_defaults();
     }
 

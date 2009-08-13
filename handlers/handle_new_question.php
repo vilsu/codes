@@ -76,8 +76,6 @@ if(isset($result)) {
     $header = ("Location: /codes/index.php?" 
         . "question_sent"
         . "&"
-        .  htmlspecialchars(SID)   // SESSION
-        . "&"
         . "email="
         . $email
         . "&"

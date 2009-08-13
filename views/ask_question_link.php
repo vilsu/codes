@@ -10,8 +10,6 @@
     if (isset($_REQUEST['email'])) {
         if(isset($_GET['ask_question'])) {
             echo  ("<li id='ask_question_active'><a href='?ask_question&amp;"
-                .  htmlspecialchars(SID)   // SESSION
-                . "&amp;"
 //                . "email=" 
 //                . $_GET['email'] 
                 . "&amp;passhash_md5="
