@@ -1,10 +1,15 @@
-<form method="post" action="/codes/handlers/handle_login_form.php">
+<?php 
+    echo (" <form method='post'" 
+        . "action='./handlers/handle_login_form.php"
+        . "'>"
+    );
+?>
     <p>Email:
-        <input name="email" type="text" cols="92" />
+        <input name="login[email]" type="text" cols="92" />
     </p>
 
     <p>Password:
-        <input name="password" type="password" cols="92" />
+        <input name="login[password]" type="password" cols="92" />
     </p> 
 
     <input type="submit" value="Login" />

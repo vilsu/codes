@@ -8,7 +8,7 @@ if (isset($_REQUEST['ask_question'])) {
 
     // LOGIN at the bottom of Ask_question
     // to use SESSIONS
-    if (!isset($_REQUEST['email'])) {
+    if (!isset($_SESSION['login']['logged_in'])) {
         // change the layout by adding question form by getting data
         echo "<div id='notice'>";
         echo "<p>Ole kirjautuneena, niin voit kysya.</p>";

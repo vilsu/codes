@@ -5,31 +5,27 @@ $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123"
 // to process question sent from the lomake_ask_question.php
 
 // INDEPENDENT VARIABLES
-    //  $_POST['body']
-    //  $_POST['title']
-    //  $_GET['email']
-    //  $_GET['passhash_md5']
+    //  $_POST['question[body]']
+    //  $_POST['question[title]']
+    //  $_REQUEST['login[email]']
+    //  $_REQUEST['login[passhash_md5]']
     //  $user_id
 
-// no questions from ananymous
-include 'handle_login_status.php';
 // TODO bugaa vaikka on sisalla, niin false toi muuttuja
-//if(!$logged_in){
- //   die("You are not logged_in");
-    //header("Location: /codes/index.php");
-//}
-
-
+if(!$logged_in){
+    header("Location: /codes/index.php");
+    die("You are not logged_in");
+}
 
 // TODO bugaa: vaikka on kirjautneena, niin ei nayta tata
-$body = $_POST['body'];
-$title = $_POST['title'];
+$body = $_POST['question[body]'];
+$title = $_POST['question[title]'];
 
-$email = $_GET['email'];
-$passhash_md5 = $_GET['passhash_md5'];
+$email = $_REQUEST['login[email]'];
+$passhash_md5 = $_REQUEST['login[passhash_md5]'];
 
 
-// DATA PROCESSING TO GET VARIABLES
+// DATA PROCESSING TO REQUEST VARIABLES
 //
 // USER_ID
 $result = pg_prepare($dbconn, "query1", "SELECT user_id FROM users 
@@ -46,7 +42,7 @@ while ($row = pg_fetch_row($result)) {
 //
 // TAGS
 // to get tags to an array 
-//$tags = $_POST['tags']; 
+//$tags = $_POST['question[tags]']; 
 //$tags_trimmed = trim($tags);
 //$tags_array = explode(",", $tags_trimmed);
 //
@@ -75,18 +71,11 @@ $result = pg_query($dbconn, "query77", array($body, $title, "sami2@gmail.com"));
 if(isset($result)) {
     $header = ("Location: /codes/index.php?" 
         . "question_sent"
-        . "&"
-        . "email="
-        . $email
-        . "&"
-        . "passhash_md5="
-        . $passhash_md5
         );
     header($header);
 } else {
     header("Location: /codes/index.php?unsuccessful");
 }
-
 
 //pg_close($dbconn);
 ?>

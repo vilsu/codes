@@ -1,37 +1,39 @@
 <?php
 
-// not a duplicate
 $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
-
-// to see the login status
-include 'handle_login_status.php';
 if($logged_in) {
     header("Location: /codes/index.php");
     die("You are logged in");
 }
 
+$_SESSION = array();
+
+session_save_path("/tmp/");
+session_start();
+
+
 // INDEPENDENT VARIABLES
-$username = $_POST['username'];
+$username = $_POST['login']['username'];
 $passhash_md5 = md5($_POST['password']);
-$email = $_POST['email'];
+$email = $_POST['login']['email'];
 
 
 // DATA PROCESSING
 
-// Limitations
+// Limitations/*{{{*/
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
      // palataan paasivulle
 
-    $result = "Location: /codes/index.php?"
+    $result = ("Location: /codes/index.php?"
                 . "registration"
                 . "&"
                 . "registration_wrong_email"
-                ;
+                );
     header($result);
     die("Wrong email-address.");
 }
-
+/*}}}*/
 
 // we do not allow one email address have many accounts
 $result = pg_prepare($dbconn, "query11", 'SELECT count(email) FROM users
@@ -41,13 +43,20 @@ $result = pg_execute($dbconn, "query11", array($email));
 while ($row = pg_fetch_row($result)) {
     $number_of_emails = $row[0];
 }
+
+
+
 if($number_of_emails > 0) {
-    header("'Location: /codes/index.php?'
-        . 'registration'
-        . '&'
-        . '2email'");
-    //die("Unsuccessful login");
+    header("Location: /codes/index.php?"
+        . "registration"
+        . "&"
+        . "2email"
+    );
 } else {
+    $_SESSION['login']['passhash_md5'] = $passhash_md5;
+    $_SESSION['login']['email'] = $email;
+    $_SESSION['login']['logged_in'] = true;
+
     // Save to db
 
     $result = pg_prepare($dbconn, "query1", 'INSERT INTO users (username, email, passhash_md5)
@@ -58,19 +67,14 @@ if($number_of_emails > 0) {
         exit;
     } 
 
-    $result = "Location: /codes/index.php?"
+    $result = ("Location: /codes/index.php?"
             . "successful_registration"
-            . "&"
-//            . "email="
-//            . $email 
-            . "&"
-            . "passhash_md5="
-            . $passhash_md5
-        ;
+            );
     // palataan paasivulle
-    $_SESSION['email'] = $_POST['email'];
+
     header($result);
 }
 
+// NO session_write_close HERE!
 //pg_close($dbconn);
 ?>

@@ -1,6 +1,6 @@
 <?php
 // LIST OF 10 QUESTIONS
-// if there is no data in $_GET, then the print 10 questions
+// if there is no data in $_REQUEST, then the print 10 questions
 // to use SESSIONS TODO
 if (isset($_REQUEST[''])) {
     $result = pg_prepare($dbconn, "query8", "SELECT question_id, title FROM questions
