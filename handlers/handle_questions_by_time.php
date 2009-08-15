@@ -78,20 +78,21 @@ if( empty($_GET) ) {
             );
 
         // TAGS
-        echo ("Result tags are outside while ");
-        print_r( $result_tags );
-
         echo ("<div class='tags'>");
         while( $row2 = pg_fetch_row( $result_tags )) {
 
+            //echo ("row2 on ");
+            //print_r( $row2 );
+            //echo ("\n");
 
-            echo ("Result tags are inside while ");
-            print_r( $result_tags );
 
-            echo ("question_id on at 1st foreach " . $question_id);
+           // echo ("question_id on at 1st foreach " . $question_id . "\n");
             $end_array = array();
-            foreach( $result_tags as $question_id => $data )
+            foreach( $row2 as $question_id => $data )
             {
+            //echo ("data on ");
+            //print_r( $data['tag'] );
+
                 /* the first part of this creates an array key for the ID.
                 Then we define a sub array that holds 'tags'.
                 Finally, we add a new value to the array with the tag name.
@@ -100,13 +101,18 @@ if( empty($_GET) ) {
                 $end_array[$question_id]['tags'][] = $data['tag'];
             }
 
-            print_r($end_array);
+            // echo "\n";
+            // print_r($end_array);
+            // echo "\n";
             // Then You can access all the tags for question 1 through
             // We go through each tag of the question ID of $i and then echo it
 
-            echo ("question_id on at 2nd foreach " . $question_id);
+            //echo ("question_id on at 2nd foreach " . $question_id . "\n");
             foreach( $end_array[1]['tags'] as $tag )
             {
+            //echo ("data2 on ");
+            print_r( $end_array[1]['tags'] );
+
                 echo ( "<a class='post_tag' href='?tag="
                 . $tag
                 . "'>"
@@ -115,15 +121,14 @@ if( empty($_GET) ) {
                 );
             }
 
-           // to access first tag
-           var_dump( $end_array );
-           
-           echo ("End array on ");
-           print_r( $end_array );
-           echo ("Result tags are ");
-           print_r( $result_tags );
+            echo (" end-array tassa ");
+            print_r( $end_array );
 
-           reset( $end_array );     // to return the pointer to the start
+           //print_r( $result_tags );
+           // echo ("End array on ");
+           // print_r( $end_array );
+
+           //reset( $end_array );     // to return the pointer to the start
            echo $end_array[1]['tags'][0];
         }
         echo ("</div>");
