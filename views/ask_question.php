@@ -3,8 +3,8 @@
 // to use SESSIONS
 if (isset($_REQUEST['ask_question'])) {
     // change the layout by adding question form by getting data from 
-    // lomakkeet/lomake_ask_question.php
-    include './lomakkeet/lomake_ask_question.php';
+    // forms/lomake_ask_question.php
+    include './forms/lomake_ask_question.php';
 
     // LOGIN at the bottom of Ask_question
     // to use SESSIONS

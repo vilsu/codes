@@ -2,7 +2,7 @@
  
 $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
-// to handle questions from ../lomakkeet/lomake_answer.php
+// to handle questions from ../forms/lomake_answer.php
 
 // no questions from ananymous
 if(!$logged_in){
