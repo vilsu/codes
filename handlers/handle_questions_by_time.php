@@ -35,29 +35,6 @@ if( empty($_GET) ) {
     );
     $result_tags = pg_execute( $dbconn, "query9", array());
 
-
-//    $result = pg_fetch_all( $result_tags );
-//    var_dump( $result );
-
-
-    // print the title of each question: title
-    // to make the URL for each title: question_id, title
-    //      index.php?question_id=777&title
-    //                |               |--- for reader
-    //                |------------------- for computer: lomake_question_answer.ph
-    // LIST OF 50 QUESTIONS
-    
-    //$array = pg_fetch_row( $result_titles_tags, 0 );
-
-//    var_dump( $result_tags );
-
-
-//    require './handlers/handle_a_list_of_questions.php';
-
-
-
-
-
     while($row = pg_fetch_row( $result_titles )) {
 
         $question_id = $row[0];
@@ -80,19 +57,9 @@ if( empty($_GET) ) {
         // TAGS
         echo ("<div class='tags'>");
         while( $row2 = pg_fetch_row( $result_tags )) {
-
-            //echo ("row2 on ");
-            //print_r( $row2 );
-            //echo ("\n");
-
-
-           // echo ("question_id on at 1st foreach " . $question_id . "\n");
             $end_array = array();
             foreach( $row2 as $question_id => $data )
             {
-            //echo ("data on ");
-            //print_r( $data['tag'] );
-
                 /* the first part of this creates an array key for the ID.
                 Then we define a sub array that holds 'tags'.
                 Finally, we add a new value to the array with the tag name.
@@ -101,13 +68,10 @@ if( empty($_GET) ) {
                 $end_array[$question_id]['tags'][] = $data['tag'];
             }
 
-            // echo "\n";
             // print_r($end_array);
-            // echo "\n";
+
             // Then You can access all the tags for question 1 through
             // We go through each tag of the question ID of $i and then echo it
-
-            //echo ("question_id on at 2nd foreach " . $question_id . "\n");
             foreach( $end_array[1]['tags'] as $tag )
             {
             //echo ("data2 on ");
@@ -123,10 +87,6 @@ if( empty($_GET) ) {
 
             echo (" end-array tassa ");
             print_r( $end_array );
-
-           //print_r( $result_tags );
-           // echo ("End array on ");
-           // print_r( $end_array );
 
            //reset( $end_array );     // to return the pointer to the start
            echo $end_array[1]['tags'][0];
