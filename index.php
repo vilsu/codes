@@ -30,7 +30,11 @@ include './PATHs.php';
         </div>
 
         <div id="logo">
-            <h1 id="logo">Keskustelusivu</h1>
+            <h1 id="logo">
+                <a href="index.php">
+                    Keskustelusivu
+                </a>
+            </h1>
         </div>
     </div>
 
@@ -43,8 +47,12 @@ include './PATHs.php';
     </div>
 
     <div id="mainbar">
-
     <?php
+
+        // Dynamic content: questions' titles
+            // IF empty($_GET)
+        require './handlers/handle_questions_by_time.php';
+
         // Notices
         require './views/registration_at_userbar_notice.php';
         require './views/login_at_userbar_notice.php';
