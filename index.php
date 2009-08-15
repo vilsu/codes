@@ -51,7 +51,7 @@ include './PATHs.php';
 
         // Dynamic content: questions' titles
             // IF empty($_GET)
-        require './handlers/handle_questions_by_time.php';
+        require './handlers/searches/handle_questions_by_time.php';
 
         // Notices
         require './views/registration_at_userbar_notice.php';

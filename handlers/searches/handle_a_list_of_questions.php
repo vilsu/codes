@@ -1,40 +1,5 @@
 <?php
 
-$dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
-
-if( empty($_GET) ) {
-    // to get titles and question_ids
-    $result_titles_tags = pg_prepare( $dbconn, "query777", 
-        "SELECT question_id, title
-        FROM questions
-        WHERE question_id IN
-        ( 
-            SELECT question_id
-            FROM questions
-            ORDER BY was_sent_at_time
-            DESC LIMIT 50
-        ) 
-        ORDER BY was_sent_at_time
-        DESC LIMIT 50;" 
-    );
-
-    $result_titles = pg_execute( $dbconn, "query777", array());
-
-
-
-    // TAGS
-    $result_tags = pg_prepare( $dbconn, "query9", 
-        "SELECT questions_question_id, tag
-        FROM tags
-        WHERE questions_question_id IN 
-            ( SELECT question_id
-            FROM questions
-            ORDER BY was_sent_at_time
-            DESC LIMIT 50
-            );"
-    );
-    $result_tags = pg_execute( $dbconn, "query9", array());
-
     while($row = pg_fetch_row( $result_titles )) {
 
         $question_id = $row[0];
@@ -105,6 +70,5 @@ if( empty($_GET) ) {
         . "</div>"
         );
     }
-}
 
 ?>
