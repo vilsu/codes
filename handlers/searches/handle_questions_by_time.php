@@ -43,8 +43,7 @@ if( empty($_GET) ) {
     // Go through each question
 
     while($row = pg_fetch_row( $result_titles )) {
-
-        $question_id = $row[0];
+        $question_id = $row[0];/*{{{*/
 
         echo ("<div class='question_summary'>"
                 . "<div class='summary'>"
@@ -60,69 +59,39 @@ if( empty($_GET) ) {
                         . "</a>"
                     . "</h3>"
             );
+/*}}}*/
 
-
-        // TAGS
-
-        // Go though each Tag
+    // Go through each Tag
         while( $row2 = pg_fetch_row( $result_tags )) {
-            $tag_new = $row2[1];
             // Add the Tag to an array of tags for that question
-            // $end_array[$question_id]['tags'][] = $data['tag'];
-            $end_array[$question_id]['tags'][] = $tag_new;
+            $end_array[$question_id]['tags'][] = $data['tag'];
         }
 
-        //$array = pg_fetch_all( $end_array );
-        //var_dump( $array );
+    }
+    // Then Loop Through each question
+        print_r( $end_array );
+    foreach($end_array as $question_id => $data)
+    {
+    // Create the starting HTML
+    echo '<div class="tags">';
+        // Go through each tag
 
-        echo ("<div class='tags'>");
-            $i = 0;
-            while( $row = pg_fetch_row( $result_tags )) {
+            foreach( $end_array[1]['tags'] as $tag )
+            {
                 echo ( "<a class='post_tag' href='?tag="
-                . $end_array[$question_id][$i]
+                . $tag
                 . "'>"
-                    . $end_array[$question_id][$i]
+                    . $tag
                 . "</a>"
                 );
-                $i++;
             }
-        echo ("</div>");
+    // end the html
+        echo '</div></div>';
+   }
 
-
-
-
-    // Then loop through each question
-//    foreach( $end_array as $question_id => $tag_new )
-//    {
-//    // Create the starting HTML
-//        echo ("<div class='tags'>");
-//        // Go through each tag
-//
-//            foreach( $end_array[1]['tags'] as $tag )
-//            {
-//                echo ( "<a class='post_tag' href='?tag="
-//                . $tag
-//                . "'>"
-//                    . $tag
-//                . "</a>"
-//                );
-//            }
-//
-//        echo ("</div>");
-//    }
-//
-        // Username
-//        echo ("<div class='user_started'>"
-//                . "<a href='?'>"
-//                    . $row[3]
-//                . "</a>"
-//            . "</div>"
-//            );
 
     echo ("</div>"
-    . "</div>"
     );
-    }
 }
 
 ?>
