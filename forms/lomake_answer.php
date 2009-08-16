@@ -1,13 +1,13 @@
 <?php 
     echo ("<form method='post'" 
-    . "action='/codes/handlers/handle_a_thread.php'"
+    . "action='./handlers/receive_answers.php'"
     . "'>"
     );
 ?>
-    <p>Answer:
+    <p><h2>Your Answer:</h2>
         <div id="answer" class="resizable-textarea">
                 <textarea id="input" class="textarea" tabindex="101" rows="15" cols="92" name="answer" /></textarea>
         </div>
     </p>
-    <input type="submit" value="OK" />
-</form>
+
+<!-- no form -tag, since it is at index.php -->

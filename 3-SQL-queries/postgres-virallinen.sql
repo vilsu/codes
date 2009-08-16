@@ -11,7 +11,7 @@ CREATE TABLE users (
 
 CREATE TABLE questions (
     question_id SERIAL PRIMARY KEY NOT NULL UNIQUE, 
-    users_user_id INTEGER NOT NULL 
+    user_id INTEGER NOT NULL 
         REFERENCES users(user_id), 
     body TEXT NOT NULL DEFAULT '',
     title VARCHAR(320) NOT NULL,
@@ -24,15 +24,15 @@ CREATE TABLE questions (
 CREATE TABLE tags (
     tag_id SERIAL NOT NULL PRIMARY KEY,
     tag VARCHAR(320) NOT NULL,
-    questions_question_id INTEGER NOT NULL, 
-    CONSTRAINT no_duplicate_tag UNIQUE (questions_question_id, tag_id)
+    question_id INTEGER NOT NULL, 
+    CONSTRAINT no_duplicate_tag UNIQUE (question_id, tag_id)
 );
 
 CREATE TABLE answers (
     answer_id SERIAL PRIMARY KEY NOT NULL,
     answer TEXT NOT NULL DEFAULT '',
-    questions_question_id INTEGER NOT NULL,
-    answerer_users_user_id INTEGER NOT NULL,
+    question_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
     flagged_for_moderator_removal BOOLEAN NOT NULL DEFAULT false,
-    CONSTRAINT no_duplicate_answers UNIQUE (questions_question_id, answer)
+    CONSTRAINT no_duplicate_answers UNIQUE (question_id, answer)
 );

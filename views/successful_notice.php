@@ -15,5 +15,13 @@ if (array_key_exists('successful_login', $_REQUEST)) {
 if (array_key_exists('question_sent', $_REQUEST)) {
     echo ("Question sent");
 }
+
+// ANSWER SENT
+if (array_key_exists('answer_sent', $_GET)) {
+    echo ("Answer sent");
+}
+
+
+
 ?>
 </div>

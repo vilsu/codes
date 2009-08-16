@@ -22,6 +22,13 @@ if (array_key_exists('unsuccessful_new_question', $_GET)) {
 }
 
 
+// ANSWER NOT SENT
+if (array_key_exists('answer_not_sent', $_GET)) {
+    echo ("Your answer was sent unsuccessfully.
+        Please try again later.");
+}
+
+
 // UNSUCCESSFUL random bugs
 if (array_key_exists('unsuccessful', $_GET)) {
     echo ("This is an unknown bug. Please, report it to the moderator."); 

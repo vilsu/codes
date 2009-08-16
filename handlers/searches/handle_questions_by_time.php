@@ -24,9 +24,9 @@ if( empty($_GET) ) {
 
     // TAGS
     $result_tags = pg_prepare( $dbconn, "query9", 
-        "SELECT questions_question_id, tag
+        "SELECT question_id, tag
         FROM tags
-        WHERE questions_question_id IN 
+        WHERE question_id IN 
             ( SELECT question_id
             FROM questions
             ORDER BY was_sent_at_time
@@ -42,56 +42,59 @@ if( empty($_GET) ) {
 
     // Go through each question
 
-    while($row = pg_fetch_row( $result_titles )) {
-        $question_id = $row[0];/*{{{*/
-
-        echo ("<div class='question_summary'>"
-                . "<div class='summary'>"
+    while( $titles_and_Qid = pg_fetch_array( $result_titles ) ) {
+        echo ("<div class='question_summary'>"/*{{{*/
         // TITLE
                     . "<h3>"
                         . "<a class='question_hyperlink' href='?"
                             . "question_id=" 
-                            . $row[0]  // for computer
-                            . "&" 
-                            . $row[1]  // for reader
+                            . $titles_and_Qid['question_id']  // for computer
+//                            . "&" 
+//                            . $titles_and_Qid['title']  // for reader
                             . "'>" 
-                                . $row[1] 
+                                . $titles_and_Qid['title'] 
                         . "</a>"
                     . "</h3>"
             );
 /*}}}*/
 
-    // Go through each Tag
-        while( $row2 = pg_fetch_row( $result_tags )) {
+
+        // Go through each Tag
+        while( $tags_and_Qid = pg_fetch_array( $result_tags )) {
             // Add the Tag to an array of tags for that question
-            $end_array[$question_id]['tags'][] = $data['tag'];
+            $end_array [ $tags_and_Qid['question_id'] ] ['tag'] [] = $tags_and_Qid['tag'];
         }
 
-    }
-    // Then Loop Through each question
-        print_r( $end_array );
-    foreach($end_array as $question_id => $data)
-    {
-    // Create the starting HTML
-    echo '<div class="tags">';
-        // Go through each tag
+        echo ("\n\nHUOM! ");
+        echo $tags_and_id[1]['tag'][0];
 
-            foreach( $end_array[1]['tags'] as $tag )
-            {
-                echo ( "<a class='post_tag' href='?tag="
-                . $tag
-                . "'>"
+        $i = 0;
+        // Then Loop Through each question
+        foreach( $end_array as $tags_and_Qid['question_id'] => $tags_and_Qid['tag'] )
+        {
+
+        echo ("\n\nITERATION NUMBER IS " . $i);
+
+        // Create the starting HTML
+        echo ("<div class='tags'>");
+            // Go through each tag
+
+        // TODO bug: invalid argument supplied for foreach()
+                foreach( $end_array[$tags_and_Qid['question_id']] ['tag'] as $tag )
+                {/*{{{*/
+                    echo ( "<a class='post_tag' href='?tag="
                     . $tag
-                . "</a>"
-                );
-            }
-    // end the html
-        echo '</div></div>';
-   }
-
-
-    echo ("</div>"
-    );
+                    . "'>"
+                        . $tag
+                    . "</a>"
+                    );
+                }
+        // end the html
+            echo '</div>';/*}}}*/
+        $i++; 
+        }
+        echo ("</div>");
+    }
 }
 
 ?>

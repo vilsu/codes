@@ -11,8 +11,8 @@
                         . "<a class='question_hyperlink' href='?"
                             . "question_id=" 
                             . $row[0]  // for computer
-                            . "&" 
-                            . $row[1]  // for reader
+//                            . "&" 
+//                            . $row[1]  // for reader
                             . "'>" 
                                 . $row[1] 
                         . "</a>"

@@ -1,24 +1,3 @@
--- We do not use an explicit schema notation for SQL statement.
---      so we use
--- to search schema so, 
--- the schema of the current db connection and
--- finally a schema called public
----SET search_path TO so,"$user", public;
-
---CREATE DOMAIN hashed_password AS
---    BIGINT CONSTRAINT hashed_password_unsigned_chk
---    CHECK (VALUE >=0)
---    NOT NULL;
-
---CREATE TABLE answers (
---    answer_id SERIAL PRIMARY KEY,
---    answer TEXT NOT NULL,    
---    user_id INTEGER NOT NULL 
---        REFERENCES users(user_id),
---    questions_question_id INTEGER NOT NULL
---        REFERENCES questions(question_id)
---);
-
 DROP TABLE questions;
 DROP TABLE tags;
 DROP TABLE users;
@@ -63,4 +42,3 @@ CREATE TABLE answers (
     flagged_for_moderator_removal BOOLEAN NOT NULL DEFAULT false,
     CONSTRAINT no_duplicate_answers UNIQUE (question_id, answer)
 );
--- possible bug without question_tagged_tag_pk -constraint

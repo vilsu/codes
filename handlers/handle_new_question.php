@@ -1,5 +1,9 @@
 <?php
 
+// This handles the receiving of new questions to database
+// and gives users feedback about the completion.
+
+
 $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
 // to process question sent from the lomake_ask_question.php
@@ -44,7 +48,7 @@ while ($row = pg_fetch_row($result)) {
 // This needs to be before Tags, since we need the question_id
 // Body of the question TO DB 
 $result = pg_prepare($dbconn, "query77", "INSERT INTO questions
-    (body, title, users_user_id)
+    (body, title, user_id)
     VALUES ($1, $2, $3);");
 $result = pg_execute($dbconn, "query77", array($body, $title, $user_id));
 
@@ -61,7 +65,7 @@ if(isset($result)) {
 $result = pg_prepare($dbconn, "query87", "SELECT question_id FROM questions
     WHERE title = $1 AND 
           body = $2 AND
-          users_user_id = $3;
+          user_id = $3;
 ");
 $result = pg_execute($dbconn, "query87", array($title, $body, $user_id));
 while ($row = pg_fetch_row($result)) {
@@ -79,7 +83,7 @@ $tags_array = explode(",", $tags_trimmed);
 
 // TAGS to DB
 $result = pg_prepare($dbconn, "query2", "INSERT INTO tags
-    (tag, questions_question_id)
+    (tag, question_id)
     VALUES ($1, $2);");
 // to save the cells in the array to db
 for ($i = 0; $i < count($tags_array); $i++) {

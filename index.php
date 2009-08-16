@@ -17,6 +17,26 @@ var_dump($_GET);
 require './handlers/login_by_session.php';
 print_r($_SESSION);
 
+echo ("HTTP_REFERER\n"
+    . $_SERVER['HTTP_REFERER']
+    );
+
+
+$pattern = '/\?([^#]*)/';
+$subject = $_SERVER['HTTP_REFERER'];
+$query = preg_match($pattern, $subject, $match) ? $match[1] : '';  // extract query from URL
+parse_str($query, $params);
+
+echo "----";
+print_r( $params );
+echo "----";
+var_dump( $params );
+
+//$question_id = explode( "=", $query );           // to get the parameter
+//echo "This is the output: " . $question_id[1];
+
+
+
 include './official_content/html_head_body.php';
 include './PATHs.php';
 ?>
@@ -53,15 +73,19 @@ include './PATHs.php';
             // IF empty($_GET)
         require './handlers/searches/handle_questions_by_time.php';
 
+        if( array_key_exists('question_id', $_GET ) ) {
+            require './handlers/fetch_a_thread.php';
+            require './handlers/fetch_answers.php';
+            require './forms/lomake_answer.php';
+        }
+
         // Notices
         require './views/registration_at_userbar_notice.php';
         require './views/login_at_userbar_notice.php';
         require './views/logout_at_userbar_notice.php';
 
+        require 'views/answer_question.php';
         require 'views/ask_question.php';
-
-        require 'views/list_of_50_questions.php';
-        require 'views/question_selected_by_user.php';
 
         require 'views/successful_notice.php';
         require 'views/unsuccessful_notice.php';
