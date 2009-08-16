@@ -5,17 +5,6 @@
 
 $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
-
-// no questions from ananymous
-if(!$logged_in){
-    header("Location: /codes/index.php?"
-        . "question_id="
-        . $_GET['question_id']
-    );
-    die("You are not logged_in");
-}
-
-
 // to get user_id
 $result = pg_prepare($dbconn, "query1",
                               "SELECT user_id FROM users

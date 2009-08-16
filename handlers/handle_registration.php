@@ -1,12 +1,6 @@
 <?php
 
 $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
-if($logged_in) {
-    header("Location: /codes/index.php");
-    die("You are logged in");
-}
-
-$_SESSION = array();
 
 session_save_path("/tmp/");
 session_start();
