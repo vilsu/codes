@@ -42,8 +42,14 @@ if( empty($_GET) ) {
 
     // Go through each question
 
+    // Go through each Tag
+    while( $tags_and_Qid = pg_fetch_array( $result_tags )) {
+        // Add the Tag to an array of tags for that question
+        $end_array [ $tags_and_Qid['question_id'] ] ['tag'] [] = $tags_and_Qid['tag'];
+    }
+
     while( $titles_and_Qid = pg_fetch_array( $result_titles ) ) {
-        echo ("<div class='question_summary'>"/*{{{*/
+        echo ("<div class='question_summary'>"
         // TITLE
                     . "<h3>"
                         . "<a class='question_hyperlink' href='?"
@@ -56,15 +62,8 @@ if( empty($_GET) ) {
                         . "</a>"
                     . "</h3>"
             );
-/*}}}*/
 
-
-        // Go through each Tag
-        while( $tags_and_Qid = pg_fetch_array( $result_tags )) {
-            // Add the Tag to an array of tags for that question
-            $end_array [ $tags_and_Qid['question_id'] ] ['tag'] [] = $tags_and_Qid['tag'];
-        }
-
+    }
         echo ("\n\nHUOM! ");
         echo $tags_and_id[1]['tag'][0];
 
@@ -94,7 +93,6 @@ if( empty($_GET) ) {
         $i++; 
         }
         echo ("</div>");
-    }
 }
 
 ?>
