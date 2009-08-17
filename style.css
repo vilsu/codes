@@ -216,3 +216,31 @@ h2 {
     font-weight:bold;
     margin-bottom:7px;
 }
+
+div.hsearch,
+div.userbar,
+div.hlinks {
+    float: left;
+}
+
+div.userbar,
+div.hlinks {
+    margin:0 35px 0 0;
+}
+
+div.hsearch .textbox {
+    background:#FFFFFF url(http://sstatic.net/so/Img/search.png) no-repeat scroll left center;
+    border-color:#CCCCCC -moz-use-text-color -moz-use-text-color #CCCCCC;
+    border-style:solid none none solid;
+    border-width:1px medium medium 1px;
+    margin:0;
+    max-width:230px;
+    padding-left:16px;
+}
+
+.header {
+    line-height:22px;
+}
+
+div.hlinks {
+}

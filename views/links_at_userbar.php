@@ -1,3 +1,4 @@
+<div class="hlinks">
 <ul>
     <?php
     if (!$_SESSION['login']['logged_in']) {
@@ -20,3 +21,4 @@
     );
     ?>
 </ul>
+</div>

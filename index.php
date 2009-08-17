@@ -46,6 +46,7 @@ include './PATHs.php';
         <div id="userbar">
             <?php
             require './views/links_at_userbar.php';
+            require './forms/lomake_search.php';
             ?>
         </div>
 
@@ -71,6 +72,7 @@ include './PATHs.php';
 
         // Dynamic content: questions' titles
             // IF empty($_GET)
+            // HOMEPAGE
         require './handlers/searches/handle_questions_by_time.php';
 
         if( array_key_exists('question_id', $_GET ) ) {
@@ -78,6 +80,15 @@ include './PATHs.php';
             require './handlers/fetch_answers.php';
             require './forms/lomake_answer.php';
         }
+
+
+        if( array_key_exists( 'tag', $_GET ) ) {
+            require './handlers/searches/handle_questions_by_tag.php';
+        }
+
+
+
+
 
         // Notices
         require './views/registration_at_userbar_notice.php';

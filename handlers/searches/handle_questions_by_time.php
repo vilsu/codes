@@ -48,29 +48,31 @@ if( empty($_GET) ) {
         $end_array [ $tags_and_Qid['question_id'] ] ['tag'] [] = $tags_and_Qid['tag'];
     }
 
+
+    // TODO
     while( $titles_and_Qid = pg_fetch_array( $result_titles ) ) {
-        echo ("<div class='question_summary'>"
-        // TITLE
-                    . "<h3>"
-                        . "<a class='question_hyperlink' href='?"
-                            . "question_id=" 
-                            . $titles_and_Qid['question_id']  // for computer
-//                            . "&" 
-//                            . $titles_and_Qid['title']  // for reader
-                            . "'>" 
-                                . $titles_and_Qid['title'] 
-                        . "</a>"
-                    . "</h3>"
-            );
-
+        $titles [ $titles_and_Qid['question_id'] ] ['title'] = $titles_and_Qid['title'];
     }
-        echo ("\n\nHUOM! ");
-        echo $tags_and_id[1]['tag'][0];
 
-        $i = 0;
-        // Then Loop Through each question
-        foreach( $end_array as $tags_and_Qid['question_id'] => $tags_and_Qid['tag'] )
-        {
+
+
+//            echo ("<h3>"/*{{{*/
+//                    . "<a class='question_hyperlink' href='?"
+//                        . "question_id=" 
+//                        . $titles_and_Qid['question_id']  // for computer
+////                            . "&" 
+////                            . $titles_and_Qid['title']  // for reader
+//                        . "'>" 
+//                            . $titles_and_Qid['title'] 
+//                    . "</a>"
+//                . "</h3>"
+//            );/*}}}*/
+
+    $i = 0;
+    // Then Loop Through each question
+    foreach( $end_array as $tags_and_Qid['question_id'] => $tags_and_Qid['tag'] )
+    {
+        echo ("<div class='question_summary'>");
 
         echo ("\n\nITERATION NUMBER IS " . $i);
 
@@ -91,8 +93,8 @@ if( empty($_GET) ) {
         // end the html
             echo '</div>';/*}}}*/
         $i++; 
-        }
-        echo ("</div>");
+    }
+    echo ("</div>");
 }
 
 ?>
