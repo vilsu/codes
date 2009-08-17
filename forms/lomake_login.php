@@ -4,8 +4,12 @@
         . "'>"
     );
 ?>
-    <p>Search
-        <input name="tag" type="text" cols="92" />
+    <p>Email
+        <input name="email" type="text" cols="92" />
+    </p> 
+
+    <p>Password
+        <input name="password" type="text" cols="92" />
     </p> 
 
     <input type="submit" value="Login" />

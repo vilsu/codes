@@ -1,7 +1,7 @@
 <div class="hsearch">
 
 <?php 
-    echo (" <form method='get'" 
+    echo (" <form method='GET'" 
         . "action='index.php"
         . "'>"
     );

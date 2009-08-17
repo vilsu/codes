@@ -244,3 +244,9 @@ div.hsearch .textbox {
 
 div.hlinks {
 }
+
+div.tags {
+    float: left;
+    line-height: 18px;
+    width: auto;
+}
