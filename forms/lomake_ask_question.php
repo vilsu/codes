@@ -5,17 +5,22 @@
     );
 ?>
 
-    <p>Title:
+    <label for="title">Title</label>
         <input name="question[title]" type="text" cols="92" />
-    </p>
 
-    <p>Question:
+    <label for="your-question">Question</label>
         <div class="resizable-textarea">
                 <textarea id="input" class="textarea" tabindex="101" rows="15" cols="92" name="question[body]"></textarea>
         </div>
-    </p>
 
-    <p>Tags:
+    <label for="tags">Tags</label>
         <input name='question[tags]' type="text" cols="92" />
-    </p> 
-<!-- no form -tag, since it is at index.php -->
+    <div id="notice">Please, separate tags by commas (,).</div>
+
+<?php 
+    if( $_SESSION['login']['logged_in'] ) {
+        echo ("<input type='submit' value='Ask Your Question' /></form>");
+    } else {
+        echo ("</form>");
+    }
+?>

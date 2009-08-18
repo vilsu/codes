@@ -4,13 +4,11 @@
         . "'>"
     );
 ?>
-    <p>Email
+    <label for="email">Email</label>
         <input name="email" type="text" cols="92" />
-    </p> 
 
-    <p>Password
+    <label for="password">Password</label>
         <input name="password" type="text" cols="92" />
-    </p> 
 
     <input type="submit" value="Login" />
 </form>

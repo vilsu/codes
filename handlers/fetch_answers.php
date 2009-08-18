@@ -3,9 +3,6 @@
 
 $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
-// to start answers -block/*{{{*/
-echo ("<div class='answers'>");
-
 $result = pg_prepare( $dbconn, "query_fetch_answers",
     "SELECT answer
     FROM answers
@@ -29,12 +26,7 @@ if (empty( $_GET['question_id'] ) ) {
 
 
 // to print subheader for Answers
-echo ("<div id='subheader'>"
-    . "<h2>"
-    . "Answers"
-    . "</h2>"
-    . "</div>"
-    );
+subheader( "Answers" );
 
 // to compile bodys of the answers
 while ( $answer = pg_fetch_array( $result ) ) {
@@ -43,8 +35,5 @@ while ( $answer = pg_fetch_array( $result ) ) {
     . "</div>"
     );
 }
-
-// to end the answers -block
-echo ("</div>");/*}}}*/
 
 ?>

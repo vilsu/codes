@@ -5,17 +5,14 @@
     );
 ?>
 
-    <p>Username:
+    <label for="display-name">Name</label>
         <input name="login[username]" type="text" cols="92" />
-    </p>
 
-    <p>Email:
+    <label for="email">Email</label>
         <input name="login[email]" type="text" cols="92" />
-    </p>
 
-    <p>Password:
+    <label for="password">Password</label>
         <input name="password" type="password" cols="92" />
-    </p>
 
-    <input type="submit" value="OK" />
+    <input type="submit" value="Register and Login" />
 </form>

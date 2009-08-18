@@ -28,10 +28,11 @@ if (empty( $_GET['question_id'] ) ) {
 // To compile title and body of the question
 while ( $question = pg_fetch_array( $result ) ) {
     // To print the header of the question
-    echo ("<div class='question_header'>"
+    echo ("<div id='mainheader'>"
+        // TODO activate this when other are seen in the homepage
 //        . "<a href='?'"
 //        . "question_id="
-//        . $_SESSION['question_id']   // buggy
+//        . $_GET['question_id']   // buggy
 //        . "'>"
         . $question['title']
         . "</a>"

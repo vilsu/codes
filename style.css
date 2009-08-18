@@ -14,11 +14,6 @@ div.container {
 }
 
 
-div.header {
-    width: 100%;
-    clear: both;
-}
-
 div#userbar {
     float: right;
     background: #EEEEEE;
@@ -29,8 +24,13 @@ div#userbar {
 
 div
 
-#notice {
-    background: gray;
+div#notice {
+    padding-top: 5px;
+    margin-top: 5px;
+    width: 300px;
+    display: block;
+    font-style: italic;
+    font-size: 80%;
 }
 
 /* to have some space between entities in the userbar */
@@ -38,14 +38,6 @@ div#userbar ul li {
     display: inline;
     text-align: right;
     margin: 0 5px;
-}
-
-div#logo {
-    float: left;
-    height: 60px;
-    width: 250px;
-    font-size: 200%;
-    padding: 5px 30px;
 }
 
 /* 
@@ -107,10 +99,14 @@ div#mainbar {
 /* unsuccessfull registration, login */
 div.unsuccessful {
     color: red;
+    font-size: 1.2em;
+    font-weight: bold;
 }
 
 div.successful {
     color: green;
+    font-size: 1.2em;
+    font-weight: bold;
 }
 
 .question_summary {
@@ -119,24 +115,6 @@ div.successful {
     overflow:hidden;
     padding:11px 0;
     width:730px;
-}
-
-.post_tag {
-    background-color:#E0EAF1;
-    border-bottom:1px solid #3E6D8E;
-    border-right:1px solid #7F9FB6;
-    color:#3E6D8E;
-    font-size:90%;
-    line-height:2.2;
-    margin:2px 2px 2px 0;
-    padding:3px 4px;
-    text-decoration: none;
-    white-space: nowrap;
-}
-
-.tags {
-    float: left;
-    line-height: 18px;
 }
 
 .question_hyperlink {
@@ -151,15 +129,7 @@ div.successful {
     text-decoration: underline;
 }
 
-h1#logo a {
-    color: black;
-    text-decoration: none;
-}
 
-h1#logo a:visited {
-    color: black;
-    text-decoration: none;
-}
 
 div.question_summary:hover {
     background:#FFEFC6;
@@ -172,50 +142,6 @@ div.answer {
     width:730px;
 }
 
-div.question_header {
-    font-size: 180%;
-    margin-bottom: 7px;
-    font-weight: bold;
-}
-
-
-div.question_header {
-    border-bottom:1px solid #555555;
-    font-family:Trebuchet MS,Helvetica,sans-serif;
-    margin-bottom:20px;
-    width:960px; 
-}
-
-div.question_header a {
-    color: black;
-    text-decoration: none;
-}
-
-div.question_header a:visited,
-div.question_header a:visited {
-    color: black;
-    text-decoration: none;
-}
-
-div#subheader {
-    margin-bottom:10px;
-    margin-top:10px;
-    width:730px;
-    border-bottom:1px solid #666666;
-}
-
-div#subheader h2 {
-    font-size:170%;
-    line-height:34px;
-    margin-bottom:0;
-}
-
-h2 {
-    font-family:Trebuchet MS,Helvetica,sans-serif;
-    font-size:140%;
-    font-weight:bold;
-    margin-bottom:7px;
-}
 
 div.hsearch,
 div.userbar,
@@ -238,15 +164,151 @@ div.hsearch .textbox {
     padding-left:16px;
 }
 
-.header {
-    line-height:22px;
-}
-
 div.hlinks {
 }
+
+
+/*
+ * Tags
+ */
 
 div.tags {
     float: left;
     line-height: 18px;
     width: auto;
+}
+
+.tags a:hover {
+    text-decoration:none;
+}
+
+.post_tag:hover {
+    background-color:#3E6D8E;
+    border-bottom:1px solid #37607D;
+    border-right:1px solid #37607D;
+    color:#E0EAF1;
+    text-decoration:none;
+}
+
+.post_tag {
+    background-color:#E0EAF1;
+    border-bottom:1px solid #3E6D8E;
+    border-right:1px solid #7F9FB6;
+    color:#3E6D8E;
+    font-size:90%;
+    line-height:2.2;
+    margin:2px 2px 2px 0;
+    padding:3px 4px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.tags {
+    float: left;
+    line-height: 18px;
+}
+
+
+
+
+/* 
+ * Headers
+ */
+
+/* Logo                                             */
+
+div#logo {
+    float: left;
+    height: 60px;
+    width: 250px;
+    font-size: 200%;
+    padding: 5px 30px;
+}
+
+h1#logo a {
+    color: black;
+    text-decoration: none;
+}
+
+h1#logo a:visited {
+    color: black;
+    text-decoration: none;
+}
+
+/* Content headers                                  */
+
+div#mainheader {
+    font-size: 150%;
+    border-bottom:1px solid #555555;
+    font-family:Trebuchet MS,Helvetica,sans-serif;
+    margin-bottom:7px;
+    width:960px; 
+}
+
+div#subheader {
+    font-size:140%;
+    border-bottom:1px solid #666666;
+    font-family:Trebuchet MS,Helvetica,sans-serif;
+    margin-top:10px;
+    margin-bottom:10px;
+    width:730px;
+}
+
+div#mainheader a,
+div#subheader a,
+div#mainheader a:visited,
+div#subheader a:visited {
+    color: black;
+    text-decoration: none;
+}
+
+div#mainheader h2,
+div#subheader h2 {
+    line-height:34px;
+    margin-bottom:0;
+    font-weight:bold;
+    margin-bottom:7px;
+    font-family:Trebuchet MS,Helvetica,sans-serif;
+}
+
+div.header {
+    width: 100%;
+    clear: both;
+    line-height:22px;
+}
+
+
+div#registration_login form {
+    float: left;
+    display: inline;
+    padding-right: 15px;
+    width: 300px;
+}
+
+div#registration_login p {
+    float: left;
+    display: inline;
+    padding-right: 40px;
+    width: 100px;
+}
+
+div#mainbar label,
+div#registration_login label {
+    font-weight: bold;
+    padding-bottom: 3px;
+    display: block;
+    color: #333333;
+}
+
+div#registration_login input {
+    display: block;
+}
+
+div#mainbar input {
+    border:1px solid #888888;
+    font-family:Trebuchet MS,Helvetica,sans-serif;
+    font-size:130%;
+    font-weight:bold;
+    margin:3px;
+    padding:2px;
 }
