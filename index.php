@@ -79,9 +79,7 @@ include './PATHs.php';
                 // change the layout by adding question form by getting data
                 echo "<p>Ole kirjautuneena, niin voit vastata.</p>";
                 include( "./views/login.php" );
-            } else {
-                    echo "<input type='submit' value='Send Your Answer' /></form>";
-            }
+            } 
 
         }
 

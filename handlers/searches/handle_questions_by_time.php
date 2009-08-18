@@ -13,11 +13,10 @@ $result_titles_tags = pg_prepare( $dbconn, "query777",
     ( 
         SELECT question_id
         FROM questions
-        ORDER BY was_sent_at_time
-        DESC LIMIT 50
+        LIMIT 50
     ) 
-    ORDER BY was_sent_at_time
-    DESC LIMIT 50;" 
+    ORDER BY was_sent_at_time DESC
+    LIMIT 50;" 
 );
 
 $result_titles = pg_execute( $dbconn, "query777", array());
@@ -31,8 +30,7 @@ $result_tags = pg_prepare( $dbconn, "query9",
     ( 
         SELECT question_id
         FROM questions
-        ORDER BY was_sent_at_time
-        DESC LIMIT 50
+        LIMIT 50
     );"
 );
 $result_tags = pg_execute( $dbconn, "query9", array());
@@ -69,8 +67,7 @@ foreach( $end_array as $tags_and_Qid['question_id'] => $titles_and_Qid['title'] 
     $question_id = $tags_and_Qid['question_id'];
 
     // 1.1 Print the Title & 1.2 Print the Tags
-   create_question($title, $tags, $question_id);
+    create_question($title, $tags, $question_id);
 }
 
 ?>
-

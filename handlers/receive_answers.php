@@ -28,14 +28,14 @@ $result = pg_prepare($dbconn, "query2", "INSERT INTO answers
 // $answer tulee lomakkeelta, kun taas $questions_question_id tulee URL:ista 
 
 // to get the question_id
-$pattern = '/\?([^#]*)/';
+$pattern = '/\?([^#]*)/';               // paranna tata TODO
 $subject = $_SERVER['HTTP_REFERER'];
 $query = preg_match($pattern, $subject, $match) ? $match[1] : '';  // extract query from URL
 parse_str( $query, $params );
 $question_id = explode( "=", $query );
 $result = pg_execute( $dbconn, "query2", 
     array( $_POST['answer'], 
-        $question_id[1],
+    $question_id[1],                // TODO bugaa titlen kanssa URL:issa 
         $user_id
      ) );
 

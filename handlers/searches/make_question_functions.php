@@ -34,8 +34,8 @@ function create_title($title, $question_id)
             . "<a class='question_hyperlink' href='?"
                 . "question_id=" 
                 . $question_id
-                            . "&" 
-                            . $title  // for reader
+//                            . "&" 
+// TODO bugaa kysymysten lahettaminen                           . $title  // for reader
                 . "'>" 
                     . $title 
             . "</a>"
