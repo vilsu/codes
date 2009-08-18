@@ -24,12 +24,12 @@ if( $_SESSION['login']['logged_in'] == false ){
 $result = pg_prepare($dbconn, "query22", "SELECT passhash_md5 FROM users
         WHERE email=$1;");
 
-$passhash_md5 = pg_execute($dbconn, "query22", array($_REQUEST['login']['email']));
+$passhash_md5 = pg_execute($dbconn, "query22", array($_POST['login']['email']));
 // users from registration/login form
-if ($passhash_md5 == md5($_REQUEST['login']['password'])) {
+if ($passhash_md5 == md5($_POST['login']['password'])) {
     $_SESSION['login']['logged_in'] = true;
-    $_SESSION['login']['email'] = $_REQUEST['login']['email'];
-    $_SESSION['login']['passhash_md5'] = md5($_REQUEST['login']['password']);
+    $_SESSION['login']['email'] = $_POST['login']['email'];
+    $_SESSION['login']['passhash_md5'] = md5($_POST['login']['password']);
 }
 
 $passhash_md5_2 = pg_execute($dbconn, "query22", array($_SESSION['login']['email']));

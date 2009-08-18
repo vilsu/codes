@@ -16,8 +16,9 @@ $result_titles = pg_prepare( $dbconn, "tag_search",
         DESC LIMIT 50;"
 );
 $result_titles = pg_execute( $dbconn, "tag_search", 
-    array( $_GET['tag'] )
+    array( strip_tags( $_GET['tag'] ) )
 );
+//TODO with strip_tags
 
 // TAGS
 $result_tags = pg_prepare( $dbconn, "tags_query_search", 
@@ -37,13 +38,19 @@ $result_tags = pg_execute( $dbconn, "tags_query_search",
 
 // First compile the Data
 
-
 // Compile the data
 // tags
 while( $tags_and_Qid = pg_fetch_array( $result_tags )) {
     // Add the Tag to an array of tags for that question
     $end_array [ $tags_and_Qid['question_id'] ] ['tag'] [] = $tags_and_Qid['tag'];
 
+
+}
+
+if ( $end_array [ $tags_and_Qid['question_id'] ] ['tag'] == '' ) {
+    header( "Location: index.php?"
+        . "no_question_found"
+    );
 }
 
 
@@ -69,7 +76,7 @@ foreach( $end_array as $tags_and_Qid['question_id'] => $titles_and_Qid['title'] 
     $question_id = $tags_and_Qid['question_id'];
 
     // 1.1 Print the Title & 1.2 Print the Tags
-   create_question($title, $tags, $question_id);
+    create_question($title, $tags, $question_id);
 }
 
 ?>

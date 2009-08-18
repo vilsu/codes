@@ -8,8 +8,16 @@ session_start();
 // Tata lomaketta ei laiteta includa kaikkiin fileihin
 // se suoritetaan vain, kun kayttaa *lomake_login.php*
 
-// tarkistetaan datan oikeus/*{{{*/
-if (!filter_var($_POST['login']['email'], FILTER_VALIDATE_EMAIL)) {
+// INDEPENDENT VARIABLES
+$passhash_md5 = md5($_POST['login']['password']);
+$email = $_POST['login']['email'];
+
+// DATA PROCESSING
+
+// Limitations/*{{{*/
+
+// tarkistetaan datan oikeus
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     // palataan paasivulle
     header("Location: /codes/index.php?"
         . "login"
@@ -17,12 +25,15 @@ if (!filter_var($_POST['login']['email'], FILTER_VALIDATE_EMAIL)) {
         . "unsuccessful_login" 
     );
     die("Wrong email-address");
-}/*}}}*/
+}
+/*}}}*/
 
 // haetaan original password db:sta 
-$result = pg_prepare($dbconn, "query3", 'SELECT passhash_md5 
-    FROM users WHERE email = $1;');
-$result = pg_execute($dbconn, "query3", array($_POST['login']['email']));
+$result = pg_prepare($dbconn, "query3", 
+    'SELECT passhash_md5 
+    FROM users WHERE email = $1;
+    ');
+$result = pg_execute($dbconn, "query3", array($email));
 
 // to read the password from the result
 while ($row = pg_fetch_row($result)) {

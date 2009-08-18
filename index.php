@@ -13,7 +13,7 @@ include ("./handlers/searches/make_question_functions.php");
 // ended.
 ob_start();
 
-// include( "debugging_code.php" );
+include( "debugging_code.php" );
 
 require './handlers/login_by_session.php';
 
