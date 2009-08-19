@@ -33,6 +33,17 @@ if (array_key_exists('answer_not_sent', $_GET)) {
 if (array_key_exists('unsuccessful', $_GET)) {
     echo ("This is an unknown bug. Please, report it to the moderator."); 
 }
+
+// NO question found
+if (array_key_exists('no_question_found', $_GET)) {
+    echo ( "No question found." ); 
+}
+
+// Too short Password
+if ( array_key_exists ('too_short_password', $_GET ) ) {
+    echo ( "Too short password. At least 6 characters." );
+}
+
 ?>
 </p>
 </div>

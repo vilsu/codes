@@ -47,19 +47,10 @@ while ($row = pg_fetch_row($result)) {
 
 // This needs to be before Tags, since we need the question_id
 // Body of the question TO DB 
-$result = pg_prepare($dbconn, "query77", "INSERT INTO questions
+$result_question = pg_prepare($dbconn, "query77", "INSERT INTO questions
     (body, title, user_id)
     VALUES ($1, $2, $3);");
-$result = pg_execute($dbconn, "query77", array($body, $title, $user_id));
-
-if(isset($result)) {
-    $header = ("Location: /codes/index.php?" 
-        . "question_sent"
-        );
-    header($header);
-} else {
-    header("Location: /codes/index.php?unsuccessful");
-}
+$result_question = pg_execute($dbconn, "query77", array($body, $title, $user_id));
 
 // to get the question_id from the db
 $result = pg_prepare($dbconn, "query87", "SELECT question_id FROM questions
@@ -71,6 +62,8 @@ $result = pg_execute($dbconn, "query87", array($title, $body, $user_id));
 while ($row = pg_fetch_row($result)) {
     $question_id = $row[0];
 }
+
+
 
 
 // TAGS
@@ -90,6 +83,21 @@ for ($i = 0; $i < count($tags_array); $i++) {
     // TODO this may be a bug [$i]
     $result = pg_execute($dbconn, "query2", array($tags_array[$i], $question_id));
 }
+
+if ( isset ( $result_question ) ) {
+    header  ("Location: /codes/index.php?" 
+        . "question_sent"
+        . "&"
+        . "question_id="
+        . $question_id
+        . "&"
+        . $title  // for user
+        );
+} else {
+    header("Location: /codes/index.php?unsuccessful");
+}
+
+
 
 
 //pg_close($dbconn);

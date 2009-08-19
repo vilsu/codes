@@ -13,6 +13,7 @@
 
     <label for="password">Password</label>
         <input name="login[password]" type="password" cols="92" />
+    <div id='notice'> Your password must be at least 6 characters. </div>
 
     <input type="submit" value="Register and Login" />
 </form>

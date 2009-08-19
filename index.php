@@ -8,24 +8,28 @@
 // Functions
 include ("./handlers/header_functions.php");
 include ("./handlers/searches/make_question_functions.php");
+include ("./handlers/thread_functions.php");
 
 // We need output buffers to prevent headers from leaving before Sessions are 
 // ended.
 ob_start();
 
-include( "debugging_code.php" );
 
-require './handlers/login_by_session.php';
+require ( './handlers/login_by_session.php' );
 
-$pattern = '/\?([^#]*)/';
+$pattern = '/\?([^#&]*)/';
 $subject = $_SERVER['HTTP_REFERER'];
 $query = preg_match($pattern, $subject, $match) ? $match[1] : '';  // extract query from URL
 parse_str($query, $params);
 // TODO you can simplify this by calling only $params: see php -docs
 
 
-include './official_content/html_head_body.php';
-include './PATHs.php';
+include ( './official_content/html_head_body.php' );
+
+// debugging code must be inside HTML
+// include( "debugging_code.php" );
+
+include( './PATHs.php' );
 ?>
 
 <div class="container"><!--/*{{{*/-->
@@ -56,19 +60,35 @@ include './PATHs.php';
 
     <div id="mainbar">
     <?php
-                
-    // Content with headers
-            
+
+        // Notices about successes and failures in the site
+        require 'views/successful_notice.php';
+        require 'views/unsuccessful_notice.php';
+
         // Recent questions at homepage
-        if( empty($_GET) ) {
-            require './handlers/searches/handle_questions_by_time.php';
+        if ( array_key_exists('successful_login', $_REQUEST) ) {
+            require ( './handlers/searches/handle_questions_by_time.php' );
+        }
+        // Recent questions at homepage
+        if ( array_key_exists('successful_registration', $_REQUEST) ) {
+            require ( './handlers/searches/handle_questions_by_time.php' );
         }
 
+        // to sort answers
+        if( empty( $_GET )
+            OR $_GET['tab'] == 'newest'
+            OR $_GET['tab'] == 'oldest' ) {
+            require ( './handlers/searches/handle_questions_by_time.php' );
+        }
+
+        // Content with headers
         // Question selected by the user
         if( array_key_exists('question_id', $_GET ) ) {
             require './handlers/fetch_a_thread.php';
 
             echo ("<div class='answers'>");         // to start answers -block
+
+            create_tab_box_thread( );
             require ("./handlers/fetch_answers.php");
             echo ("</div>");                        // to end answers -block
 
@@ -77,7 +97,6 @@ include './PATHs.php';
             // LOGIN at the bottom
             if (!isset($_SESSION['login']['logged_in'])) {
                 // change the layout by adding question form by getting data
-                echo "<p>Ole kirjautuneena, niin voit vastata.</p>";
                 include( "./views/login.php" );
             } 
 
@@ -87,6 +106,12 @@ include './PATHs.php';
         if( array_key_exists( 'tag', $_GET ) ) {
             require './handlers/searches/handle_questions_by_tag.php';
         }
+
+        // Questions of a username
+        if( array_key_exists( 'username', $_GET ) ) {
+            require './handlers/searches/handle_questions_by_username.php';
+        }
+
 
         // Static content
         require './views/about.php';
@@ -108,15 +133,9 @@ include './PATHs.php';
             // LOGIN at the bottom of Ask_question
             if ( !isset( $_SESSION['login']['logged_in'] ) ) {
                 // change the layout by adding question form by getting data
-                echo "<p>Ole kirjautuneena, niin voit kysya.</p>";
                 include( "./views/login.php" );
             }
         }
-
-        // Notices about successes and failures in the site
-        require 'views/successful_notice.php';
-        require 'views/unsuccessful_notice.php';
-
     ?>
     </div>
 </div>

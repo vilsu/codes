@@ -39,6 +39,7 @@ CREATE TABLE answers (
     answer TEXT NOT NULL DEFAULT '',
     question_id INTEGER NOT NULL,
     user_id INTEGER NOT NULL,
+    was_sent_at_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     flagged_for_moderator_removal BOOLEAN NOT NULL DEFAULT false,
     CONSTRAINT no_duplicate_answers UNIQUE (question_id, answer)
 );

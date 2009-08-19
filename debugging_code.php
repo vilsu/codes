@@ -8,6 +8,7 @@ var_dump($_COOKIE);
 
 echo "SESSION";
 var_dump($_SESSION);
+echo ("NB SESSION koodia");
 print_r( $_SESSION );
 
 echo "GET";
@@ -16,7 +17,4 @@ var_dump($_GET);
 echo ("HTTP_REFERER\n"
     . $_SERVER['HTTP_REFERER']
     );
-
-echo ("NB SESSION koodia");
-print_r($_SESSION);
 ?>

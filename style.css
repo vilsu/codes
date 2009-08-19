@@ -101,9 +101,11 @@ div.unsuccessful {
     color: red;
     font-size: 1.2em;
     font-weight: bold;
+    clear: both;
 }
 
 div.successful {
+    clear: both;
     color: green;
     font-size: 1.2em;
     font-weight: bold;
@@ -120,7 +122,7 @@ div.successful {
 .question_hyperlink {
     font-weight: bold;
     text-decoration: none;
-    color: blue;
+    color: #0080DD;
 }
 .question_hyperlink:visited {
     color: #4A6B82;
@@ -137,7 +139,7 @@ div.question_summary:hover {
 
 div.answer {
     border-bottom:1px solid #AAAAAA;
-    padding-bottom:20px;
+    padding-bottom:60px;
     padding-top:20px;
     width:730px;
 }
@@ -252,6 +254,8 @@ div#subheader {
     margin-top:10px;
     margin-bottom:10px;
     width:730px;
+    display: block;
+    clear: both;
 }
 
 div#mainheader a,
@@ -278,17 +282,18 @@ div.header {
 }
 
 
-div#registration_login form {
+div#mainbar div#registration_login form {
     float: left;
     display: inline;
     padding-right: 15px;
     width: 300px;
+    margin-top: 0px;
 }
 
 div#registration_login p {
     float: left;
     display: inline;
-    padding-right: 40px;
+    padding-right: 0px;
     width: 100px;
 }
 
@@ -311,4 +316,71 @@ div#mainbar input {
     font-weight:bold;
     margin:3px;
     padding:2px;
+}
+
+
+/*
+ * Contents
+ */
+
+
+div.answer_body,
+div.question_body { 
+    width: 730px;
+}
+
+div#mainbar form {
+    margin-top: 20px;
+}
+
+div#user_info_box {
+    padding: 5px 0;
+    white-space:nowrap;
+    color:#999999;
+    float:right;
+    line-height:18px;
+    width:185px;
+    font-size: 0.70em;
+    background-color: #E0EAF1;
+}
+
+div#user_info_time {
+    margin-bottom:4px;
+    margin-top:2px;
+    margin-left: 5px;
+}
+
+div#user_in_user_box {
+    float:left;
+    margin-left:5px;
+    overflow:hidden;
+    white-space:nowrap;
+    width:145px;
+}
+
+div#user_in_user_box a {
+    color: #0080DD;
+}
+
+div#tabs a {
+    background:#FFFFFF none repeat scroll 0 0;
+    border-color:#777777 #777777 #FFFFFF;
+    border-style:solid;
+    border-width:1px;
+    color:black;
+    font-size:100%;
+    height:30px;
+    line-height:28px;
+    margin-top:3px;
+    padding:0 11px;
+    margin: 0;
+    float: right;
+    display: block;
+    border-top: none; 
+}
+
+div#subheader div#tabs a:hover,
+div#subheader div#tabs a:active {
+    background: black !important;
+    color: white !important;
 }

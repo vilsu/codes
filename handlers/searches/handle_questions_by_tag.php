@@ -8,9 +8,12 @@ $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123"
 // to get titles and question_ids
 // When tag is given by the user
 $result_titles = pg_prepare( $dbconn, "tag_search",
-    "SELECT q.question_id, q.title
+    "SELECT q.question_id, q.title, q.was_sent_at_time, u.username
         FROM questions q
-            INNER JOIN tags t on q.question_id=t.question_id
+            INNER JOIN tags t 
+            ON q.question_id=t.question_id
+            LEFT JOIN users u
+            ON q.user_id=u.user_id
         WHERE tag = $1
         ORDER BY q.was_sent_at_time
         DESC LIMIT 50;"
@@ -47,7 +50,7 @@ while( $tags_and_Qid = pg_fetch_array( $result_tags )) {
 
 }
 
-if ( $end_array [ $tags_and_Qid['question_id'] ] ['tag'] == '' ) {
+if ( count ( $end_array ) == 0 ) {
     header( "Location: index.php?"
         . "no_question_found"
     );
@@ -57,26 +60,15 @@ if ( $end_array [ $tags_and_Qid['question_id'] ] ['tag'] == '' ) {
 // Titles
 while( $titles_and_Qid = pg_fetch_array( $result_titles ) ) {
     $titles [ $titles_and_Qid['question_id'] ] ['title'] = $titles_and_Qid['title'];
+
+    $was_sent_at_times [ $titles_and_Qid['question_id'] ] ['was_sent_at_time'] = $titles_and_Qid['was_sent_at_time'] ;
+    $usernames [ $titles_and_Qid['question_id'] ] ['username'] = $titles_and_Qid['username'] ;
 }
 
 
 // $title should be the actual string, not an array
 // $tags should be single, non-multidimensional array containing tag names
 
-// Go through each question
-foreach( $end_array as $tags_and_Qid['question_id'] => $titles_and_Qid['title'] )
-{
-    // Grab the title for the first array
-    $title = $titles [ $tags_and_Qid['question_id'] ] ['title'];
-
-    // Grab the tags for the question from the second array
-    $tags = $end_array [ $tags_and_Qid['question_id'] ] ['tag'];
-
-    // Grap the question_id
-    $question_id = $tags_and_Qid['question_id'];
-
-    // 1.1 Print the Title & 1.2 Print the Tags
-    create_question($title, $tags, $question_id);
-}
+    create_question( $title, $tags, $question_id, $user_id, $username, $was_sent_at_time, "asked", $tags_and_Qid, $titles_and_Qid );
 
 ?>

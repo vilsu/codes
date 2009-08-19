@@ -7,8 +7,8 @@ if(!$dbconn) {
 }
 
 // 1. If the user is not authenticated, he is thrown back to the login page
-// 2. If the user is authenticated, he gets an $_SESSION["logged_in"] = true;
-// 3. Then when the user is browsing the main page or other pages that need auth, they just check if the $_SESSION["auth"] is set.
+// 2. If the user is authenticated, he get true for login var 
+// 3. Then when the user is browsing the main page or other pages that need auth, they just check if the login -var is set.
 
 
 session_save_path("/tmp/");
