@@ -1,6 +1,6 @@
 <?php 
     echo (" <form method='post'" 
-        . "action='./handlers/handle_new_question.php"
+        . "action='./handlers/receive_new_question.php"
         . "'>"
     );
 ?>

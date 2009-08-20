@@ -1,4 +1,5 @@
 <div class="unsuccessful">
+<p>
 <?php
 // UNSUCCESSFUL LOGIN
 if (array_key_exists('unsuccessful_login', $_GET)) {

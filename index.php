@@ -7,15 +7,20 @@
 
 // Functions
 include ("./handlers/header_functions.php");
-include ("./handlers/searches/make_question_functions.php");
-include ("./handlers/thread_functions.php");
+
+// inside a question functions
+include ("./handlers/make_a_thread/thread_functions.php");
+
+// search functions
+include ("./handlers/searches/make_a_list_of_questions_functions.php");
+include ("./handlers/make_a_list_of_questions/organize_a_list_of_questions_functions.php");
 
 // We need output buffers to prevent headers from leaving before Sessions are 
 // ended.
 ob_start();
 
 
-require ( './handlers/login_by_session.php' );
+require ( './handlers/handle_login_and_registration/login_by_session.php' );
 
 $pattern = '/\?([^#&]*)/';
 $subject = $_SERVER['HTTP_REFERER'];
@@ -59,8 +64,10 @@ include( './PATHs.php' );
     </div>
 
     <div id="mainbar">
-    <?php
+        <div class="container_two">
+        <?php
 
+        
         // Notices about successes and failures in the site
         require 'views/successful_notice.php';
         require 'views/unsuccessful_notice.php';
@@ -81,35 +88,34 @@ include( './PATHs.php' );
             require ( './handlers/searches/handle_questions_by_time.php' );
         }
 
-        // Content with headers
+        // Content with headers/*{{{*/
         // Question selected by the user
         if( array_key_exists('question_id', $_GET ) ) {
-            require './handlers/fetch_a_thread.php';
+            require ('./handlers/fetch_a_thread.php');
 
             echo ("<div class='answers'>");         // to start answers -block
-
-            create_tab_box_thread( );
-            require ("./handlers/fetch_answers.php");
+                require ("./handlers/fetch_answers.php");
             echo ("</div>");                        // to end answers -block
 
-            require './forms/lomake_answer.php';
+            require ('./forms/lomake_answer.php');
 
             // LOGIN at the bottom
             if (!isset($_SESSION['login']['logged_in'])) {
-                // change the layout by adding question form by getting data
-                include( "./views/login.php" );
-            } 
-
+                echo ("<div id='login_box'>");
+                    // change the layout by adding question form by getting data
+                    include( "./views/login.php" );
+                echo ("</div>");
+            }
         }
-
+/*}}}*/
         // Tagged questions
         if( array_key_exists( 'tag', $_GET ) ) {
-            require './handlers/searches/handle_questions_by_tag.php';
+            require ('./handlers/searches/handle_questions_by_tag.php');
         }
 
         // Questions of a username
         if( array_key_exists( 'username', $_GET ) ) {
-            require './handlers/searches/handle_questions_by_username.php';
+            require ('./handlers/searches/handle_questions_by_username.php');
         }
 
 
@@ -136,7 +142,8 @@ include( './PATHs.php' );
                 include( "./views/login.php" );
             }
         }
-    ?>
+        ?>
+        </div>
     </div>
 </div>
 <!--/*}}}*/-->
