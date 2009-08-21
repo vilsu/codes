@@ -243,8 +243,8 @@ div#mainheader {
     font-size: 150%;
     border-bottom:1px solid #555555;
     font-family:Trebuchet MS,Helvetica,sans-serif;
-    margin-bottom:7px;
-    width:960px; 
+    margin-bottom:5px;
+    width:730px; 
 }
 
 div#subheader {
@@ -386,7 +386,6 @@ div#subheader h2 {
     font-weight:bold;
     margin-bottom:7px;
     font-family:Trebuchet MS,Helvetica,sans-serif;
-    float: left;
     display: inline;
 }
 
@@ -432,7 +431,7 @@ div#top_header_main div#tabs {
 }
 
 div#top_header_main {
-    width: 960px;
+    width: 730px;
     float: left;
     display: block;
     line-height: 34px;
@@ -444,6 +443,32 @@ div.answers div#subheader h2 {
     float: none;
 }
 
+div.container_two div#login_box,
 div.container_two div#login_box div#subheader h2 {
     float: none;
+    clear: both;
+}
+
+div#subheader,
+div#subheader h2{
+    clear: both;
+}
+
+div#one_answer {
+    display: block;
+    float: none;
+    clear: both;
+    border-bottom:1px solid #AAAAAA;
+    padding-bottom:20px;
+    padding-top:20px;
+    width:730px;
+}
+
+div.clear {
+    clear: both;
+}
+
+div#tabs {
+    position: relative;
+    bottom: 38px;
 }

@@ -8,11 +8,14 @@
 // Functions
 include ("./handlers/header_functions.php");
 
+// user info box for lists of questions and for answers
+include ("./handlers/user_info_functions.php");
+
 // inside a question functions
 include ("./handlers/make_a_thread/thread_functions.php");
 
 // search functions
-include ("./handlers/searches/make_a_list_of_questions_functions.php");
+include ("./handlers/make_a_list_of_questions/make_a_list_of_questions_functions.php");
 include ("./handlers/make_a_list_of_questions/organize_a_list_of_questions_functions.php");
 
 // We need output buffers to prevent headers from leaving before Sessions are 
@@ -65,84 +68,81 @@ include( './PATHs.php' );
 
     <div id="mainbar">
         <div class="container_two">
-        <?php
+            <?php
+            
+            // Notices about successes and failures in the site
+            require ('views/successful_notice.php');
+            require ('views/unsuccessful_notice.php');
 
-        
-        // Notices about successes and failures in the site
-        require 'views/successful_notice.php';
-        require 'views/unsuccessful_notice.php';
+            // Recent questions at homepage
+            if ( array_key_exists('successful_login', $_REQUEST) ) {
+                require ( './handlers/searches/handle_questions_by_time.php' );
+            }
+            // Recent questions at homepage
+            if ( array_key_exists('successful_registration', $_REQUEST) ) {
+                require ( './handlers/searches/handle_questions_by_time.php' );
+            }
 
-        // Recent questions at homepage
-        if ( array_key_exists('successful_login', $_REQUEST) ) {
-            require ( './handlers/searches/handle_questions_by_time.php' );
-        }
-        // Recent questions at homepage
-        if ( array_key_exists('successful_registration', $_REQUEST) ) {
-            require ( './handlers/searches/handle_questions_by_time.php' );
-        }
+            // to sort the list of questions at the homepage
+            if( empty( $_GET )
+                OR $_GET['tab'] == 'newest'
+                OR $_GET['tab'] == 'oldest' ) {
+                require ( './handlers/searches/handle_questions_by_time.php' );
+            }
 
-        // to sort answers
-        if( empty( $_GET )
-            OR $_GET['tab'] == 'newest'
-            OR $_GET['tab'] == 'oldest' ) {
-            require ( './handlers/searches/handle_questions_by_time.php' );
-        }
 
-        // Content with headers/*{{{*/
-        // Question selected by the user
-        if( array_key_exists('question_id', $_GET ) ) {
-            require ('./handlers/fetch_a_thread.php');
 
-            echo ("<div class='answers'>");         // to start answers -block
-                require ("./handlers/fetch_answers.php");
-            echo ("</div>");                        // to end answers -block
+            // Content with headers/*{{{*/
+            // Question selected by the user
+            if( array_key_exists('question_id', $_GET ) ) {
+                require ('./handlers/make_a_thread/fetch_a_question.php');
+                    // to sort the answers of the given question
+                require ("./handlers/make_a_thread/fetch_answers.php");
 
-            require ('./forms/lomake_answer.php');
+                require ('./forms/lomake_answer.php');
 
-            // LOGIN at the bottom
-            if (!isset($_SESSION['login']['logged_in'])) {
-                echo ("<div id='login_box'>");
+                // LOGIN at the bottom
+                if (!isset($_SESSION['login']['logged_in'])) {
                     // change the layout by adding question form by getting data
                     include( "./views/login.php" );
-                echo ("</div>");
+                }
             }
-        }
-/*}}}*/
-        // Tagged questions
-        if( array_key_exists( 'tag', $_GET ) ) {
-            require ('./handlers/searches/handle_questions_by_tag.php');
-        }
-
-        // Questions of a username
-        if( array_key_exists( 'username', $_GET ) ) {
-            require ('./handlers/searches/handle_questions_by_username.php');
-        }
-
-
-        // Static content
-        require './views/about.php';
-
-    // Content without headers
-        
-        // Login and Logout
-        if (isset($_GET['login'])) {
-            // to have login at userbar
-            require './views/login.php';
-        }
-        require './views/logout_at_userbar_notice.php';
-
-        // Ask question -view
-        if ( isset( $_GET['ask_question'] ) ) {
-            // change the layout by adding question form by getting data from 
-            include './forms/lomake_ask_question.php';
-
-            // LOGIN at the bottom of Ask_question
-            if ( !isset( $_SESSION['login']['logged_in'] ) ) {
-                // change the layout by adding question form by getting data
-                include( "./views/login.php" );
+            /*}}}*/
+            // Tagged questions
+            if( array_key_exists( 'tag', $_GET ) ) {
+                require ('./handlers/searches/handle_questions_by_tag.php');
             }
-        }
-        ?>
+
+            // Questions of a username
+            if( array_key_exists( 'username', $_GET ) ) {
+                require ('./handlers/searches/handle_questions_by_username.php');
+            }
+
+
+            // Static content
+            require './views/about.php';
+
+        // Content without headers
+            
+            // Login and Logout
+            if (isset($_GET['login'])) {
+                // to have login at userbar
+                require './views/login.php';
+            }
+            require './views/logout_at_userbar_notice.php';
+
+            // Ask question -view
+            if ( isset( $_GET['ask_question'] ) ) {
+                // change the layout by adding question form by getting data from 
+                include './forms/lomake_ask_question.php';
+
+                // LOGIN at the bottom of Ask_question
+                if ( !isset( $_SESSION['login']['logged_in'] ) ) {
+                    // change the layout by adding question form by getting data
+                    include( "./views/login.php" );
+                }
+            }
+            ?>
         </div>
     </div>
 </div>

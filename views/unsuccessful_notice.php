@@ -45,6 +45,16 @@ if ( array_key_exists ('too_short_password', $_GET ) ) {
     echo ( "Too short password. At least 6 characters." );
 }
 
+// Too long title in asking question
+if ( array_key_exists ('too_long_title', $_GET ) ) {
+    echo ( "Too long title. Maximun 200 characters." );
+}
+
+// No tag supplied in asking question
+if ( array_key_exists ('no_tag', $_GET ) ) {
+    echo ( "No tag supplied for the question." );
+}
+
 ?>
 </p>
 </div>

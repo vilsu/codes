@@ -4,11 +4,10 @@
     . "'>"
     );
 ?>
-    <p><h2>Your Answer:</h2>
+    <h2>Your Answer:</h2>
         <div id="answer" class="resizable-textarea">
                 <textarea id="input" class="textarea" tabindex="101" rows="15" cols="92" name="answer" /></textarea>
         </div>
-    </p>
 <?php 
     if( $_SESSION['login']['logged_in'] ) {
         echo ("<input type='submit' value='Send Your Answer' /></form>");

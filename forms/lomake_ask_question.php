@@ -15,7 +15,7 @@
 
     <label for="tags">Tags</label>
         <input name='question[tags]' type="text" cols="92" />
-    <div id="notice">Please, separate tags by commas (,).</div>
+    <div id="notice">Please, use at least one tag and separate them by commas (,).</div>
 
 <?php 
     if( $_SESSION['login']['logged_in'] ) {

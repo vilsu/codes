@@ -34,7 +34,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     );
 }
 
-if ( mb_strlen ( $_POST['login']['password'] ) <= 5 ) {
+if ( !(mb_strlen ( $_POST['login']['password'] ) < 6) ) {
      // back to registration
     header ("Location: /codes/index.php?"
         . "login"

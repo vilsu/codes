@@ -1,6 +1,6 @@
 <?php 
     echo ("<form method='post'" 
-        . "action='/codes/handlers/receive_registration_form.php"
+        . "action='/codes/handlers/handle_login_and_registration/receive_registration_form.php"
         . "'>"
     );
 ?>

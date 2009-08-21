@@ -8,18 +8,18 @@
 function mainheader( $mainheader, $link ) {
     if( $link ) {
     echo ("<div id='mainheader'>"
-        . "<h2>"
-            . "<a href='index.php?" . $mainheader . "'>" 
-                . $mainheader
-            . "</a>"
-        . "</h2>"
+            . "<h2>"
+                . "<a href='index.php?" . $mainheader . "'>" 
+                    . $mainheader
+                . "</a>"
+            . "</h2>"
         . "</div>"
         );
     } else {
     echo ("<div id='mainheader'>"
-        . "<h2>"
-            . $mainheader
-        . "</h2>"
+            . "<h2>"
+                . $mainheader
+            . "</h2>"
         . "</div>"
     );
     }
@@ -27,9 +27,9 @@ function mainheader( $mainheader, $link ) {
 
 function subheader( $subheader ) {
      echo ("<div id='subheader'>"
-        . "<h2>"
-        . $subheader
-        . "</h2>"
+            . "<h2>"
+                . $subheader
+            . "</h2>"
         . "</div>"
         );
 }

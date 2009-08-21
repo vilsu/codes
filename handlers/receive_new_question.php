@@ -34,6 +34,23 @@ $email = $_SESSION['login']['email'];
 $passhash_md5 = $_SESSION['login']['passhash_md5'];
 
 
+if ( mb_strlen ( $title ) > 200 ) {
+    // back to the ask_question page
+    header ("Location: /codes/index.php?"
+        . "ask_question"
+        . "&"
+        . "too_long_title"
+    );
+}
+
+if ( empty ( $_POST['question']['tags'] ) ) {
+    header ("Location: /codes/index.php?"
+        . "ask_question"
+        . "&"
+        . "no_tag"
+    );
+}
+
 // DATA PROCESSING TO SESSION VARIABLES
 //
 // haetaan USER_ID

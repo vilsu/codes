@@ -1,5 +1,5 @@
 INSERT INTO answers (question_id, user_id, answer)
-    VALUES (1, 1 'Vastaus_1');
+    VALUES (1, 1, 'Vastaus_1');
 
 INSERT INTO answers (question_id, user_id, answer)
     VALUES (2, 2, 'Vastaus_2');
