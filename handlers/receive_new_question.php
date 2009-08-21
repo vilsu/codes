@@ -43,7 +43,7 @@ if ( mb_strlen ( $title ) > 200 ) {
     );
 }
 
-if ( empty ( $_POST['question']['tags'] ) ) {
+if ( empty ( $_POST['question']['tags'][1] ) ) {
     header ("Location: /codes/index.php?"
         . "ask_question"
         . "&"
@@ -80,9 +80,6 @@ while ($row = pg_fetch_row($result)) {
     $question_id = $row[0];
 }
 
-
-
-
 // TAGS
 $tags = $_POST['question']['tags'];
 // to strip whitespaces at the end and beginning
@@ -91,14 +88,15 @@ $tags_trimmed = preg_replace('/\s+/', '', $tags);
 $tags_array = explode(",", $tags_trimmed);
 
 
-// TAGS to DB
-$result = pg_prepare($dbconn, "query2", "INSERT INTO tags
-    (tag, question_id)
-    VALUES ($1, $2);");
-// to save the cells in the array to db
-for ($i = 0; $i < count($tags_array); $i++) {
-    // TODO this may be a bug [$i]
-    $result = pg_execute($dbconn, "query2", array($tags_array[$i], $question_id));
+if ( !empty ( $tags_array ) ) {
+    // TAGS to DB
+    $result = pg_prepare($dbconn, "query2", "INSERT INTO tags
+        (tag, question_id)
+        VALUES ($1, $2);");
+    // to save the cells in the array to db
+    for ($i = 0; $i < count($tags_array); $i++) {
+        $result = pg_execute($dbconn, "query2", array($tags_array[$i], $question_id));
+    }
 }
 
 if ( isset ( $result_question ) ) {

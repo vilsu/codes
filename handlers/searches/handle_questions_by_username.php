@@ -61,7 +61,7 @@ else
     $result_titles = pg_execute( $dbconn, "username_search", 
         array( strip_tags( $_GET['user_id'] ) )
     );
-    //TODO with strip_tags
+    // strip_tags removes HTML and php from the GET
 
     // TAGS
     $result_tags = pg_prepare( $dbconn, "username_query_search", 

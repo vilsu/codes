@@ -32,8 +32,6 @@ $result = pg_execute( $dbconn, "query2",
     $question_id[0],
     $_SESSION['login']['user_id']
      ) );
-    // TODO bugaa titlen kanssa URL:issa
-    // alkuperainen $question_id[1]
 
 if ( $result ) {
     header("Location: /codes/index.php?"

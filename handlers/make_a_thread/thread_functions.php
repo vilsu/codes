@@ -45,4 +45,21 @@ function create_tab_box_thread( $question_id ) {
     );
 }
 
+function create_moderator_box_for_a_question ( $question_id ) {
+    echo ("<div class='post_menu'>");
+    if ( $_SESSION['login']['a_moderator'] == true ) {
+        echo ("<a href='#' class='delete_question'" 
+            . " question_id='" . $question_id . "'"
+            . " title='vote to remove this post'>delete</a>"
+            . "<span class='link_separator'>|</span>"
+            );
+        echo ("<a href='#'"
+            . "class='flag_question'"
+            . " question_id='" . $question_id . "'"
+            . " title='flag this post for serious problems'>flag</a>"
+        );
+    echo ("</div>");
+    }
+}
+
 ?>

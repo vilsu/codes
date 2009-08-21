@@ -37,7 +37,7 @@ if (array_key_exists('unsuccessful', $_GET)) {
 
 // NO question found
 if (array_key_exists('no_question_found', $_GET)) {
-    echo ( "No question found." ); 
+    echo ( "<p>No question found.</p>" ); 
 }
 
 // Too short Password

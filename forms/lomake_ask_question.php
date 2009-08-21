@@ -1,25 +1,30 @@
 <?php 
-    echo (" <form method='post'" 
+    echo (" <form id='myform' method='post' onsubmit='javascript:notEmpty()'" 
         . "action='./handlers/receive_new_question.php"
         . "'>"
     );
 ?>
 
+<fieldset>
     <label for="title">Title</label>
-        <input name="question[title]" type="text" cols="92" />
+        <input name="question[title]" type="text" cols="92" id="required" />
 
     <label for="your-question">Question</label>
         <div class="resizable-textarea">
-                <textarea id="input" class="textarea" tabindex="101" rows="15" cols="92" name="question[body]"></textarea>
+            <textarea id="input" class="textarea" id="required" tabindex="101" rows="15" cols="92" name="question[body]"></textarea>
         </div>
 
     <label for="tags">Tags</label>
-        <input name='question[tags]' type="text" cols="92" />
-    <div id="notice">Please, use at least one tag and separate them by commas (,).</div>
+        <input name='question[tags]' typh="text" cols="92" id="required" />
+        <div id="notice"><p>
+        Please, use at least one tag and separate them by commas (,).
+        </p></div>
+</fieldset>
 
 <?php 
     if( $_SESSION['login']['logged_in'] ) {
-        echo ("<input type='submit' value='Ask Your Question' /></form>");
+
+        echo ("<input class='buttonCAdd' onclick='checkFields();' type='submit' value='Ask Your Question' /></form>");
     } else {
         echo ("</form>");
     }

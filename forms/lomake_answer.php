@@ -14,5 +14,11 @@
     } else {
         echo ("</form>");
     }
+
+    if(isset($_POST['tags']) && !empty($_POST['tags'])) {
+        $tags = $_POST['tags'];
+    }
+
+
 ?>
 <!-- no form -tag, since it is at index.php -->

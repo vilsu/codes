@@ -24,6 +24,7 @@ ob_start();
 
 
 require ( './handlers/handle_login_and_registration/login_by_session.php' );
+require ( './handlers/handle_login_and_registration/moderator_check.php' );
 
 $pattern = '/\?([^#&]*)/';
 $subject = $_SERVER['HTTP_REFERER'];
@@ -35,7 +36,7 @@ parse_str($query, $params);
 include ( './official_content/html_head_body.php' );
 
 // debugging code must be inside HTML
-// include( "debugging_code.php" );
+include( "debugging_code.php" );
 
 include( './PATHs.php' );
 ?>

@@ -464,3 +464,37 @@ div.clear {
 div#organize_buttons {
     font-size: 67%;
 }
+
+.addedtext {
+    color: red;
+    font-weight: bold;
+}
+
+
+.post_menu {
+    clear: both;
+    padding-top: 30px;
+}
+
+.post_menu span {
+    color:#888888;
+}
+
+.post_menu a {
+    color:#888888;
+    padding:0 3px 2px;
+    text-decoration:none;
+    font-size: 80%;
+    display: inline;
+}
+
+.post_menu a:visited {
+    color:#4A6B82;
+    text-decoration:none;
+}
+
+a {
+    color:#0077CC;
+    cursor:pointer;
+}
+

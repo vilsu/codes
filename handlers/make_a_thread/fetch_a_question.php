@@ -50,6 +50,8 @@ while ( $question = pg_fetch_array( $questions ) ) {
     // print the user box for the question
     create_user_info_box_question( $user_id, $username, $was_sent_at_time, "asked" );
 
+    create_moderator_box_for_a_question ( $question_id );
+
     echo ("</div>");
 }
 
