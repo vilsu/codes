@@ -4,7 +4,7 @@ $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123"
 
 // to get titles and question_ids
 $result_titles = pg_prepare( $dbconn, "query777", 
-    "SELECT q.question_id, q.title, q.was_sent_at_time, u.username 
+    "SELECT q.question_id, q.title, q.was_sent_at_time, u.username, u.user_id
     FROM questions q
     LEFT JOIN users u
         ON q.user_id=u.user_id 
@@ -68,19 +68,10 @@ while( $titles_and_Qid = pg_fetch_array( $result_titles ) ) {
 
     $was_sent_at_times [ $titles_and_Qid['question_id'] ] ['was_sent_at_time'] = $titles_and_Qid['was_sent_at_time'] ;
     $usernames [ $titles_and_Qid['question_id'] ] ['username'] = $titles_and_Qid['username'] ;
+    $user_ids [ $titles_and_Qid['question_id'] ] ['user_id'] = $titles_and_Qid['user_id'] ;
 }
 
-if ( $_GET['tab'] == 'newest' )
-{
-    organize_questions ( 
-        array_reverse ( $end_array, true ), 
-        $tags_and_Qid,
-        $titles_and_Qid,
-        $titles,
-        $was_sent_at_times,
-        $usernames );
-}
-else if ( $_GET['tab'] == 'oldest' )
+if ( $_GET['tab'] == 'oldest' )
 {
     organize_questions ( 
         $end_array, 
@@ -88,7 +79,8 @@ else if ( $_GET['tab'] == 'oldest' )
         $titles_and_Qid,
         $titles,
         $was_sent_at_times,
-        $usernames );
+        $usernames,
+        $user_ids );
 }
 else
 {
@@ -98,6 +90,7 @@ else
         $titles_and_Qid,
         $titles,
         $was_sent_at_times,
-        $usernames );
+        $usernames,
+        $user_ids );
 }
 ?>

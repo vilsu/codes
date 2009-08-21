@@ -5,7 +5,7 @@ $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123"
 // to get titles and question_ids
 // When tag is given by the user
 $result_titles = pg_prepare( $dbconn, "tag_search",
-    "SELECT q.question_id, q.title, q.was_sent_at_time, u.username
+    "SELECT q.question_id, q.title, q.was_sent_at_time, u.username, u.user_id
         FROM questions q
             INNER JOIN tags t 
             ON q.question_id=t.question_id
@@ -35,34 +35,6 @@ $result_tags = pg_execute( $dbconn, "tags_query_search",
     array( $_GET['tag'] )
 );
 
-if ( pg_num_rows( $result_titles ) == 0 ) {
-    header ( "Location: /codes/index.php?"
-        . "no_question_found"
-    );
-} else {
-    echo ("<div class='top_header'>");
-        subheader( "Recent Questions", false);
-    if ( $_GET['tab'] == 'newest'
-    OR $_GET['tab'] == 'oldest' ) {
-        // to make mainheader without a link
-        create_tab_box_question_tags(
-            $result_titles, 
-            $result_tags
-        );
-    }
-
-    if ( !($_GET['tab'] == 'newest')
-        OR !($_GET['tab'] == 'oldest') ) {
-            // to make mainheader without a link
-            create_tab_box_question_tags(
-                $result_titles, 
-                $result_tags
-            );
-    echo ("</div>");
-    }
-}
-
-
 // First compile the Data
 
 // Compile the data
@@ -71,13 +43,6 @@ while( $tags_and_Qid = pg_fetch_array( $result_tags )) {
     // Add the Tag to an array of tags for that question
     $end_array [ $tags_and_Qid['question_id'] ] ['tag'] [] = $tags_and_Qid['tag'];
 }
-// to check if 0 messages
-if ( count ( $end_array ) == 0 ) {
-    header( "Location: index.php?"
-        . "no_question_found"
-    );
-}
-
 
 // Titles
 while( $titles_and_Qid = pg_fetch_array( $result_titles ) ) {
@@ -85,19 +50,34 @@ while( $titles_and_Qid = pg_fetch_array( $result_titles ) ) {
 
     $was_sent_at_times [ $titles_and_Qid['question_id'] ] ['was_sent_at_time'] = $titles_and_Qid['was_sent_at_time'] ;
     $usernames [ $titles_and_Qid['question_id'] ] ['username'] = $titles_and_Qid['username'] ;
+    $user_ids [ $titles_and_Qid['question_id'] ] ['user_id'] = $titles_and_Qid['user_id'] ;
 }
 
-if ( $_GET['tab'] == 'newest' )
-{
-    organize_questions ( 
-        array_reverse ( $end_array, true ), 
-        $tags_and_Qid,
-        $titles_and_Qid,
-        $titles,
-        $was_sent_at_times,
-        $usernames );
+
+
+// to check if 0 messages
+if ( count ( $end_array ) == 0 ) {
+    mainheader( "Questions tagged by " . $_GET['tag'], false );
+    subheader( count ( $end_array ) . " Questions", false);
+} 
+else if ( count ( $end_array ) == 1 ) {
+    mainheader( "Questions tagged by " . $_GET['tag'], false );
+    subheader( count ( $end_array ) . " Question", false);
 }
-else if ( $_GET['tab'] == 'oldest' )
+else
+{
+    mainheader( "Questions tagged by " . $_GET['tag'], false );
+    create_tab_box_question_tags ( $_GET['tag'] );
+    subheader( count ( $end_array ) . " Questions", false);
+}
+
+
+
+
+
+
+
+if ( $_GET['tab_tag'] == 'newest' )
 {
     organize_questions ( 
         $end_array, 
@@ -105,7 +85,8 @@ else if ( $_GET['tab'] == 'oldest' )
         $titles_and_Qid,
         $titles,
         $was_sent_at_times,
-        $usernames );
+        $usernames,
+        $user_ids );
 }
 else
 {
@@ -115,6 +96,11 @@ else
         $titles_and_Qid,
         $titles,
         $was_sent_at_times,
-        $usernames );
+        $usernames,
+        $user_ids );
 }
+
+
+
+
 ?>

@@ -3,9 +3,12 @@
 
 $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
-if ( !($_GET['sort'] == oldest ) ) {
+
+// we need user_id because we want to allow users to have spaces in their 
+// names
+if ( !($_GET['sort'] == 'oldest' ) ) {
     $result_answers = pg_prepare( $dbconn, "fetch_answers",
-        "SELECT a.answer, u.username, a.was_sent_at_time
+        "SELECT a.answer, u.username, a.was_sent_at_time, u.user_id
         FROM answers a
         LEFT JOIN users u ON a.user_id = u.user_id
         WHERE question_id = $1
@@ -15,7 +18,7 @@ if ( !($_GET['sort'] == oldest ) ) {
 else
 {
     $result_answers = pg_prepare( $dbconn, "fetch_answers",
-        "SELECT a.answer, u.username, a.was_sent_at_time
+        "SELECT a.answer, u.username, a.was_sent_at_time, u.user_id
         FROM answers a
         LEFT JOIN users u ON a.user_id = u.user_id
         WHERE question_id = $1
@@ -30,6 +33,7 @@ else
 // to get answers when we can use GET/*{{{*/
 if ($_GET['question_id'] > 0 ) {
     $result_answers= pg_execute( $dbconn, "fetch_answers", array( $_GET['question_id'] ) );
+    $question_id = $_GET['question_id'];
 }
 // to get answers by HTTP_REFERER
 if (empty( $_GET['question_id'] ) ) {
@@ -39,7 +43,7 @@ if (empty( $_GET['question_id'] ) ) {
     parse_str($query, $params);
     $question_id = explode( "=", $query );
    // $result_answers= pg_execute( $dbconn, "fetch_answers", array( $question_id[1] ) );
-    $result_answers = pg_execute( $dbconn, "fetch_answers", array( 17 ) );
+    $result_answers = pg_execute( $dbconn, "fetch_answers", array( $question_id ) );
 }
 /*}}}*/
 
@@ -60,8 +64,7 @@ if (empty( $_GET['question_id'] ) ) {
             $was_sent_at_time_array = explode( " ", $was_sent_at_time_unformatted, 4 );
             $was_sent_at_time = $was_sent_at_time_array[0];
 
-            //echo $username;
-        // echo $was_sent_at_time;
+            $user_id = $answer_row['user_id'];
 
             echo ("<div id='one_answer'>");
             create_user_info_box_question( $user_id, $username, $was_sent_at_time, "answered" );
@@ -75,8 +78,14 @@ if (empty( $_GET['question_id'] ) ) {
         /*}}}*/
     }
     if ( $number_of_answers > 1 ) {
-        subheader( $number_of_answers 
-        .  " Answers" );
+        echo ("<div id='subheader'>"
+                . "<h2>"
+                    . $number_of_answers . " Answers"
+                . "</h2>" );
+            echo ("<div id='organize_buttons'>");
+                create_tab_box_thread( $question_id );
+            echo ("</div>");
+        echo ( "</div>" );
 
         $answers_real = pg_fetch_all( $result_answers );/*{{{*/
 
@@ -87,6 +96,8 @@ if (empty( $_GET['question_id'] ) ) {
             $was_sent_at_time_unformatted = $answer_row['was_sent_at_time'];
             $was_sent_at_time_array = explode( " ", $was_sent_at_time_unformatted, 4 );
             $was_sent_at_time = $was_sent_at_time_array[0];
+
+            $user_id = $answer_row['user_id'];
 
             echo ("<div id='one_answer'>");
             create_user_info_box_question( $user_id, $username, $was_sent_at_time, "answered" );

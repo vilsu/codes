@@ -7,7 +7,7 @@ $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123"
 
 // to get title and body of the question
 $result = pg_prepare( $dbconn, "fetch_question", 
-    "SELECT q.title, q.body, u.username, q.was_sent_at_time
+    "SELECT q.title, q.body, u.username, q.was_sent_at_time, u.user_id
     FROM questions q
     LEFT JOIN users u ON q.user_id = u.user_id
     WHERE question_id = $1;"
@@ -32,10 +32,11 @@ while ( $question = pg_fetch_array( $questions ) ) {
     echo ("<div id='top_header_main'>");
         // To print the header of the question
         create_question_title( $question['title'], $question_id );
-        create_tab_box_thread( $question_id );
     echo ("</div>");        // to end question_title block
 
     $username = $question['username'];
+
+    $user_id = $question['user_id'];
 
     // print the body of the question
     echo ("<div class='question_body'>"

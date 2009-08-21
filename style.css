@@ -402,13 +402,6 @@ div.top_header {
     width: 730px;
 }
 
-div.unsuccessful,
-div.unsuccessful p,
-div.unsuccessful,
-div.unsuccessful p {
-    visibility: collapse;
-}
-
 div.answers {
     width: 730px;
 }
@@ -468,7 +461,6 @@ div.clear {
     clear: both;
 }
 
-div#tabs {
-    position: relative;
-    bottom: 38px;
+div#organize_buttons {
+    font-size: 67%;
 }

@@ -8,7 +8,7 @@ function create_question(
     $tags,
     $question_id,
     //user infos
-    $user_id,                  // not put in
+    $user_id,
     $username,
     $was_sent_at_time,
     // question or answer
@@ -19,7 +19,7 @@ function create_question(
         create_title($title, $question_id);
         create_tags($tags);
         create_user_info_box_question( 
-            $user_id,       // not put in
+            $user_id,
             $username, 
             $was_sent_at_time, 
             $describtion 
@@ -65,23 +65,27 @@ function organize_questions (
     $titles_and_Qid,
     $titles,
     $was_sent_at_times,
-    $usernames )
+    $usernames,
+    $user_ids )
 {
     foreach( $end_array as $tags_and_Qid['question_id'] => $titles_and_Qid['title'] )
         {
             // $title should be the actual string, not an array
             // $tags should be single, non-multidimensional array containing tag names
 
-            // Grab the title for the first array
+            // Grab the title 
             $title = $titles [ $tags_and_Qid['question_id'] ] ['title'];
 
-            // Grab the tags for the question from the second array
+            // Grab the tags for the question 
             $tags = $end_array [ $tags_and_Qid['question_id'] ] ['tag'];
 
-            // Grab the username for the question from the second array
+            // Grab the username for the question 
             $username = $usernames [ $tags_and_Qid['question_id'] ] ['username'];
 
-            // Grab the was_sent_at_time for the question from the second array
+            // Grab the user_id for the question 
+            $user_id = $user_ids [ $tags_and_Qid['question_id'] ] ['user_id'];
+
+            // Grab the was_sent_at_time for the question
             $was_sent_at_time_unformatted = $was_sent_at_times [ $tags_and_Qid['question_id'] ] ['was_sent_at_time'];
             $was_sent_at_time_array = explode( " ", $was_sent_at_time_unformatted, 4 );
             $was_sent_at_time = $was_sent_at_time_array[0];
@@ -93,7 +97,7 @@ function organize_questions (
                 $title, 
                 $tags, 
                 $question_id, 
-                $user_id,            // not put in
+                $user_id,            // to have spaces in user-names
                 $username, 
                 $was_sent_at_time, 
                 "asked"

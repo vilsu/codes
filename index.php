@@ -90,6 +90,20 @@ include( './PATHs.php' );
                 require ( './handlers/searches/handle_questions_by_time.php' );
             }
 
+            // tag search
+            if( $_GET['tab_tag'] == 'newest'
+                OR $_GET['tab_tag'] == 'oldest' ) {
+                require ( './handlers/searches/handle_questions_by_tag.php' );
+            }
+
+            // username search
+            if( $_GET['tab_username'] == 'newest'
+                OR $_GET['tab_username'] == 'oldest' ) {
+                require ( './handlers/searches/handle_questions_by_username.php' );
+            }
+
+
+
 
 
             // Content with headers/*{{{*/
