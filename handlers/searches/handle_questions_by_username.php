@@ -21,7 +21,6 @@ if ( empty ( $_GET['user_id'] ) ) {/*{{{*/
     $result_titles = pg_execute( $dbconn, "username_search", 
         array( strip_tags( $_GET['username'] ) )
     );
-    //TODO with strip_tags
 
     // TAGS
     $result_tags = pg_prepare( $dbconn, "username_query_search", 

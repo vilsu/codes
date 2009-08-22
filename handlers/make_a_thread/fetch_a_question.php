@@ -40,18 +40,22 @@ while ( $question = pg_fetch_array( $questions ) ) {
 
     // print the body of the question
     echo ("<div class='question_body'>"
-        .$question['body']
+        . "<div id='question_content'>"
+            . $question['body']
+        . "</div>"
     );
     // Grab the was_sent_at_time for the question from the second array
     $was_sent_at_time_unformatted = $question['was_sent_at_time'];
     $was_sent_at_time_array = explode( " ", $was_sent_at_time_unformatted, 4 );
     $was_sent_at_time = $was_sent_at_time_array[0];
 
+    echo ("<div class='user_info_bottom_box'>");
     // print the user box for the question
     create_user_info_box_question( $user_id, $username, $was_sent_at_time, "asked" );
-
     create_moderator_box_for_a_question ( $question_id );
+    echo ("</div>");
 
+    // to end the body of the question
     echo ("</div>");
 }
 

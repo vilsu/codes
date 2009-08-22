@@ -27,8 +27,9 @@ $query = preg_match($pattern, $subject, $match) ? $match[1] : '';  // extract qu
 parse_str( $query, $params );
 $question_id = explode( "=", $query );
 
+$answer_sanitized = pg_escape_string( $_POST['answer'] );
 $result = pg_execute( $dbconn, "query2", 
-    array( $_POST['answer'], 
+    array( $answer_sanitized, 
     $question_id[0],
     $_SESSION['login']['user_id']
      ) );

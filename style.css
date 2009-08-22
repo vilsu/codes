@@ -472,8 +472,8 @@ div#organize_buttons {
 
 
 .post_menu {
-    clear: both;
-    padding-top: 30px;
+    padding-top: 20px;
+    margin-bottom: 40px;
 }
 
 .post_menu span {
@@ -498,3 +498,22 @@ a {
     cursor:pointer;
 }
 
+div#question_content {
+    display: block;
+    clear: both;
+    font-size:107%;
+    line-height:130%;
+    margin-bottom:5px;
+    margin-right:5px;
+    width:660px;
+}
+
+div#user_info_bottom_box {
+    display: block;
+    clear: both;
+    font-size:107%;
+    line-height:130%;
+    margin-bottom:5px;
+    margin-right:5px;
+    width:660px;
+}

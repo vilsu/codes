@@ -5,14 +5,18 @@
 // to create the title of the question
 function create_question_title( $title, $question_id )
 {
+
+// to read sanitized data
+$title_clear = htmlentities ( $title, ENT_QUOTES );
+
     echo ("<div id='mainheader'>"
         . "<h2>"
         . "<a href='index.php?"
             . "question_id="
             . $question_id
             . "&"  
-            . $title . "'>" 
-                . $title
+            . $title_clear . "'>" 
+                . $title_clear
         . "</a>"
         . "</h2>"
         . "</div>"
@@ -21,8 +25,11 @@ function create_question_title( $title, $question_id )
 
 // this may be buggy
 function create_answer ( $answer ) {
+
+// to read sanitized data
+$answer_clear = htmlspecialchars ( $answer, ENT_QUOTES );
     echo ("<div class='one_answer'>"
-            . $answer
+            . $answer_clear
         . "</div>"
     );
 }

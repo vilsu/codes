@@ -9,18 +9,22 @@ if(!$dbconn) {
 session_save_path("/tmp/");
 session_start();
 
-if ( $_SESSION['login']['logged_in'] == true ) {
+// test data with type-safe identity comparator
+if ( $_SESSION['login']['logged_in'] === true ) {
     $result = pg_prepare($dbconn, "moderator_check_query", 
         "SELECT a_moderator 
         FROM users
         WHERE email = $1;
     ");
-    $a_moderator = pg_execute($dbconn, "moderator_check_query", array($_SESSION['login']['email']));
+    //$a_moderator = pg_execute($dbconn, "moderator_check_query", array($_SESSION['login']['email']));
+    $a_moderator = pg_execute($dbconn, "moderator_check_query", array( $_SESSION['login']['email'] ) );
 
-    while ( $row = pg_fetch_array ( $a_moderator ) ) {
+    $rows = pg_fetch_all ( $a_moderator );
+    // to compile the data
+    foreach ( $rows as $row ) {
         $_SESSION['login']['a_moderator'] = $row['a_moderator'];
 
-        // TODO this is buggy
+        echo ( $row['a_moderator'] );
     }
 }
 

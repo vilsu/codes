@@ -16,8 +16,8 @@ function create_question(
 )
 {
     echo ("<div class='question_summary'>");
-        create_title($title, $question_id);
-        create_tags($tags);
+        create_title( $title, $question_id );
+        create_tags( $tags );
         create_user_info_box_question( 
             $user_id,
             $username, 

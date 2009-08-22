@@ -27,8 +27,9 @@ if( $_SESSION['login']['logged_in'] == false ) {
     die("You are not logged_in");
 }
 
-$body = $_POST['question']['body'];
-$title = $_POST['question']['title'];
+// to sanitize data
+$body = pg_escape_string ( $_POST['question']['body'] );
+$title = pg_escape_string ( $_POST['question']['title'] );
 
 $email = $_SESSION['login']['email'];
 $passhash_md5 = $_SESSION['login']['passhash_md5'];
@@ -81,7 +82,8 @@ while ($row = pg_fetch_row($result)) {
 }
 
 // TAGS
-$tags = $_POST['question']['tags'];
+// to sanitize data
+$tags = pg_escape_string ( $_POST['question']['tags'] );
 // to strip whitespaces at the end and beginning
 $tags_trimmed = preg_replace('/\s+/', '', $tags);
 // to make an array of the tags
