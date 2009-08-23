@@ -28,15 +28,13 @@ else
 
 
 
-// to get answers when we can use GET/*{{{*/
+// to get answers when we can use GET
 if ($_GET['question_id'] > 0 ) {
     $result_answers= pg_execute( $dbconn, "fetch_answers", array( $_GET['question_id'] ) );
     $question_id = $_GET['question_id'];
 }
 // to get answers by HTTP_REFERER
-else if ( !($_GET['question_id'] > 0 ) )
-{
-    (empty( $_GET['question_id'] ) ) {
+else if (empty( $_GET['question_id'] ) ) {
         $pattern = '/\?([^#]*)/';
         $subject = $_SERVER['HTTP_REFERER'];
         $query = preg_match($pattern, $subject, $match) ? $match[1] : '';  // extract query from URL
@@ -45,7 +43,7 @@ else if ( !($_GET['question_id'] > 0 ) )
         // $result_answers= pg_execute( $dbconn, "fetch_answers", array( $question_id[1] ) );
         $result_answers = pg_execute( $dbconn, "fetch_answers", array( $question_id ) );
     }
-    /*}}}*/
+
 
     // to print subheader for Answers/*{{{*/
     $number_of_answers = pg_num_rows ( $result_answers );
@@ -119,6 +117,5 @@ else if ( !($_GET['question_id'] > 0 ) )
         subheader( "Be the first answerer" );
     }
     /*}}}*/
-
 
 ?>

@@ -33,6 +33,8 @@ function amount_of_emails ( $email ) {
 }
 
 
+// TODO this is buggy
+// http://fi2.php.net/manual/en/function.empty.php
 if ( empty ( $username ) ) {
     header ("Location: /codes/index.php?"
         . "no_username"
