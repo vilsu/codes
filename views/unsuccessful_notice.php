@@ -62,7 +62,7 @@ if ( array_key_exists ( 'unsuccessful_question_removal', $_GET ) ) {
 
 // duplicate email addresses
 if ( array_key_exists ( 'unsuccessful_registration', $_GET ) ) {
-    echo ( "Unsuccessful registration." );
+    echo $_GET['message']; 
 }
 
 ?>

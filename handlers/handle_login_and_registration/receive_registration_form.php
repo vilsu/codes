@@ -1,99 +1,91 @@
 <?php
 
-$dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
-
 session_save_path("/tmp/");
 session_start();
 
 // Tata lomaketta ei laiteta includa kaikkiin fileihin
 // se suoritetaan vain, kun kayttaa *lomake_registration.php*
 
-// DATA COLLECTION
-
-// Independent variables
-$username = $_POST['login']['username'];
-$passhash_md5 = md5($_POST['login']['password']);
-$email = $_POST['login']['email'];
-
-
-function amount_of_emails ( $email ) {
+function validate_email ( $email ) 
+{
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
-    // we do not allow one email address have many accounts
     $result = pg_query_params($dbconn,
-        'SELECT count(email) 
+        "SELECT count(email) 
         FROM users
-        WHERE email = $1', 
-        array($email)
+        WHERE email = $1", 
+        array( $email )
     );
-    // luetaan data
-    while ($row = pg_fetch_row($result)) {
+    while ( $row = pg_fetch_row ( $result ) ) {
         $number_of_emails = $row[0];
     }
-    return $number_of_emails;
+
+    if ( $number_of_emails > 0 )
+        return "2email";
+    else if ( !filter_var ( $email, FILTER_VALIDATE_EMAIL ) ) 
+        return "registration_wrong_email";
+    else 
+        return 1; 
 }
 
+function validate_password ( $password )
+{
+    if ( mb_strlen ( $password ) < 6)
+        return "too_short_password";
+    else
+        return 1;
+}
 
-// TODO this is buggy
-// http://fi2.php.net/manual/en/function.empty.php
-if ( empty ( $username ) ) {
-    header ("Location: /codes/index.php?"
-        . "no_username"
-        . "&unsuccessful_registration" );
+function validate_username ( $username )
+{
+    if ( !ctype_alnum ( $username ) ) 
+        return "wrong_username";
+    else 
+        return 1;
 }
-else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    // back to registration
-    header ("Location: /codes/index.php?"
-        . "login"
-        . "&"
-        . "registration_wrong_email"
-    );
+
+function validate ( $email, $password, $username )
+{
+    if (  (validate_email ( $email ) == 1)
+        && (validate_password ( $password ) == 1)
+        && (validate_username ( $username ) == 1 ) )
+            return 1;
+    else 
+        return validate_email ( $email )
+        . validate_password ( $password )
+        . validate_username ( $username ); 
 }
-else if ( mb_strlen ( $_POST['login']['password'] ) < 6) {
-    // back to registration
-    header ("Location: /codes/index.php?"
-        . "login"
-        . "&"
-        . "too_short_password"
-    );
-}
-else if ( amount_of_emails( $email ) > 0) {
-    header("Location: /codes/index.php?"
-        . "registration"
-        . "&"
-        . "2email"
-    );
-} else if ( amount_of_emails( $email ) == 0) {
+
+function add_new_user ( $username, $email, $passhash_md5 )
+{
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     // Save to db
     $result = pg_query_params($dbconn, 
-        'INSERT INTO users 
+        "INSERT INTO users 
         (username, email, passhash_md5)
-        VALUES ($1, $2, $3)',
+        VALUES ($1, $2, $3)",
             array($username, $email, $passhash_md5)
         );
-    if(!$result) {
-        echo "An error occurred - Hhhhhhhhhhh!\n";
-        exit;
-    } 
-    else if ( $result ) {
-        // grap the user_id
-        $result = pg_query_params( $dbconn,
-            "SELECT user_id
-            FROM users
-            WHERE email = $1",
-            array( $email )  
-        );
-        // to compile the data
-        while ( $row = pg_fetch_array( $result ) ) {
-            $user_id = (int) $row['user_id'];
-        }
+}
 
-        $_SESSION['login']['passhash_md5'] = $passhash_md5;
-        $_SESSION['login']['email'] = $email;
-        $_SESSION['login']['logged_in'] = 1;
-        $_SESSION['login']['user_id'] = $user_id;
-        $_SESSION['login']['username'] = $username;
+function get_user_id ( $email ) 
+{
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+    // grap the user_id
+    $result = pg_query_params( $dbconn,
+        "SELECT user_id
+        FROM users
+        WHERE email = $1",
+        array( $email )  
+    );
+    while ( $row = pg_fetch_array( $result ) ) {
+        $user_id = (int) $row['user_id'];
+    }
+    return $user_id;
+}
 
-
+function direct_right ()
+{
+    if ( array_key_exists ( 'question_id', $_GET ) ) {
         // To redirect the user back to the question where he logged in
         $pattern = '/\?([^#&]*)/';
         $subject = $_SERVER['HTTP_REFERER'];
@@ -101,8 +93,7 @@ else if ( amount_of_emails( $email ) > 0) {
         $query = preg_match($pattern, $subject, $match) ? $match[1] : '';  
         parse_str($query, $params);
         $question_id = explode ( '=', $query );
-    }
-    else if ( array_key_exists ( 'question_id', $_GET ) ) {
+
         header ( "Location: /codes/index.php?question_id=" 
             . $question_id 
             . "&successful_login" );
@@ -114,26 +105,37 @@ else if ( amount_of_emails( $email ) > 0) {
         );
     }
     else 
-    {
         header ("Location: /codes/index.php");
-    }
-} 
-else if ( array_key_exists ( 'question_id', $_GET ) ) {
-    header("Location: /codes/index.php?"
-        . "unsuccessful_login"
-        . "&"
-        . "question_id="
-        . $question_id
-    );
 }
-else 
-{
-    // palataan paasivulle
+
+function direct_wrong ( $message ) { 
     header ( "Location: /codes/index.php?"
-        . "unsuccessful_registration"
+        . unsuccessful_registration
+        . "&message="
+        . $message
     );
 }
 
-// NO session_write_close HERE!
-//pg_close($dbconn);
+// Let's rock!
+$username = $_POST['login']['username'];
+$passhash_md5 = md5($_POST['login']['password']);
+$password = $_POST['login']['password'];
+$email = $_POST['login']['email'];
+
+if ( validate( $username, $password, $email ) == 1 ) {
+        add_new_user ( $username, $email, $passhash_md5 ); 
+        // save data to sessions
+        $_SESSION['login']['passhash_md5'] = $passhash_md5;
+        $_SESSION['login']['email'] = $email;
+        $_SESSION['login']['logged_in'] = 1;
+        $_SESSION['login']['user_id'] = get_user_id ( $email );
+        $_SESSION['login']['username'] = $username;
+
+        direct_right();
+}
+else
+{
+    direct_wrong( validate( $username, $password, $email ) );
+}
+
 ?>
