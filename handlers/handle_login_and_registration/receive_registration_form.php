@@ -3,8 +3,7 @@
 session_save_path("/tmp/");
 session_start();
 
-// Tata lomaketta ei laiteta includa kaikkiin fileihin
-// se suoritetaan vain, kun kayttaa *lomake_registration.php*
+// for *lomake_registration.php*
 
 function validate_email ( $email ) 
 {
@@ -21,7 +20,7 @@ function validate_email ( $email )
 
     if ( $number_of_emails > 0 )
         return "2email";
-    else if ( !filter_var ( $email, FILTER_VALIDATE_EMAIL ) ) 
+    else if ( !(filter_var ( $email, FILTER_VALIDATE_EMAIL ) ) ) 
         return "registration_wrong_email";
     else 
         return 1; 
@@ -37,7 +36,7 @@ function validate_password ( $password )
 
 function validate_username ( $username )
 {
-    if ( !ctype_alnum ( $username ) ) 
+    if ( !( ctype_alnum ( $username ) ) ) 
         return "wrong_username";
     else 
         return 1;
@@ -45,14 +44,17 @@ function validate_username ( $username )
 
 function validate ( $email, $password, $username )
 {
-    if (  (validate_email ( $email ) == 1)
-        && (validate_password ( $password ) == 1)
-        && (validate_username ( $username ) == 1 ) )
-            return 1;
+    if (  (validate_email ( $email ) )
+        AND (validate_password ( $password ) )
+        AND (validate_username ( $username ) ) )
+        return 1;
     else 
-        return validate_email ( $email )
-        . validate_password ( $password )
-        . validate_username ( $username ); 
+    {
+        $email_status = validate_email ( $email );
+        $password_status = validate_password ( $password );
+        $username_status = validate_username ( $username );
+        return $email_status . $password_status . $username_status;
+    }
 }
 
 function add_new_user ( $username, $email, $passhash_md5 )
@@ -118,24 +120,24 @@ function direct_wrong ( $message ) {
 
 // Let's rock!
 $username = $_POST['login']['username'];
-$passhash_md5 = md5($_POST['login']['password']);
+$passhash_md5 = md5 ( $_POST['login']['password'] );
 $password = $_POST['login']['password'];
 $email = $_POST['login']['email'];
 
-if ( validate( $username, $password, $email ) == 1 ) {
-        add_new_user ( $username, $email, $passhash_md5 ); 
-        // save data to sessions
-        $_SESSION['login']['passhash_md5'] = $passhash_md5;
-        $_SESSION['login']['email'] = $email;
-        $_SESSION['login']['logged_in'] = 1;
-        $_SESSION['login']['user_id'] = get_user_id ( $email );
-        $_SESSION['login']['username'] = $username;
+if ( validate( $username, $email, $password ) ) {
+    add_new_user ( $username, $email, $passhash_md5 ); 
 
-        direct_right();
+    $_SESSION['login']['passhash_md5'] = $passhash_md5;
+    $_SESSION['login']['email'] = $email;
+    $_SESSION['login']['logged_in'] = 1;
+    $_SESSION['login']['user_id'] = get_user_id ( $email );
+    $_SESSION['login']['username'] = $username;
+
+    direct_right();
 }
 else
 {
-    direct_wrong( validate( $username, $password, $email ) );
+    direct_wrong( validate( $username, $email, $password ) );
 }
 
 ?>

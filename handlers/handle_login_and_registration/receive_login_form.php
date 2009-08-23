@@ -24,8 +24,8 @@ function validate_email ( $email )
 
 function validate ( $email, $password )
 {
-    if (  (validate_email ( $email ) == 1)
-        && (validate_password ( $password ) == 1) )
+    if (  (validate_email ( $email ) )
+        && (validate_password ( $password ) ) )
         return 1;
     else 
         return validate_email ( $email )

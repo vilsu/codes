@@ -123,7 +123,7 @@ else if ( $_SESSION['login']['logged_in'] == 1 ) {
         }
 
     }
-
+}
 
 //pg_close($dbconn);
 ?>
