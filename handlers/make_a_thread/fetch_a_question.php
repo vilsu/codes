@@ -26,6 +26,15 @@ if (empty( $_GET['question_id'] ) ) {
     $questions = pg_execute( $dbconn, "fetch_question", array( $question_id[1] ) );
 }
 
+// to get the tags of the question
+$result_tags = pg_query_params ( $dbconn,
+    "SELECT tag
+    FROM tags
+    WHERE question_id = $1",
+    array( $question_id ) 
+);
+
+$tags_array = pg_fetch_all ( $result_tags );
 
 // To compile title and body of the question
 while ( $question = pg_fetch_array( $questions ) ) {
@@ -38,21 +47,29 @@ while ( $question = pg_fetch_array( $questions ) ) {
 
     $user_id = $question['user_id'];
 
-    // print the body of the question
-    echo ("<div class='question_body'>"
-        . "<div id='question_content'>"
-            . $question['body']
+    echo ("<div class='question_box'>"
+            . "<div class='question_body'>"
+                . "<div id='question_content'>"
+                    . $question['body']
+                . "</div>"
         . "</div>"
     );
+
     // Grab the was_sent_at_time for the question from the second array
     $was_sent_at_time_unformatted = $question['was_sent_at_time'];
     $was_sent_at_time_array = explode( " ", $was_sent_at_time_unformatted, 4 );
     $was_sent_at_time = $was_sent_at_time_array[0];
 
+    echo ("<div id='tag_list'>");
+        for ( $i = 0; $i < count( $tags_array ); $i++ ) {
+                create_tags ( $tags_array[$i] );
+            }
+    echo ("</div>");
+
     echo ("<div class='user_info_bottom_box'>");
     // print the user box for the question
+    create_moderator_box_for_a_question ( $question_id, $user_id );
     create_user_info_box_question( $user_id, $username, $was_sent_at_time, "asked" );
-    create_moderator_box_for_a_question ( $question_id );
     echo ("</div>");
 
     // to end the body of the question

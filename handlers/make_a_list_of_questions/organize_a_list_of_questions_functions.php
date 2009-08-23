@@ -4,39 +4,68 @@
 
 // list of questions at the homepage
 function create_tab_box_question( ) {
-        echo ( "<div id='tabs'>"
-                    . "<a href='?tab=newest'>newest</a>"
-                    . "<a href='?tab=oldest'>oldest</a>"
-                . "</div>"
-            );
+        echo ( "<div id='tabs'>");
+        if ( $_GET['tab'] == 'newest'
+        OR !( $_GET['tab'] == 'oldest' ) ) {
+               echo ("<span id='active_button'>"
+                        . "<a name='newest' href='?tab=newest#newest'>newest</a>"
+                    . "</span>"
+                    . "<a name='oldest' href='?tab=oldest#oldest'>oldest</a>"
+                );
+        }
+            if ( $_GET['tab'] == 'oldest' ) {
+                echo ("<a name='newest' href='?tab=newest#newest'>newest</a>"
+                    . "<span id='active_button'>"
+                        . "<a name='oldest' href='?tab=oldest'#oldest>oldest</a>"
+                    . "</span>"
+                );
+            }
+        echo ("</div>");
 }
 
 // list of questions by the given tag or username
 function create_tab_box_question_tags( $tag ) {
-        echo ( "<div id='tabs'>"
-            . "<a href='?tab_tag=newest"
-            . "&tag="
-            . $tag
-            . "'>newest</a>"
-            . "<a href='?tab_tag=oldest"
-                . "&tag="
-                . $tag
-            . "'>oldest</a>"
-            . "</div>"
-        );
-} 
+        echo ( "<div id='tabs'>");
+        if ( $_GET['tab_tag'] == 'newest' ) {
+            echo ("<span id='active_button'>"
+                    . "<a name='newest' href='?tab_tag=newest#newest"
+                    . "&tag="
+                    . $tag
+                    . "'>newest</a>"
+                . "</span>"
+                . "<a name='oldest' href='?tab_tag=oldest#oldest"
+                    . "&tag="
+                    . $tag
+                    . "'>oldest</a>"
+            );
+        }
+        if ( $_GET['tab_tag'] == 'oldest' ) {
+                echo ("<a name='newest' href='?tab_tag=newest#newest"
+                            . "&tag="
+                            . $tag
+                            . "'>newest</a>"
+                    . "<span id='active_button'>"
+                            . "<a name='oldest' href='?tab_tag=oldest#oldest"
+                            . "&tag="
+                            . $tag
+                        . "'>oldest</a>"
+                    . "</span>"
+                );
+        } 
+        echo ("</div>");
+}
 
 // list of questions by the given tag or username
 function create_tab_box_question_usernames ( $username ) {
         echo ( "<div id='tabs'>"
-            . "<a href='?tab_user=newest"
+            . "<a name='newest' href='?tab_user=newest"
             . "&username="
             . $username
-            . "'>newest</a>"
-            . "<a href='?tab_user=oldest"
+            . "#newest'>newest</a>"
+            . "<a name='oldest' href='?tab_user=oldest"
                 . "&username="
                 . $username
-            . "'>oldest</a>"
+            . "#oldest'>oldest</a>"
             . "</div>"
         );
 } 

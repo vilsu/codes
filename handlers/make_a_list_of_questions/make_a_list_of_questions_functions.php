@@ -15,18 +15,121 @@ function create_question(
     $describtion
 )
 {
-    echo ("<div class='question_summary'>");
-        create_title( $title, $question_id );
-        create_tags( $tags );
-        create_user_info_box_question( 
-            $user_id,
-            $username, 
-            $was_sent_at_time, 
-            $describtion 
-        );
-    echo ("</div>");
-}
+    // to get the status of the question/*{{{*/
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+    $result = pg_query_params ( $dbconn,    
+        "SELECT flagged_for_moderator_removal 
+        FROM questions 
+        WHERE question_id = $1",
+        array ( $question_id ) 
+    );
 
+    while ( $row = pg_fetch_array ( $result ) ) {
+        $flag_status = $row['flagged_for_moderator_removal'];
+    }
+/*}}}*/
+
+    // to get the number of answers for the question
+    $result = pg_query_params ( $dbconn,
+        "SELECT count(answer)
+        FROM answers
+        WHERE question_id = $1",
+        array ( $question_id ) );
+
+    while ( $row = pg_fetch_array ( $result ) ) {
+        $number_of_answers[$question_id]['count'] = $row['count'];
+    }
+
+
+    // to have opacity for flagged questions
+    if ( $flag_status == 1 ) {
+        echo ("<div class='question_summary' id='flagged_list'>");
+
+
+            echo ( "<a id='no_underline' href='?question_id=" . $question_id . "'>");
+                if ( $number_of_answers[$question_id]['count'] == 1 ) {
+                    echo ( "<div id='answered'>"
+                            . "<div id='answer_count'>" 
+                                .  $number_of_answers[$question_id]['count']
+                            . "</div>"
+                            . "<div> answer</div>"
+                        . "</div>" 
+                    );
+                }
+                else if ( $number_of_answers[$question_id]['count'] > 1 ) {
+                    echo ( "<div id='answered'>"
+                            . "<div id='answer_count'>"
+                                . $number_of_answers[$question_id]['count']
+                            . "</div>"
+                            . "<div> answers</div>"
+                        . "</div>" 
+                    );
+                }
+                if ( $number_of_answers[$question_id]['count'] == 0 ) {
+                    echo ( "<div id='unanswered'>"
+                            . "<div id='answer_count'>"
+                                .  $number_of_answers[$question_id]['count']
+                            . "</div>"
+                            . "<div> answers</div>"
+                        . "</div>" 
+                    );
+                }
+            echo ("</a>");
+
+                create_title( $title, $question_id );
+                create_tags( $tags );
+                create_user_info_box_question( 
+                    $user_id,
+                    $username, 
+                    $was_sent_at_time, 
+                    $describtion 
+                );
+        echo ("</div>");
+    }
+    else 
+    {
+        echo ("<div class='question_summary'>");
+            echo ( "<a id='no_underline' href='?question_id=" . $question_id . "'>");
+                if ( $number_of_answers[$question_id]['count'] == 1 ) {
+                    echo ( "<div id='answered'>"
+                            . "<div id='answer_count'>" 
+                                .  $number_of_answers[$question_id]['count']
+                            . "</div>"
+                            . "<div> answer</div>"
+                        . "</div>" 
+                    );
+                }
+                else if ( $number_of_answers[$question_id]['count'] > 1 ) {
+                    echo ( "<div id='answered'>"
+                            . "<div id='answer_count'>"
+                                . $number_of_answers[$question_id]['count']
+                            . "</div>"
+                            . "<div> answers</div>"
+                        . "</div>" 
+                    );
+                }
+                if ( $number_of_answers[$question_id]['count'] == 0 ) {
+                    echo ( "<div id='unanswered'>"
+                            . "<div id='answer_count'>"
+                                .  $number_of_answers[$question_id]['count']
+                            . "</div>"
+                            . "<div> answers</div>"
+                        . "</div>" 
+                    );
+                }
+            echo ("</a>");
+
+            create_title( $title, $question_id );
+            create_tags( $tags );
+            create_user_info_box_question( 
+                $user_id,
+                $username, 
+                $was_sent_at_time, 
+                $describtion 
+            );
+        echo ("</div>");
+    }
+}
 
 // Loop Through Each Tag and Print it
 function create_tags($tags)

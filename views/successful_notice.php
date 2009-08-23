@@ -26,6 +26,11 @@ if (array_key_exists('answer_sent', $_GET)) {
     echo ("Answer sent");
 }
 
+// Question removed successfully 
+if (array_key_exists('successful_question_removal', $_GET)) {
+    echo ("Question removed.");
+}
+
 
 
 ?>

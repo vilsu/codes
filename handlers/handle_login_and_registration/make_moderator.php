@@ -4,7 +4,7 @@
 
 $result = pg_prepare ( $dbconn, "make_moderator", 
     "UPDATE users 
-    SET a_moderator = 't' 
+    SET a_moderator = 1
     WHERE email = $1;"
 );
 

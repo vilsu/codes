@@ -8,8 +8,6 @@ var_dump($_COOKIE);
 
 echo "SESSION";
 var_dump($_SESSION);
-echo ("NB SESSION koodia");
-print_r( $_SESSION );
 
 echo "GET";
 var_dump($_GET);

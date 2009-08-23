@@ -8,7 +8,7 @@ $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123"
 // names
 if ( !($_GET['sort'] == 'oldest' ) ) {
     $result_answers = pg_prepare( $dbconn, "fetch_answers",
-        "SELECT a.answer, u.username, a.was_sent_at_time, u.user_id
+        "SELECT a.answer, u.username, a.was_sent_at_time, u.user_id, a.answer_id
         FROM answers a
         LEFT JOIN users u ON a.user_id = u.user_id
         WHERE question_id = $1
@@ -18,15 +18,13 @@ if ( !($_GET['sort'] == 'oldest' ) ) {
 else
 {
     $result_answers = pg_prepare( $dbconn, "fetch_answers",
-        "SELECT a.answer, u.username, a.was_sent_at_time, u.user_id
+        "SELECT a.answer, u.username, a.was_sent_at_time, u.user_id, a.answer_id
         FROM answers a
         LEFT JOIN users u ON a.user_id = u.user_id
         WHERE question_id = $1
         ORDER BY a.was_sent_at_time ASC"
     );
 }
-
-
 
 
 
@@ -65,6 +63,7 @@ if (empty( $_GET['question_id'] ) ) {
             $was_sent_at_time = $was_sent_at_time_array[0];
 
             $user_id = $answer_row['user_id'];
+            $answer_id = $answer_row['answer_id'];
 
             echo ("<div id='one_answer'>");
             create_user_info_box_question( $user_id, $username, $was_sent_at_time, "answered" );
@@ -72,6 +71,8 @@ if (empty( $_GET['question_id'] ) ) {
             $answer = $answer_row['answer'];
             create_answer( $answer );
             echo ("<div class='clear'> </div>");
+
+            create_moderator_box_for_an_answer ( $answer_id, $user_id );
             echo("</div>");
         }
         echo ("</div>");
@@ -82,9 +83,7 @@ if (empty( $_GET['question_id'] ) ) {
                 . "<h2>"
                     . $number_of_answers . " Answers"
                 . "</h2>" );
-            echo ("<div id='organize_buttons'>");
-                create_tab_box_thread( $question_id );
-            echo ("</div>");
+        create_tab_box_thread( $question_id );
         echo ( "</div>" );
 
         $answers_real = pg_fetch_all( $result_answers );/*{{{*/
@@ -98,13 +97,15 @@ if (empty( $_GET['question_id'] ) ) {
             $was_sent_at_time = $was_sent_at_time_array[0];
 
             $user_id = $answer_row['user_id'];
+            $answer_id = $answer_row['answer_id'];
 
             echo ("<div id='one_answer'>");
-            create_user_info_box_question( $user_id, $username, $was_sent_at_time, "answered" );
-
             $answer = $answer_row['answer'];
             create_answer( $answer );
             echo ("<div class='clear'> </div>");
+
+            create_user_info_box_question( $user_id, $username, $was_sent_at_time, "answered" );
+            create_moderator_box_for_an_answer ( $answer_id, $user_id );
             echo("</div>");
         }
         echo ("</div>");

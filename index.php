@@ -98,31 +98,12 @@ include( './PATHs.php' );
             }
 
             // username search
-            if( $_GET['tab_username'] == 'newest'
-                OR $_GET['tab_username'] == 'oldest' ) {
+            if( $_GET['tab_user'] == 'newest'
+                OR $_GET['tab_user'] == 'oldest' ) {
                 require ( './handlers/searches/handle_questions_by_username.php' );
             }
 
 
-
-
-
-            // Content with headers/*{{{*/
-            // Question selected by the user
-            if( array_key_exists('question_id', $_GET ) ) {
-                require ('./handlers/make_a_thread/fetch_a_question.php');
-                    // to sort the answers of the given question
-                require ("./handlers/make_a_thread/fetch_answers.php");
-
-                require ('./forms/lomake_answer.php');
-
-                // LOGIN at the bottom
-                if (!isset($_SESSION['login']['logged_in'])) {
-                    // change the layout by adding question form by getting data
-                    include( "./views/login.php" );
-                }
-            }
-            /*}}}*/
             // Tagged questions
             if( array_key_exists( 'tag', $_GET ) ) {
                 require ('./handlers/searches/handle_questions_by_tag.php');
@@ -157,8 +138,34 @@ include( './PATHs.php' );
                     include( "./views/login.php" );
                 }
             }
-            ?>
-        </div>
+
+
+
+            // Content with headers/*{{{*/
+            // Question selected by the user
+            if( array_key_exists('question_id', $_GET ) ) {
+                require ('./handlers/make_a_thread/fetch_a_question.php');
+                    // to sort the answers of the given question
+                require ("./handlers/make_a_thread/fetch_answers.php");
+
+                require ('./forms/lomake_answer.php');
+
+                // LOGIN at the bottom
+                if (!isset($_SESSION['login']['logged_in'])) {
+                    // change the layout by adding question form by getting data
+                    include( "./views/login.php" );
+                }
+            }
+            /*}}}*/
+        echo ("</div>");    // to end container two
+
+        if( array_key_exists('question_id', $_GET ) ) {
+            echo ("<div class='right_bar'>");
+                create_tags_summary( $question_id );
+            echo ("</div>");
+        }
+
+    ?>
     </div>
 </div>
 <!--/*}}}*/-->

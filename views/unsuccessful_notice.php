@@ -55,6 +55,11 @@ if ( array_key_exists ('no_tag', $_GET ) ) {
     echo ( "No tag supplied for the question." );
 }
 
+// Unsuccessful question removal
+if ( array_key_exists ( 'unsuccessful_question_removal', $_GET ) ) {
+    echo ( "Question was removed." );
+}
+
 ?>
 </p>
 </div>

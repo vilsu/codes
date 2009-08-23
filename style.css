@@ -244,7 +244,7 @@ div#mainheader {
     border-bottom:1px solid #555555;
     font-family:Trebuchet MS,Helvetica,sans-serif;
     margin-bottom:5px;
-    width:730px; 
+    width:960px; 
 }
 
 div#subheader {
@@ -308,6 +308,13 @@ div#mainbar input {
     padding:2px;
 }
 
+div#mainbar input.title {
+    width: 729px;
+}
+
+div#mainbar input.tags {
+    width: 600px;
+}
 
 /*
  * Contents
@@ -316,7 +323,8 @@ div#mainbar input {
 
 div.answer_body,
 div.question_body { 
-    width: 730px;
+    width: 660px;
+    margin-left: 60px;
 }
 
 div#mainbar form {
@@ -332,6 +340,13 @@ div#user_info_box {
     width:185px;
     font-size: 0.70em;
     background-color: #E0EAF1;
+    position: relative;
+    bottom: 17px;
+}
+
+div#one_answer div#user_info_box {
+    position: static;
+    margin-top: 10px;
 }
 
 div#user_info_time {
@@ -362,7 +377,6 @@ div#tabs a {
     border-style:solid;
     border-width:1px;
     color:black;
-    font-size:80%;
     height:41px;
     line-height:41px;
     margin-top:3px;
@@ -379,6 +393,12 @@ div#tabs a:active {
     color: white !important;
 }
 
+span#active_button a {
+    background: black !important;
+    color: white !important;
+}
+
+
 div#mainheader h2,
 div#subheader h2 {
     line-height:34px;
@@ -387,12 +407,6 @@ div#subheader h2 {
     margin-bottom:7px;
     font-family:Trebuchet MS,Helvetica,sans-serif;
     display: inline;
-}
-
-div#tabs {
-    font-family:Trebuchet MS,Helvetica,sans-serif;
-    font-size:140%;
-    float: right;
 }
 
 div.top_header {
@@ -418,8 +432,12 @@ div#mainheader h2 {
     float: none;
 }
 
+div#tabs, 
 div#top_header_main div#tabs {
     display: right;
+    font-family:Trebuchet MS,Helvetica,sans-serif;
+    font-size:100%;
+    float: right;
     margin: 0;
 }
 
@@ -452,17 +470,15 @@ div#one_answer {
     float: none;
     clear: both;
     border-bottom:1px solid #AAAAAA;
-    padding-bottom:20px;
+    padding-bottom:80px;
     padding-top:20px;
     width:730px;
 }
 
+
+
 div.clear {
     clear: both;
-}
-
-div#organize_buttons {
-    font-size: 67%;
 }
 
 .addedtext {
@@ -472,8 +488,8 @@ div#organize_buttons {
 
 
 .post_menu {
-    padding-top: 20px;
-    margin-bottom: 40px;
+    padding-top: 10px;
+    padding-left: 60px;
 }
 
 .post_menu span {
@@ -503,8 +519,6 @@ div#question_content {
     clear: both;
     font-size:107%;
     line-height:130%;
-    margin-bottom:5px;
-    margin-right:5px;
     width:660px;
 }
 
@@ -516,4 +530,110 @@ div#user_info_bottom_box {
     margin-bottom:5px;
     margin-right:5px;
     width:660px;
+}
+
+div.user_info_bottom_box div.tags {
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+div.user_info_bottom_box {
+    clear: both;
+    display: block;
+}
+
+div#tag_list {
+    display: block;
+    clear: both;
+    width: 630px;
+    padding-top: 20px;
+    padding-left: 60px;
+}
+
+div.right_bar {
+    float:right;
+    overflow:hidden !important;
+    width:210px;
+    position: absolute;
+    top: 225px;
+    right: 420px;
+    clear: both;
+}
+
+div#one_tag_line {
+    display: block;
+    float: left;
+    padding-right: 25px;
+    padding-bottom: 2px;
+}
+
+span#multiplier {
+    color: #444444;
+    position: relative;
+    top: 7px;
+    left: 1px;
+    display: inline;
+    padding-right: 1px;
+    padding-bottom: 2px;
+}
+
+.red {
+    background: #E3D9D9;
+}
+
+#yellow,
+.yellow {
+    background: #FFEFC6 !important;
+}
+
+#flagged_list {
+    opacity: 0.5;
+}
+
+div.container_two div.question_box {
+   padding-bottom: 45px;
+}
+
+
+div#answered {
+    background:#75845C none repeat scroll 0 0;
+    color:#FFFFFF;
+}
+
+div#unanswered {
+    background:#9A4444 none repeat scroll 0 0;
+    color:#FFFFFF;
+}
+
+
+div#answered,
+div#unanswered {
+    float:left;
+    height:38px;
+    margin:0 3px 0 0;
+    padding:5px;
+    width:48px;
+    text-align: center;
+    font-size: 70%;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+div#answer_count {
+    font-size: 190%;
+    font-weight: bold;
+    margin-top: -2px;
+    padding-top: 0px;
+}
+
+#no_underline {
+    text-decoration: none;
+}
+
+div#subheader div#tabs {
+    font-size: 70%;
+}
+
+div#user_in_user_box a {
+    font-size: 100%;
 }

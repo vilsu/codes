@@ -20,7 +20,7 @@ session_save_path("/tmp/");
 session_start();
 
 
-if( $_SESSION['login']['logged_in'] == false ) {
+if( $_SESSION['login']['logged_in'] == 0 ) {
     header("Location: /codes/index.php"
         . "?unsuccessful"
     );

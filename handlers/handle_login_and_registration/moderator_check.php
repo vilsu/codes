@@ -10,7 +10,7 @@ session_save_path("/tmp/");
 session_start();
 
 // test data with type-safe identity comparator
-if ( $_SESSION['login']['logged_in'] === true ) {
+if ( $_SESSION['login']['logged_in'] == 1 ) {
     $result = pg_prepare($dbconn, "moderator_check_query", 
         "SELECT a_moderator 
         FROM users
@@ -22,9 +22,7 @@ if ( $_SESSION['login']['logged_in'] === true ) {
     $rows = pg_fetch_all ( $a_moderator );
     // to compile the data
     foreach ( $rows as $row ) {
-        $_SESSION['login']['a_moderator'] = $row['a_moderator'];
-
-        echo ( $row['a_moderator'] );
+        $_SESSION['login']['a_moderator'] = (int) $row['a_moderator'];
     }
 }
 

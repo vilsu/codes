@@ -15,7 +15,7 @@ session_save_path("/tmp/");
 session_start();
 
 // This needs to before any session variables and random nunmber generation
-if( $_SESSION['login']['logged_in'] == false ){
+if( $_SESSION['login']['logged_in'] == 0 ){
     $random_number = rand(1,100000);
     $session_id = session_id($random_number);
 }
@@ -27,7 +27,7 @@ $result = pg_prepare($dbconn, "query22", "SELECT passhash_md5 FROM users
 $passhash_md5 = pg_execute($dbconn, "query22", array($_POST['login']['email']));
 // users from registration/login form
 if ($passhash_md5 == md5($_POST['login']['password'])) {
-    $_SESSION['login']['logged_in'] = true;
+    $_SESSION['login']['logged_in'] = 1;
     $_SESSION['login']['email'] = $_POST['login']['email'];
     $_SESSION['login']['passhash_md5'] = md5($_POST['login']['password']);
 }
@@ -35,7 +35,7 @@ if ($passhash_md5 == md5($_POST['login']['password'])) {
 $passhash_md5_2 = pg_execute($dbconn, "query22", array($_SESSION['login']['email']));
 // users staying in the site
 if ($passhash_md5_2 == $_SESSION['login']['passhash_md5']) {
-    $_SESSION['login']['logged_in'] = true;
+    $_SESSION['login']['logged_in'] = 1;
 }
 
 

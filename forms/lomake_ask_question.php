@@ -7,7 +7,7 @@
 
 <fieldset>
     <label for="title">Title</label>
-        <input name="question[title]" type="text" cols="92" id="required" />
+        <input name="question[title]" type="text" cols="92" class='title' id="required" />
 
     <label for="your-question">Question</label>
         <div class="resizable-textarea">
@@ -15,7 +15,7 @@
         </div>
 
     <label for="tags">Tags</label>
-        <input name='question[tags]' typh="text" cols="92" id="required" />
+        <input name='question[tags]' typh="text" cols="92" class='tags' id="required" />
         <div id="notice"><p>
         Please, use at least one tag and separate them by commas (,).
         </p></div>

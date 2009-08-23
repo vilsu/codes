@@ -6,28 +6,32 @@
 
    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js" type="text/javascript"></script>
 
-    <script type="text/javascript"> 
+<script type="text/javascript"> 
 
-jQuery('a.delete_post').live('click', function(){
+jQuery('a.delete_question').live('click', function(){
+    jQuery.post('/codes/handlers/delete_a_question.php', 
+        { question_id: jQuery(this).attr('rel') }, 
+        function(){
+            $(".question_box").addClass("red");
+            alert ("Question was removed.");
+        })
+});
 
-    jQuery.post('delete.php', {id: jQuery(this).attr('id')}, function(data){
-        //do something with the data returned
-    })
+jQuery('a.flag_question').live('click', function(){
+    jQuery.post('/codes/handlers/flag_question.php', 
+        { question_id: jQuery(this).attr('rel') });
+            $(".question_box").addClass("yellow");
+            alert ("Question is now flagged as spam.");
 });
  
-    $(".delete-button").click(function() {
-        var id = this.href.slice(this.href.lastIndexOf('/')+1);
-        // perform AJAX call using this id
-        return false; // return false so that we don't follow the link!
-    });
+jQuery('a.no_flag_question').live('click', function(){
+    jQuery.post('/codes/handlers/no_flag_question.php', 
+        { question_id: jQuery(this).attr('rel') });
+            $(".question_box").removeAttr("yellow");  // problem here
+            alert ("Question is now not spam.");
+});
+    
 
-    $(document).ready(function(){
-
-        $("p").live("click", function(){
-            $(this).after("<p>Another paragraph!</p>");
-        });
-
-    });
 
 </script>
 
@@ -42,6 +46,7 @@ jQuery('a.delete_post').live('click', function(){
 <body>
 
 <script type="text/javascript">
+
 $(document).ready(function(){
 
     function notEmpty() {

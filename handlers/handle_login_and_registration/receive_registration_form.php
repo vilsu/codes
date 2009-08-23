@@ -87,12 +87,12 @@ if ( $number_of_emails == 0) {
     $result = pg_execute( $dbconn, 'user_id_query', array( $email ) );
     // to compile the data
     while ( $row = pg_fetch_array( $result ) ) {
-        $user_id = $row['user_id'];
+        $user_id = (int) $row['user_id'];
     }
 
     $_SESSION['login']['passhash_md5'] = $passhash_md5;
     $_SESSION['login']['email'] = $email;
-    $_SESSION['login']['logged_in'] = true;
+    $_SESSION['login']['logged_in'] = 1;
     $_SESSION['login']['user_id'] = $user_id;
     $_SESSION['login']['username'] = $username;
 

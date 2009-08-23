@@ -64,9 +64,9 @@ if ( $passhash_md5_original == $passhash_md5 ) {
 
     $_SESSION['login']['email'] = $email;
     $_SESSION['login']['passhash_md5'] = $passhash_md5;
-    $_SESSION['login']['logged_in'] = true;
+    $_SESSION['login']['logged_in'] = 1; 
     $_SESSION['login']['username'] = $username;
-    $_SESSION['login']['user_id'] = $user_id;
+    $_SESSION['login']['user_id'] = (int) $user_id;
 
     // To redirect the user back to the question where he logged in
     $pattern = '/\?([^#&]*)/';

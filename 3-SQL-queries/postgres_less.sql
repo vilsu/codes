@@ -3,15 +3,16 @@ DROP TABLE tags;
 DROP TABLE users;
 DROP TABLE answers;
 
+-- INTEGER 0 and 1 for false and true, respectively
 -- this needs to be first because other tables refer to it
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY NOT NULL,      
     username VARCHAR(320) NOT NULL,
     email VARCHAR(320) NOT NULL UNIQUE,
     passhash_md5 VARCHAR(33) NOT NULL,
-    a_moderator BOOLEAN NOT NULL DEFAULT false,
-    logged_in BOOLEAN NOT NULL DEFAULT false,
-    has_been_sent_a_moderator_message BOOLEAN NOT NULL DEFAULT true,
+    a_moderator INTEGER NOT NULL DEFAULT 0,
+    logged_in INTEGER NOT NULL DEFAULT 0,
+    has_been_sent_a_moderator_message INTEGER NOT NULL DEFAULT 1,
     CONSTRAINT email_to_user_id UNIQUE (email, user_id)
 );
 
@@ -21,7 +22,7 @@ CREATE TABLE questions (
         REFERENCES users(user_id), 
     body TEXT NOT NULL DEFAULT '',
     title VARCHAR(320) NOT NULL,
-    flagged_for_moderator_removal BOOLEAN NOT NULL DEFAULT false,
+    flagged_for_moderator_removal INTEGER NOT NULL DEFAULT 0,
     was_last_checked_by_moderator_at_time TIMESTAMP, 
     was_sent_at_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT no_duplicate_questions UNIQUE (title, body)
@@ -40,6 +41,6 @@ CREATE TABLE answers (
     question_id INTEGER NOT NULL,
     user_id INTEGER NOT NULL,
     was_sent_at_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    flagged_for_moderator_removal BOOLEAN NOT NULL DEFAULT false,
+    flagged_for_moderator_removal INTEGER NOT NULL DEFAULT 0,
     CONSTRAINT no_duplicate_answers UNIQUE (question_id, answer)
 );
