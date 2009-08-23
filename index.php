@@ -44,10 +44,10 @@ include( './PATHs.php' );
 <div class="container"><!--/*{{{*/-->
     <div class="header">
         <div id="userbar">
-            <?php
-            require './views/links_at_userbar.php';
-            require './forms/lomake_search.php';
-            ?>
+<?php
+require './views/links_at_userbar.php';
+require './forms/lomake_search.php';
+?>
         </div>
 
         <div id="logo">
@@ -61,111 +61,107 @@ include( './PATHs.php' );
 
     <div id="navbar">
         <div class='ask_question'>
-            <?php
-            require './views/ask_question_link.php';
-            ?> 
+<?php
+require './views/ask_question_link.php';
+?> 
         </div>
     </div>
 
     <div id="mainbar">
         <div class="container_two">
-            <?php
-            
-            // Notices about successes and failures in the site
-            require ('views/successful_notice.php');
-            require ('views/unsuccessful_notice.php');
+<?php
 
-            // Recent questions at homepage
-            if ( array_key_exists('successful_login', $_REQUEST) ) {
-                require ( './handlers/searches/handle_questions_by_time.php' );
-            }
-            // Recent questions at homepage
-            if ( array_key_exists('successful_registration', $_REQUEST) ) {
-                require ( './handlers/searches/handle_questions_by_time.php' );
-            }
+// Notices about successes and failures in the site
+require ('views/successful_notice.php');
+require ('views/unsuccessful_notice.php');
 
-            // to sort the list of questions at the homepage
-            if( empty( $_GET )
-                OR $_GET['tab'] == 'newest'
-                OR $_GET['tab'] == 'oldest' ) {
-                require ( './handlers/searches/handle_questions_by_time.php' );
-            }
+// Recent questions at homepage
+if ( array_key_exists('successful_login', $_REQUEST) ) {
+    require ( './handlers/searches/handle_questions_by_time.php' );
+}
+// Recent questions at homepage
+else if ( array_key_exists('successful_registration', $_REQUEST) ) {
+    require ( './handlers/searches/handle_questions_by_time.php' );
+}
 
-            // tag search
-            if( $_GET['tab_tag'] == 'newest'
-                OR $_GET['tab_tag'] == 'oldest' ) {
-                require ( './handlers/searches/handle_questions_by_tag.php' );
-            }
+// to sort the list of questions at the homepage
+if( empty( $_GET )
+    OR $_GET['tab'] == 'newest'
+    OR $_GET['tab'] == 'oldest' ) {
+        require ( './handlers/searches/handle_questions_by_time.php' );
+    }
+// tag search
+else if( $_GET['tab_tag'] == 'newest'
+    OR $_GET['tab_tag'] == 'oldest' ) {
+        require ( './handlers/searches/handle_questions_by_tag.php' );
+    }
+// username search
+else if( $_GET['tab_user'] == 'newest'
+    OR $_GET['tab_user'] == 'oldest' ) {
+        require ( './handlers/searches/handle_questions_by_username.php' );
+    }
 
-            // username search
-            if( $_GET['tab_user'] == 'newest'
-                OR $_GET['tab_user'] == 'oldest' ) {
-                require ( './handlers/searches/handle_questions_by_username.php' );
-            }
-
-
-            // Tagged questions
-            if( array_key_exists( 'tag', $_GET ) ) {
-                require ('./handlers/searches/handle_questions_by_tag.php');
-            }
-
-            // Questions of a username
-            if( array_key_exists( 'username', $_GET ) ) {
-                require ('./handlers/searches/handle_questions_by_username.php');
-            }
+// Tagged questions
+if( array_key_exists( 'tag', $_GET ) ) {
+    require ('./handlers/searches/handle_questions_by_tag.php');
+}
+// Questions of a username
+else if( array_key_exists( 'username', $_GET ) ) {
+    require ('./handlers/searches/handle_questions_by_username.php');
+}
 
 
-            // Static content
-            require './views/about.php';
+// Static content
+require './views/about.php';
 
-        // Content without headers
-            
-            // Login and Logout
-            if (isset($_GET['login'])) {
-                // to have login at userbar
-                require './views/login.php';
-            }
-            require './views/logout_at_userbar_notice.php';
+// Content without headers
 
-            // Ask question -view
-            if ( isset( $_GET['ask_question'] ) ) {
-                // change the layout by adding question form by getting data from 
-                include './forms/lomake_ask_question.php';
+// Login and Logout
+if (isset($_GET['login'])) {
+    // to have login at userbar
+    require './views/login.php';
+}
+// LOGOUT at USERBAR
+else if (isset($_GET['logout'])) {
+    echo "Successful logout";
+    session_destroy();
+    header("Location: index.php");
+} 
 
-                // LOGIN at the bottom of Ask_question
-                if ( !isset( $_SESSION['login']['logged_in'] ) ) {
-                    // change the layout by adding question form by getting data
-                    include( "./views/login.php" );
-                }
-            }
+// Ask question -view
+else if ( isset( $_GET['ask_question'] ) ) {
+    // change the layout by adding question form by getting data from 
+    include './forms/lomake_ask_question.php';
 
+    // LOGIN at the bottom of Ask_question
+    if ( !isset( $_SESSION['login']['logged_in'] ) ) {
+        // change the layout by adding question form by getting data
+        include( "./views/login.php" );
+    }
+}
 
+// Content with headers
+// Question selected by the user
+else if( array_key_exists('question_id', $_GET ) ) {
+    require ('./handlers/make_a_thread/fetch_a_question.php');
+    // to sort the answers of the given question
+    require ("./handlers/make_a_thread/fetch_answers.php");
 
-            // Content with headers/*{{{*/
-            // Question selected by the user
-            if( array_key_exists('question_id', $_GET ) ) {
-                require ('./handlers/make_a_thread/fetch_a_question.php');
-                    // to sort the answers of the given question
-                require ("./handlers/make_a_thread/fetch_answers.php");
+    require ('./forms/lomake_answer.php');
 
-                require ('./forms/lomake_answer.php');
+    // LOGIN at the bottom
+    if (!isset($_SESSION['login']['logged_in'])) {
+        // change the layout by adding question form by getting data
+        include( "./views/login.php" );
+    }
+    echo ("</div>");    // to end container two
 
-                // LOGIN at the bottom
-                if (!isset($_SESSION['login']['logged_in'])) {
-                    // change the layout by adding question form by getting data
-                    include( "./views/login.php" );
-                }
-            }
-            /*}}}*/
-        echo ("</div>");    // to end container two
+    echo ("<div class='right_bar'>");
+    create_tags_summary( $question_id );
+    echo ("</div>");
+}
 
-        if( array_key_exists('question_id', $_GET ) ) {
-            echo ("<div class='right_bar'>");
-                create_tags_summary( $question_id );
-            echo ("</div>");
-        }
-
-    ?>
+?>
     </div>
 </div>
 <!--/*}}}*/-->

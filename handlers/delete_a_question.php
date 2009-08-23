@@ -11,27 +11,30 @@ $result = pg_query_params ( $dbconn,
 if ( !$result ) {
     header( "Location: /codes/index.php?unsuccessful_removal");
 }
-
-// remove tags of the question
-$result = pg_query_params ( $dbconn, 
-    "DELETE FROM tags
-    WHERE question_id = $1",
-    array ( $_POST['question_id'] )
-);
-if ( !$result ) {
-    header( "Location: /codes/index.php?unsuccessful_removal");
+else if ( $result ) {
+    // remove tags of the question
+    $result = pg_query_params ( $dbconn, 
+        "DELETE FROM tags
+        WHERE question_id = $1",
+        array ( $_POST['question_id'] )
+    );
+    if ( !$result ) {
+        header( "Location: /codes/index.php?unsuccessful_removal");
+    }
+    else if ( $result ) {
+        // remove answers of the question
+        $result = pg_query_params ( $dbconn,
+            "DELETE FROM answers
+            WHERE question_id = $1",
+            array ( $_POST['question_id'] )
+        );
+        if ( !$result ) {
+            header( "Location: /codes/index.php?unsuccessful_removal");
+        }
+        else if ( $result ) {
+            header( "Location: /codes/index.php?successful_removal");
+        }
+    }
 }
-
-// remove answers of the question
-$result = pg_query_params ( $dbconn,
-    "DELETE FROM answers
-    WHERE question_id = $1",
-    array ( $_POST['question_id'] )
-);
-if ( !$result ) {
-    header( "Location: /codes/index.php?unsuccessful_removal");
-}
-
-header( "Location: /codes/index.php?successful_removal");
 
 ?>

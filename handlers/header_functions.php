@@ -7,31 +7,31 @@
 // for headers without varibles
 function mainheader( $mainheader, $link ) {
     if( $link ) {
-    echo ("<div id='mainheader'>"
+        echo ("<div id='mainheader'>"
             . "<h2>"
-                . "<a href='index.php?" . $mainheader . "'>" 
-                    . $mainheader
-                . "</a>"
+            . "<a href='index.php?" . $mainheader . "'>" 
+            . $mainheader
+            . "</a>"
             . "</h2>"
-        . "</div>"
+            . "</div>"
         );
     } else {
-    echo ("<div id='mainheader'>"
+        echo ("<div id='mainheader'>"
             . "<h2>"
-                . $mainheader
+            . $mainheader
             . "</h2>"
-        . "</div>"
-    );
+            . "</div>"
+        );
     }
 }
 
 function subheader( $subheader ) {
-     echo ("<div id='subheader'>"
-            . "<h2>"
-                . $subheader
-            . "</h2>"
+    echo ("<div id='subheader'>"
+        . "<h2>"
+        . $subheader
+        . "</h2>"
         . "</div>"
-        );
+    );
 }
 
 ?>

@@ -34,23 +34,25 @@ if ($_GET['question_id'] > 0 ) {
     $question_id = $_GET['question_id'];
 }
 // to get answers by HTTP_REFERER
-if (empty( $_GET['question_id'] ) ) {
-    $pattern = '/\?([^#]*)/';
-    $subject = $_SERVER['HTTP_REFERER'];
-    $query = preg_match($pattern, $subject, $match) ? $match[1] : '';  // extract query from URL
-    parse_str($query, $params);
-    $question_id = explode( "=", $query );
-   // $result_answers= pg_execute( $dbconn, "fetch_answers", array( $question_id[1] ) );
-    $result_answers = pg_execute( $dbconn, "fetch_answers", array( $question_id ) );
-}
-/*}}}*/
+else if ( !($_GET['question_id'] > 0 ) )
+{
+    (empty( $_GET['question_id'] ) ) {
+        $pattern = '/\?([^#]*)/';
+        $subject = $_SERVER['HTTP_REFERER'];
+        $query = preg_match($pattern, $subject, $match) ? $match[1] : '';  // extract query from URL
+        parse_str($query, $params);
+        $question_id = explode( "=", $query );
+        // $result_answers= pg_execute( $dbconn, "fetch_answers", array( $question_id[1] ) );
+        $result_answers = pg_execute( $dbconn, "fetch_answers", array( $question_id ) );
+    }
+    /*}}}*/
 
     // to print subheader for Answers/*{{{*/
     $number_of_answers = pg_num_rows ( $result_answers );
 
     if ( $number_of_answers == 1 ) {
         subheader( $number_of_answers 
-        .  " Answer" );
+            .  " Answer" );
 
         $answers_real = pg_fetch_all( $result_answers );/*{{{*/
 
@@ -78,11 +80,11 @@ if (empty( $_GET['question_id'] ) ) {
         echo ("</div>");
         /*}}}*/
     }
-    if ( $number_of_answers > 1 ) {
+    else if ( $number_of_answers > 1 ) {
         echo ("<div id='subheader'>"
-                . "<h2>"
-                    . $number_of_answers . " Answers"
-                . "</h2>" );
+            . "<h2>"
+            . $number_of_answers . " Answers"
+            . "</h2>" );
         create_tab_box_thread( $question_id );
         echo ( "</div>" );
 
@@ -113,11 +115,10 @@ if (empty( $_GET['question_id'] ) ) {
     }
 
     // to have the underline
-    if ( $number_of_answers == 0 ) {
+    else if ( $number_of_answers == 0 ) {
         subheader( "Be the first answerer" );
     }
     /*}}}*/
-
 
 
 ?>
