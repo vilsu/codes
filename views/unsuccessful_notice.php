@@ -62,7 +62,9 @@ if ( array_key_exists ( 'unsuccessful_question_removal', $_GET ) ) {
 
 // duplicate email addresses
 if ( array_key_exists ( 'unsuccessful_registration', $_GET ) ) {
-    echo $_GET['message']; 
+    echo ("Unsuccessful registration."
+        . " Your password must have 6 characters, email must be unique and without special characters."
+    );
 }
 
 ?>

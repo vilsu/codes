@@ -1,5 +1,6 @@
 <?php
 
+ob_start();
 session_save_path("/tmp/");
 session_start();
 
@@ -18,46 +19,76 @@ function validate_email ( $email )
         $number_of_emails = $row[0];
     }
 
-    if ( $number_of_emails > 0 )
-        return "2email";
-    else if ( !(filter_var ( $email, FILTER_VALIDATE_EMAIL ) ) ) 
-        return "registration_wrong_email";
+    if ( $number_of_emails > 0 ) {
+        echo "Your email has already an account";
+        return false;
+    }
+    else if ( filter_var ( $email, FILTER_VALIDATE_EMAIL ) ) {
+        echo ("email is in line with POSIX");
+        return true;
+    }
+    // does not go through filter
     else 
-        return 1; 
+    {
+        echo ("email has illegal characters");
+        return false; 
+    }
 }
 
 function validate_password ( $password )
 {
     if ( mb_strlen ( $password ) < 6)
-        return "too_short_password";
+        return false;
     else
-        return 1;
+    {
+        echo ("Strong password");
+        return true;
+    }
 }
 
 function validate_username ( $username )
 {
     if ( !( ctype_alnum ( $username ) ) ) 
-        return "wrong_username";
+    {
+        echo ("Your password contains illegal characters");
+        return false;
+    }
+    else if ( empty ( $username ) ) {
+        echo ("Your password is empty");
+        return false;
+    }
     else 
-        return 1;
+    {
+        echo ("Good username ");
+        return true;
+    }
 }
 
 function validate ( $email, $password, $username )
 {
-    if (  (validate_email ( $email ) )
-        AND (validate_password ( $password ) )
-        AND (validate_username ( $username ) ) )
-        return 1;
-    else 
+    if ( !validate_email ( $email ) ) 
     {
-        $email_status = validate_email ( $email );
-        $password_status = validate_password ( $password );
-        $username_status = validate_username ( $username );
-        return $email_status . $password_status . $username_status;
+        echo "email wrong";
+        return false;
+    }
+    else if ( !validate_password ( $password ) )
+    {
+        echo "password wrong";
+        return false;
+    }
+    else if ( !validate_username ( $password ) )
+    {
+        echo "username wrong";
+        return false;
+    }
+    else
+    {
+        echo "correct validation";
+        return true;
     }
 }
 
-function add_new_user ( $username, $email, $passhash_md5 )
+function add_new_user ( $email, $passhash_md5, $username )
 {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     // Save to db
@@ -110,22 +141,21 @@ function direct_right ()
         header ("Location: /codes/index.php");
 }
 
-function direct_wrong ( $message ) { 
+function direct_wrong ( ) { 
     header ( "Location: /codes/index.php?"
-        . unsuccessful_registration
-        . "&message="
-        . $message
+        . "unsuccessful_registration"
     );
 }
 
 // Let's rock!
 $username = $_POST['login']['username'];
-$passhash_md5 = md5 ( $_POST['login']['password'] );
 $password = $_POST['login']['password'];
+$passhash_md5 = md5 ( $password );
 $email = $_POST['login']['email'];
 
-if ( validate( $username, $email, $password ) ) {
-    add_new_user ( $username, $email, $passhash_md5 ); 
+if ( validate( $email, $password, $username) ) {
+    echo ("validaatio toimii"); 
+    add_new_user ( $email, $passhash_md5, $username ); 
 
     $_SESSION['login']['passhash_md5'] = $passhash_md5;
     $_SESSION['login']['email'] = $email;
@@ -137,7 +167,9 @@ if ( validate( $username, $email, $password ) ) {
 }
 else
 {
-    direct_wrong( validate( $username, $email, $password ) );
+    direct_wrong( );
 }
+
+ob_end_flush();
 
 ?>
