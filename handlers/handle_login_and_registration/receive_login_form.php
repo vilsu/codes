@@ -1,5 +1,6 @@
 <?php
 
+ob_start();
 
 session_save_path("/tmp/");
 session_start();
@@ -11,25 +12,30 @@ function validate_password ( $password )
     if ( mb_strlen ( $password ) < 6)
         return "too_short_password";
     else
-        return 1;
+        return true;
 }
 
 function validate_email ( $email ) 
 {
-    if ( !filter_var ( $email, FILTER_VALIDATE_EMAIL ) ) 
-        return "registration_wrong_email";
+    if ( filter_var ( $email, FILTER_VALIDATE_EMAIL ) ) 
+    {
+        // though the filter
+        return true;
+    }
     else 
-        return 1; 
+    {
+        echo ("Wrong email address.");
+        return false; 
+    }
 }
 
 function validate ( $email, $password )
 {
     if (  (validate_email ( $email ) )
         && (validate_password ( $password ) ) )
-        return 1;
-    else 
-        return validate_email ( $email )
-        . validate_password ( $password );
+        return true;
+    else
+        return false;
 }
 
 
@@ -69,7 +75,7 @@ function get_username ( $email )
 function get_question_id ( ) {
     if ( is_integer ( $_GET['question_id'] ) )
         return $_GET['question_id'];
-    else
+    else if ( !empty ( $_SERVER['HTTP_REFERER'] ) ) 
     {
         // To redirect the user back to the question where he logged in
         $pattern = '/\?([^#&]*)/';
@@ -79,11 +85,13 @@ function get_question_id ( ) {
         parse_str($query, $params);
         $question_id = explode ( '=', $query );
         $question_id = $question_id[0];
-    }
 
-    if ( is_integer ( $question_id ) )
         return $question_id;
+    }
+    else 
+        return false;
 }
+
 
 function direct_right ()
 {
@@ -103,12 +111,23 @@ function direct_right ()
         header ("Location: /codes/index.php");
 }
 
-function direct_wrong ( $message ) { 
-    header ( "Location: /codes/index.php?"
-        . unsuccessful_login
-        . "&message="
-        . $message
-    );
+function direct_wrong ( ) { 
+    if ( is_integer ( get_question_id() ) )
+    {
+        header ( "Location: /codes/index.php?question_id=" 
+            . $question_id 
+            . "&unsuccessful_login" );
+    }
+    else if ( $_GET['login'] ) 
+    {  
+        header("Location: /codes/index.php?"
+            . "login"
+            . "&"
+            . "unsuccessful_login"
+        );
+    }
+    else 
+        header ("Location: /codes/index.php");
 }
 
 function get_passhash_for_email ( $email ) {
@@ -132,32 +151,42 @@ function get_passhash_for_email ( $email ) {
 function verify_passhash_for_email ( $passhash_md5, $passhash_md5_original ) {
     // unsuccessful attempts
     if ( $passhash_md5_original == $passhash_md5 )
-        return 1;
+        return true;
     else
-        return 0;
+        return false;
 }
 
 // Let's rock!
-$passhash_md5 = md5 ( $_POST['login']['password'] );
 $password = $_POST['login']['password'];
+$passhash_md5 = md5 ( $password );
 $email = $_POST['login']['email'];
 
-if ( validate( $email, $password ) == 1 ) {
+if ( validate( $email, $password ) ) {
+    echo ("Validaation works");
     $passhash_original = get_passhash_for_email ( $email );
-    if ( verify_passhash_for_email ( $passhash_md5, $passhash_original) == 1 ) {
-            // save data to sessions
-            $_SESSION['login']['passhash_md5'] = $passhash_md5;
-            $_SESSION['login']['email'] = $email;
-            $_SESSION['login']['logged_in'] = 1;
-            $_SESSION['login']['user_id'] = get_user_id ( $email );
-            $_SESSION['login']['username'] = get_username ( $email );
+    if ( verify_passhash_for_email ( $passhash_md5, $passhash_original) ) {
+        echo ("Verification works");
+        // save data to sessions
+        $_SESSION['login']['passhash_md5'] = $passhash_md5;
+        $_SESSION['login']['email'] = $email;
+        $_SESSION['login']['logged_in'] = 1;
+        $_SESSION['login']['user_id'] = get_user_id ( $email );
+        $_SESSION['login']['username'] = get_username ( $email );
 
-            direct_right();
-        }
+        direct_right();
+    }
+    else
+    {
+        echo ("Wrong password given.");
+        direct_wrong( );
+    }
 }
-else
+else 
 {
-    direct_wrong( validate( $email, $password ) );
+    echo ("Password must have 6 characters."
+        . "Email must be in the standard form.");
 }
+
+ob_end_flush();
 
 ?>
