@@ -136,6 +136,7 @@ function organize_questions_by_tag () {
 
 // Let's fire
 
+create_headings ();
 organize_questions_by_tag ();
 
 ?>

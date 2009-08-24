@@ -108,7 +108,7 @@ function organize_newest_questions () {
     $usernames = get_usernames ();
     $user_ids = get_user_ids ();
 
-    if ( $_GET['tab'] == 'oldest' )
+    if ( $_GET['tab'] == 'newest' )
     {
         organize_questions ( 
             $end_array, 

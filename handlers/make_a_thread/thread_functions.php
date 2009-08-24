@@ -127,45 +127,38 @@ function create_moderator_box_for_a_question ( $question_id, $user_id ) {
     echo ("</div>");
 }
 
+function check_authority_for_an_answer ( $answer_id, $user_id) {
 
+    if ( $_SESSION['login']['logged_in'] == 1 ) {
 
-function create_moderator_box_for_an_answer ( $answer_id, $user_id ) {
-
-    function check_authority_for_an_answer ( $answer_id, $user_id) {
-
-        if ( $_SESSION['login']['logged_in'] == 1 ) {
-
-            $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
-            $result = pg_query_params ( $dbconn, 
-                "SELECT user_id
-                FROM answers
-                WHERE user_id = $1
-                AND answer_id = $2",
-                array ( $user_id, $answer_id ) 
-            );
-            while ( $row = pg_fetch_array ( $result ) ) {
-                $result_clear = $row['user_id'];
-            }
-
-            // to allow the asker to remove his own questions
-            if ( $result_clear > 0 )
-                return true;
-            else if ( $_SESSION['login']['a_moderator'] == 1 )
-                return true;
-            else 
-                return false;
+        $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+        $result = pg_query_params ( $dbconn, 
+            "SELECT user_id
+            FROM answers
+            WHERE user_id = $1
+            AND answer_id = $2",
+            array ( $user_id, $answer_id ) 
+        );
+        while ( $row = pg_fetch_array ( $result ) ) {
+            $result_clear = $row['user_id'];
         }
+
+        // to allow the asker to remove his own questions
+        if ( $result_clear > 0 )
+            return true;
+        else if ( $_SESSION['login']['a_moderator'] == 1 )
+            return true;
         else 
             return false;
     }
+    else 
+        return false;
+}
 
-
-
-
-
+function create_moderator_box_for_an_answer ( $answer_id, $user_id ) {
 
     echo ("<div class='post_menu'>");
-    if ( check_authority_for_an_answer ) {
+    if ( check_authority_for_an_answer( $answer_id, $user_id ) ) {
         echo ("<a href='#' class='delete_answer'" 
             . " id=answer_id'" . $answer_id . "'"
             . " title='vote to remove this post'>delete</a>"
@@ -190,54 +183,56 @@ function create_moderator_box_for_an_answer ( $answer_id, $user_id ) {
 }
 
 
-function create_tags_summary ( $question_id ) {
+function get_tags_for_a_question ( $question_id ) {
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
-    function get_tags_for_a_question ( $question_id ) {
-        $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
-        
-        // to get tags
-        $result = pg_query_params ( $dbconn,
-            "SELECT tag
-            FROM tags 
-            WHERE question_id = $1",
-            array ( $_GET['question_id'] ) 
-        );
-        $tags_array_summary = pg_fetch_all ( $result );
+    // to get tags
+    $result = pg_query_params ( $dbconn,
+        "SELECT tag
+        FROM tags 
+        WHERE question_id = $1",
+        array ( $_GET['question_id'] ) 
+    );
+    $tags_array_summary = pg_fetch_all ( $result );
 
-        return $tags_array_summary;
-    }
+    return $tags_array_summary;
+}
 
-    function create_global_tag_count_box_for_a_question ( $question_id ) {
-        $tags_array_summary = get_tags_for_a_question ( $question_id );
 
-        $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
-        // to get the amout of tags Globally
-        $result = pg_prepare ( $dbconn, "query_tag_amount",
-            "SELECT count(tag)
-            FROM tags 
-            WHERE tag = $1"
-        );
+function create_global_tag_count_box_for_a_question ( $question_id ) {
+    $tags_array_summary = get_tags_for_a_question ( $question_id );
 
-        echo ("<div class='tags_summary'>");
-        echo ("<p>tagged</p>");
-        for ( $i = 0; $i < count ( $tags_array_summary ); $i++ ) {
-            echo ("<div id='one_tag_line'>");
-            $result = pg_execute ( $dbconn, "query_tag_amount", array ( $tags_array_summary[$i]['tag'] ) );
-            $figure = pg_fetch_all ( $result );
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+    // to get the amout of tags Globally
+    $result = pg_prepare ( $dbconn, "query_tag_amount",
+        "SELECT count(tag)
+        FROM tags 
+        WHERE tag = $1"
+    );
 
-            for ( $j = 0; $j < count ( $figure ); $j++ ) {
-                create_tags ( $tags_array_summary[$i] );
-                echo "<span id='multiplier'> × " 
-                    . $figure[$j]['count']
-                    . "</span>";
-            }
-            echo ("</div>");
+    echo ("<div class='tags_summary'>");
+    echo ("<p>tagged</p>");
+    for ( $i = 0; $i < count ( $tags_array_summary ); $i++ ) {
+        echo ("<div id='one_tag_line'>");
+        $result = pg_execute ( $dbconn, "query_tag_amount", array ( $tags_array_summary[$i]['tag'] ) );
+        $figure = pg_fetch_all ( $result );
+
+        for ( $j = 0; $j < count ( $figure ); $j++ ) {
+            create_tags ( $tags_array_summary[$i] );
+            echo "<span id='multiplier'> × " 
+                . $figure[$j]['count']
+                . "</span>";
         }
         echo ("</div>");
     }
+    echo ("</div>");
+}
 
+
+function create_tags_summary ( $question_id ) {
     // Let's fire!
     create_global_tag_count_box_for_a_question ( $question_id );
 }
+
 
 ?>
