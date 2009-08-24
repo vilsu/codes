@@ -1,7 +1,7 @@
 <?php
 
 
-function get_raw_data_for_newest_questions () {
+function get_raw_data () {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     // to get titles and question_ids
     $result_titles = pg_query_params( $dbconn,
@@ -35,24 +35,24 @@ function get_raw_data_for_newest_questions () {
     }
 }
 
-function get_titles_for_newest_questions () {
-    $result_titles = get_raw_data_for_newest_questions ();
+function get_titles () {
+    $result_titles = get_raw_data ();
     while( $titles_and_Qid = pg_fetch_array( $result_titles ) ) {
         $titles [ $titles_and_Qid['question_id'] ] ['title'] = $titles_and_Qid['title'];
     }
     return $titles;
 }
 
-function get_was_sent_at_times_for_newest_questions () {
-    $result_titles = get_raw_data_for_newest_questions ();
+function get_was_sent_at_times () {
+    $result_titles = get_raw_data ();
     while( $titles_and_Qid = pg_fetch_array( $result_titles ) ) {
         $was_sent_at_times [ $titles_and_Qid['question_id'] ] ['was_sent_at_time'] = $titles_and_Qid['was_sent_at_time'] ;
     }
     return $was_sent_at_times;
 }
 
-function get_usernames_for_newest_questions () {
-    $result_titles = get_raw_data_for_newest_questions ();
+function get_usernames () {
+    $result_titles = get_raw_data ();
     while( $titles_and_Qid = pg_fetch_array( $result_titles ) ) {
         $usernames [ $titles_and_Qid['question_id'] ] ['username'] = $titles_and_Qid['username'] ;
     }
@@ -60,8 +60,8 @@ function get_usernames_for_newest_questions () {
 }
 
 
-function get_user_ids_for_newest_questions () {
-    $result_titles = get_raw_data_for_newest_questions ();
+function get_user_ids () {
+    $result_titles = get_raw_data ();
     while( $titles_and_Qid = pg_fetch_array( $result_titles ) ) {
         $user_ids [ $titles_and_Qid['question_id'] ] ['user_id'] = $titles_and_Qid['user_id'] ;
     }
@@ -69,7 +69,7 @@ function get_user_ids_for_newest_questions () {
 }
 
 
-function get_tags_for_newest_questions ( ) {
+function get_tags ( ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     // we use two queries because no repeation of `titles` then
     // TAGS
@@ -100,13 +100,13 @@ function get_tags_for_newest_questions ( ) {
 }
 
 function organize_newest_questions () {
-    $end_array = get_tags_for_newest_questions ();
-    $tags_and_Qid = get_tags_for_newest_questions ();
-    $titles_and_Qid = get_titles_for_newest_questions ();
-    $titles = get_titles_for_newest_questions ();
-    $was_sent_at_times = get_was_sent_at_times_for_newest_questions ();
-    $usernames = get_usernames_for_newest_questions ();
-    $user_ids = get_user_ids_for_newest_questions ();
+    $end_array = get_tags ();
+    $tags_and_Qid = get_tags ();
+    $titles_and_Qid = get_titles ();
+    $titles = get_titles ();
+    $was_sent_at_times = get_was_sent_at_times ();
+    $usernames = get_usernames ();
+    $user_ids = get_user_ids ();
 
     if ( $_GET['tab'] == 'oldest' )
     {
