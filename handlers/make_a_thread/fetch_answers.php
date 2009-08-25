@@ -1,123 +1,165 @@
 <?php
 // To get answers for the question
 
-$dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
-
-
-// we need user_id because we want to allow users to have spaces in their 
-// names
-if ( !($_GET['sort'] == 'oldest' ) ) {
-    $result_answers = pg_prepare( $dbconn, "fetch_answers",
-        "SELECT a.answer, u.username, a.was_sent_at_time, u.user_id, a.answer_id
-        FROM answers a
-        LEFT JOIN users u ON a.user_id = u.user_id
-        WHERE question_id = $1
-        ORDER BY a.was_sent_at_time DESC"
-    );
-}
-else
-{
-    $result_answers = pg_prepare( $dbconn, "fetch_answers",
-        "SELECT a.answer, u.username, a.was_sent_at_time, u.user_id, a.answer_id
-        FROM answers a
-        LEFT JOIN users u ON a.user_id = u.user_id
-        WHERE question_id = $1
-        ORDER BY a.was_sent_at_time ASC"
-    );
-}
-
-
-
-// to get answers when we can use GET
-if ($_GET['question_id'] > 0 ) {
-    $result_answers= pg_execute( $dbconn, "fetch_answers", array( $_GET['question_id'] ) );
-    $question_id = $_GET['question_id'];
-}
-// to get answers by HTTP_REFERER
-else if (empty( $_GET['question_id'] ) ) {
+function get_question_id_for_answer () {
+    if ($_GET['question_id'] > 0 ) 
+    {
+        $question_id = $_GET['question_id'];
+    }
+    else
+    {
         $pattern = '/\?([^#]*)/';
         $subject = $_SERVER['HTTP_REFERER'];
         $query = preg_match($pattern, $subject, $match) ? $match[1] : '';  // extract query from URL
         parse_str($query, $params);
         $question_id = explode( "=", $query );
-        // $result_answers= pg_execute( $dbconn, "fetch_answers", array( $question_id[1] ) );
-        $result_answers = pg_execute( $dbconn, "fetch_answers", array( $question_id ) );
+    }
+    return $question_id;
+}
+
+
+
+function fetch_answers () {
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+    $question_id = get_question_id_for_answer ();
+
+    if ( !($_GET['sort'] == 'oldest' ) )
+    {
+        $result = pg_query_params ( $dbconn, 
+            "SELECT a.answer, u.username, a.was_sent_at_time, u.user_id, a.answer_id
+            FROM answers a
+            LEFT JOIN users u ON a.user_id = u.user_id
+            WHERE question_id = $1
+            ORDER BY a.was_sent_at_time DESC",
+            array ( $question_id )
+        );
+    }
+    else
+    {
+        $result = pg_query_params ( $dbconn, 
+            "SELECT a.answer, u.username, a.was_sent_at_time, u.user_id, a.answer_id
+            FROM answers a
+            LEFT JOIN users u ON a.user_id = u.user_id
+            WHERE question_id = $1
+            ORDER BY a.was_sent_at_time ASC",
+            array ( $question_id )
+        );
     }
 
+    return $result;
+}
 
+function create_subheader_for_answers () {
+    $result_answers = fetch_answers ();
+    $question_id = get_question_id_for_answer ();
     // to print subheader for Answers/*{{{*/
     $number_of_answers = pg_num_rows ( $result_answers );
 
-    if ( $number_of_answers == 1 ) {
+    if ( $number_of_answers == 1 ) 
+    {
         subheader( $number_of_answers 
             .  " Answer" );
-
-        $answers_real = pg_fetch_all( $result_answers );/*{{{*/
-
-        echo ("<div class='answers'>");         // to start answers -block
-        foreach ( $answers_real as $answer_row ) {
-            $username = $answer_row['username'];
-            // Grab the was_sent_at_time for the question from the second array
-            $was_sent_at_time_unformatted = $answer_row['was_sent_at_time'];
-            $was_sent_at_time_array = explode( " ", $was_sent_at_time_unformatted, 4 );
-            $was_sent_at_time = $was_sent_at_time_array[0];
-
-            $user_id = $answer_row['user_id'];
-            $answer_id = $answer_row['answer_id'];
-
-            echo ("<div id='one_answer'>");
-            create_user_info_box_question( $user_id, $username, $was_sent_at_time, "answered" );
-
-            $answer = $answer_row['answer'];
-            create_answer( $answer );
-            echo ("<div class='clear'> </div>");
-
-// buggy
-//            create_moderator_box_for_an_answer ( $answer_id, $user_id );
-            echo("</div>");
-        }
-        echo ("</div>");
-        /*}}}*/
     }
-    else if ( $number_of_answers > 1 ) {
+    // to have the underline
+    else if ( $number_of_answers == 0 ) {
+        subheader( "Be the first answerer" );
+    }
+    else
+    {
         echo ("<div id='subheader'>"
             . "<h2>"
             . $number_of_answers . " Answers"
             . "</h2>" );
         create_tab_box_thread( $question_id );
         echo ( "</div>" );
+    }
+}
 
-        $answers_real = pg_fetch_all( $result_answers );/*{{{*/
 
-        echo ("<div class='answers'>");         // to start answers -block
+
+
+function get_was_sent_time_for_answer () {
+    $result_answers = fetch_answers ();
+
+    $answers_real = pg_fetch_all( $result_answers );
+    foreach ( $answers_real as $answer_row ) {
+        // Grab the was_sent_at_time for the question from the second array
+        $was_sent_at_time_unformatted = $answer_row['was_sent_at_time'];
+        $was_sent_at_time_array = explode( " ", $was_sent_at_time_unformatted, 4 );
+        $was_sent_at_time = $was_sent_at_time_array[0];
+    }
+    return $was_sent_at_time;
+}
+
+function get_user_id_for_answer () {
+    $result_answers = fetch_answers ();
+
+    $answers_real = pg_fetch_all( $result_answers );
+    foreach ( $answers_real as $answer_row ) {
+        $user_id = $answer_row['user_id'];
+    }
+    return $user_id;
+}
+
+function get_username_for_answer () {
+    $result_answers = fetch_answers ();
+
+    $answers_real = pg_fetch_all( $result_answers );
+    foreach ( $answers_real as $answer_row ) {
+        $username = $answer_row['username'];
+    }
+    return $username;
+}
+
+function get_answer_id () {
+    $result_answers = fetch_answers ();
+
+    $answers_real = pg_fetch_all( $result_answers );
+    foreach ( $answers_real as $answer_row ) {
+        $answer_id = $answer_row['answer_id'];
+    }
+    return $answer_id;
+}
+
+function create_answer_box () {
+    $result_answers = fetch_answers ();
+    // to print subheader for Answers/*{{{*/
+    $number_of_answers = pg_num_rows ( $result_answers );
+
+    if ( $number_of_answers !== 0 ) 
+    {
+        $result_answers = fetch_answers ();
+
+        $user_id = get_user_id_for_answer();
+        $username = get_username_for_answer();
+        $was_sent_at_time = get_was_sent_time_for_answer(); 
+
+        $answers_real = pg_fetch_all( $result_answers );
         foreach ( $answers_real as $answer_row ) {
-            $username = $answer_row['username'];
-            // Grab the was_sent_at_time for the question from the second array
-            $was_sent_at_time_unformatted = $answer_row['was_sent_at_time'];
-            $was_sent_at_time_array = explode( " ", $was_sent_at_time_unformatted, 4 );
-            $was_sent_at_time = $was_sent_at_time_array[0];
-
-            $user_id = $answer_row['user_id'];
-            $answer_id = $answer_row['answer_id'];
-
             echo ("<div id='one_answer'>");
+            create_user_info_box_question( $user_id, $username, $was_sent_at_time, "answered" );
+
             $answer = $answer_row['answer'];
             create_answer( $answer );
             echo ("<div class='clear'> </div>");
 
-            create_user_info_box_question( $user_id, $username, $was_sent_at_time, "answered" );
-// buggy
-//            create_moderator_box_for_an_answer ( $answer_id, $user_id );
+            // buggy
+            //            create_moderator_box_for_an_answer ( $answer_id, $user_id );
             echo("</div>");
         }
         echo ("</div>");
-        /*}}}*/
     }
 
-    // to have the underline
-    else if ( $number_of_answers == 0 ) {
-        subheader( "Be the first answerer" );
-    }
-    /*}}}*/
+}
+
+
+
+
+
+
+
+// Let's fire!
+create_subheader_for_answers ();
+create_answer_box ();
 
 ?>
