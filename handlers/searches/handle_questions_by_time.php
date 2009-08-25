@@ -84,7 +84,7 @@ function organize_questions_by_time () {
     $usernames = get_usernames ();
     $user_ids = get_user_ids ();
 
-    if ( $_GET['tab'] == 'newest' )
+    if ( $_GET['tab'] == 'oldest' )
     {
         organize_questions ( 
             $end_array, 

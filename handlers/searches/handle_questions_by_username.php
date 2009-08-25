@@ -118,7 +118,7 @@ function organize_questions_by_username () {
     $usernames = get_usernames ();
     $user_ids = get_user_ids ();
 
-        if ( $_GET['tab_user'] == 'newest' )
+        if ( $_GET['tab_user'] == 'oldest' )
         {
             organize_questions ( 
                 $end_array, 

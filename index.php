@@ -108,6 +108,9 @@ else if( $_GET['tab_user'] == 'newest'
 else if( array_key_exists( 'username', $_GET ) ) {
     require ('./handlers/searches/handle_questions_by_username.php');
 }
+else if( array_key_exists( 'search', $_GET ) ) {
+    require ('./handlers/searches/search_body.php');
+}
 
 
 

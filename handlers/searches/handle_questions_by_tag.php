@@ -83,7 +83,7 @@ function organize_questions_by_tag () {
     $usernames = get_usernames ();
     $user_ids = get_user_ids ();
 
-    if ( $_GET['tab_tag'] == 'newest' )
+    if ( $_GET['tab_tag'] == 'oldest' )
     {
         organize_questions ( 
             $end_array, 

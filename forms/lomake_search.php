@@ -7,6 +7,6 @@
     );
 ?>
 
-        <input class="textbox" type="text" value="search" size="28" maxlength="80" tabindex="1" name="tag"/>
+        <input class="textbox" type="text" value="search" size="28" maxlength="80" tabindex="1" name="search"/>
     </form>
 </div>
