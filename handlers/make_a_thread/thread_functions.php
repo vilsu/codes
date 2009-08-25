@@ -25,7 +25,8 @@ function create_question_title( $title, $question_id )
 // this may be buggy
 function create_answer ( $answer ) {
     // to read sanitized data
-    $answer_clear = htmlspecialchars ( $answer, ENT_QUOTES );
+    $answer = preg_replace('/\n\s*\n/', "<br />\n<br />\n", htmlentities( $answer ) );
+    $answer_clear = $answer;
     echo ("<div class='one_answer'>"
         . $answer_clear
         . "</div>"

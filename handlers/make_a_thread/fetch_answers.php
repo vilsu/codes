@@ -137,11 +137,10 @@ function create_answer_box () {
         $answers_real = pg_fetch_all( $result_answers );
         foreach ( $answers_real as $answer_row ) {
             echo ("<div id='one_answer'>");
-            create_user_info_box_question( $user_id, $username, $was_sent_at_time, "answered" );
-
             $answer = $answer_row['answer'];
             create_answer( $answer );
             echo ("<div class='clear'> </div>");
+            create_user_info_box_question( $user_id, $username, $was_sent_at_time, "answered" );
 
             // buggy
             //            create_moderator_box_for_an_answer ( $answer_id, $user_id );
@@ -151,8 +150,6 @@ function create_answer_box () {
     }
 
 }
-
-
 
 
 

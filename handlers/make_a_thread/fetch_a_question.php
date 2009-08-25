@@ -3,7 +3,7 @@
 // This fetches the question and its answers to a thread
 // according to the $_GET['question_id'].
 
-function get_raw_data_list () {
+function get_raw_data_list ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     // to get title and body of the question
     $result = pg_query_params ( $dbconn,
@@ -12,12 +12,12 @@ function get_raw_data_list () {
         LEFT JOIN users u ON q.user_id = u.user_id
         WHERE question_id = $1",
         // array( $_GET['question_id'] ) 
-        array( get_question_id () ) 
+        array( $question_id ) 
     );
     return $result;
 }
 
-function get_question_id () {
+function get_question_id_for_question () {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     if ( !( empty ( $_GET['question_id'] ) ) ) {
         $question_id = $_GET['question_id'];
@@ -35,9 +35,8 @@ function get_question_id () {
 
 
 
-function get_tag_list () {
+function get_tag_list ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
-    $question_id = get_question_id ();
 
     // to get the tags of the question
     $result_tags = pg_query_params ( $dbconn,
@@ -51,9 +50,8 @@ function get_tag_list () {
     return $tags_array;
 }
 
-function create_headings () {
-    $question_id = get_question_id ();
-    $title = get_title ();
+function create_headings ( $question_id ) {
+    $title = get_title ( $question_id );
 
     echo ("<div id='top_header_main'>");
     // To print the header of the question
@@ -61,40 +59,41 @@ function create_headings () {
     echo ("</div>");        // to end question_title block
 }
 
-function get_username () {
-    $raw_data = get_raw_data_list();
+function get_username ( $question_id ) {
+    $raw_data = get_raw_data_list( $question_id );
     while ( $question = pg_fetch_array( $raw_data ) ) {
         $username = $question['username'];
     }
     return $username;
 }
 
-function get_user_id () {
-    $raw_data = get_raw_data_list();
+function get_user_id ( $question_id ) {
+    $raw_data = get_raw_data_list( $question_id );
     while ( $question = pg_fetch_array( $raw_data ) ) {
         $user_id = $question['user_id'];
     }
     return $user_id;
 }
 
-function get_body () {
-    $raw_data = get_raw_data_list();
+function get_body ( $question_id ) {
+    $raw_data = get_raw_data_list( $question_id );
     while ( $question = pg_fetch_array( $raw_data ) ) {
         $body = $question['body'];
     }
+    $body = preg_replace('/\n\s*\n/', "<br />\n<br />\n", htmlentities( $body ) );
     return $body;
 }
 
-function get_title () {
-    $raw_data = get_raw_data_list ();
+function get_title ( $question_id ) {
+    $raw_data = get_raw_data_list ( $question_id );
     while ( $question = pg_fetch_array ( $raw_data ) ) {
         $title = $question['title'];
     }
     return $title;
 }
 
-function create_body () {
-    $body = get_body ();
+function create_body ( $question_id ) {
+    $body = get_body ( $question_id );
     echo ("<div class='question_box'>"
         . "<div class='question_body'>"
         . "<div id='question_content'>"
@@ -104,8 +103,8 @@ function create_body () {
     );
 }
 
-function get_was_sent_at_time () {
-    $raw_data = get_raw_data_list();
+function get_was_sent_at_time ( $question_id ) {
+    $raw_data = get_raw_data_list( $question_id );
 
     while ( $question = pg_fetch_array( $raw_data ) ) {
         // Grab the was_sent_at_time for the question from the second array
@@ -116,9 +115,9 @@ function get_was_sent_at_time () {
     return $was_sent_at_time;
 }
 
-function create_tag_list () {
-    $tags_array = get_tag_list ();
-    $raw_data = get_raw_data_list();
+function create_tag_list ( $question_id ) {
+    $tags_array = get_tag_list ( $question_id );
+    $raw_data = get_raw_data_list( $question_id );
 
     echo ("<div id='tag_list'>");
     for ( $i = 0; $i < count( $tags_array ); $i++ ) {
@@ -127,11 +126,10 @@ function create_tag_list () {
     echo ("</div>");
 }
 
-function create_bottom_bar () {
-    $was_sent_at_time = get_was_sent_at_time();
-    $user_id = get_user_id ();
-    $username = get_username ();
-    $question_id = get_question_id ();
+function create_bottom_bar ( $question_id ) {
+    $was_sent_at_time = get_was_sent_at_time( $question_id );
+    $user_id = get_user_id ( $question_id );
+    $username = get_username ( $question_id );
 
     echo ("<div class='user_info_bottom_box'>");
     // print the user box for the question
@@ -147,15 +145,15 @@ function create_bottom_bar () {
 
 
 
-function create_question_content () {
-    create_headings ();
-    create_body ();
-    create_tag_list ();
-    create_bottom_bar ();
+function create_question_content ( $question_id ) {
+    create_headings ( $question_id );
+    create_body ( $question_id );
+    create_tag_list ( $question_id );
+    create_bottom_bar ( $question_id );
 }
 
 
 // Let's fire!
-create_question_content ();
+create_question_content ( get_question_id_for_question () );
 
 ?>

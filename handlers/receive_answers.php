@@ -70,11 +70,13 @@ function set_answer () {
 
 // Let's fire!
 
-if ( check_user_status () )
-    set_answer ();
+if ( !(empty ( $_POST['answer'] ) ) )
+{
+    if ( check_user_status () )
+        set_answer ();
+}
 else
     header( "Location: /codes/index.php" );
-
 
 ob_flush ();
 

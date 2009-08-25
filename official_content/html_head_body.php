@@ -12,6 +12,7 @@ jQuery('a.delete_question').live('click', function(){
     jQuery.post('/codes/handlers/delete_a_question.php', 
         { question_id: jQuery(this).attr('rel') }, 
         function(){
+            $(".question_box").removeClass("yellow");
             $(".question_box").addClass("red");
             alert ("Question was removed.");
         })
@@ -24,16 +25,6 @@ jQuery('a.flag_question').live('click', function(){
             alert ("Question is now flagged as spam.");
 });
  
-jQuery('a.username_button').live('click', function(){
-    jQuery.post('/codes/handlers/delete_an_answer.php', 
-        { question_id: jQuery(this).attr('rel'),
-          answer_id: jQuery(this).attr('rel') }),
-        function() {
-            $(".").addClass("red");
-        })
-});
- 
-
 
 </script>
 

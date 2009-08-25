@@ -17,7 +17,7 @@
     <label for="tags">Tags</label>
         <input name='question[tags]' typh="text" cols="92" class='tags' id="required" />
         <div id="notice"><p>
-        Please, use at least one tag and separate them by commas (,).
+        Please, use at least one tag and maximum five tags. Separate them by commas (,).
         </p></div>
 </fieldset>
 
