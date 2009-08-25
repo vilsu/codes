@@ -143,7 +143,10 @@ else if ( isset( $_GET['ask_question'] ) ) {
 // Content with headers
 // Question selected by the user
 else if( array_key_exists('question_id', $_GET ) ) {
+
+    echo ("<table><tr><td>");
     require ('./handlers/make_a_thread/fetch_a_question.php');
+
     // to sort the answers of the given question
     require ("./handlers/make_a_thread/fetch_answers.php");
 
@@ -156,9 +159,13 @@ else if( array_key_exists('question_id', $_GET ) ) {
     }
     echo ("</div>");    // to end container two
 
-    echo ("<div class='right_bar'>");
-    create_tags_summary( $question_id );
-    echo ("</div>");
+    echo ("</td><td><div class='right_bar'>");
+    create_global_tag_count_box_for_a_question ( $question_id );
+    echo ("</div></td></tr></table>");
+    
+
+
+
 }
 
 ?>

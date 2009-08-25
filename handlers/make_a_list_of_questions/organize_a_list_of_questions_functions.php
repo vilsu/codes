@@ -65,7 +65,7 @@ function create_tab_box_question_usernames ( $username ) {
                 . "<a name='newest' href='?tab_user=newest"
                 . "&username="
                 . $username
-                . "#newest'>newest</a>"
+                . "'>newest</a>"
                 . "</span>"
                 . "<a name='oldest' href='?tab_user=oldest"
                 . "&username="
@@ -83,7 +83,7 @@ function create_tab_box_question_usernames ( $username ) {
             . "<a name='oldest' href='?tab_user=oldest"
             . "&username="
             . $username
-            . "#oldest'>oldest</a>"
+            . "'>oldest</a>"
             . "</span>"
         );
     } 

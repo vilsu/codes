@@ -555,9 +555,8 @@ div.right_bar {
     overflow:hidden !important;
     width:210px;
     position: absolute;
-    top: 225px;
-    right: 315px;
     clear: both;
+    padding-left: 20px;
 }
 
 div#one_tag_line {

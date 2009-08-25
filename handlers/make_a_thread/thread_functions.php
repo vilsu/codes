@@ -230,10 +230,4 @@ function create_global_tag_count_box_for_a_question ( $question_id ) {
 }
 
 
-function create_tags_summary ( $question_id ) {
-    // Let's fire!
-    create_global_tag_count_box_for_a_question ( $question_id );
-}
-
-
 ?>
