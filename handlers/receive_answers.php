@@ -18,10 +18,7 @@ function check_user_status () {
         return true;
 }
 
-function get_question_id () {
-    // We need to use HTTP_REFERER because
-    // we cannot use $_GET
-    // in getting the question_id
+function get_question_id_for_receive_question () {
     $pattern = '/question_id=([^#&]*)/';
     $subject = $_SERVER['HTTP_REFERER'];
     $query = preg_match($pattern, $subject, $match) ? $match[1] : '';  // extract query from URL
@@ -33,8 +30,7 @@ function get_question_id () {
 
 
 
-function set_answer () {
-    $question_id = get_question_id ();
+function set_answer ( $question_id ) {
     $answer_sanitized = pg_escape_string( $_POST['answer'] );   // to sanitize answer
 
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
@@ -54,7 +50,7 @@ function set_answer () {
             . "answer_sent"
             . "&"
             . "question_id="
-            . $question_id[0]
+            . $question_id
         );
     } 
     else {
@@ -62,7 +58,7 @@ function set_answer () {
             . "answer_not_sent"
             . "&"
             . "question_id="
-            . $question_id[0]
+            . $question_id
         );
     }
 }
@@ -73,7 +69,7 @@ function set_answer () {
 if ( !(empty ( $_POST['answer'] ) ) )
 {
     if ( check_user_status () )
-        set_answer ();
+        set_answer ( get_question_id_for_receive_question() );
 }
 else
     header( "Location: /codes/index.php" );

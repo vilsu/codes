@@ -637,3 +637,7 @@ div#subheader div#tabs {
 div#user_in_user_box a {
     font-size: 100%;
 }
+
+div#answer {
+    width: 730px;
+}
