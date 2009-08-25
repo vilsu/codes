@@ -72,7 +72,8 @@ else if (empty( $_GET['question_id'] ) ) {
             create_answer( $answer );
             echo ("<div class='clear'> </div>");
 
-            create_moderator_box_for_an_answer ( $answer_id, $user_id );
+// buggy
+//            create_moderator_box_for_an_answer ( $answer_id, $user_id );
             echo("</div>");
         }
         echo ("</div>");
@@ -105,7 +106,8 @@ else if (empty( $_GET['question_id'] ) ) {
             echo ("<div class='clear'> </div>");
 
             create_user_info_box_question( $user_id, $username, $was_sent_at_time, "answered" );
-            create_moderator_box_for_an_answer ( $answer_id, $user_id );
+// buggy
+//            create_moderator_box_for_an_answer ( $answer_id, $user_id );
             echo("</div>");
         }
         echo ("</div>");

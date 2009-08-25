@@ -105,7 +105,6 @@ function create_headings () {
         mainheader( $_GET['username'], false );
         create_tab_box_question_usernames ( $_GET['username'] );
         subheader( count ( $end_array ) . " Questions", false);
-
     }
 }
 

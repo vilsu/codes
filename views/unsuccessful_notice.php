@@ -19,7 +19,7 @@ if (array_key_exists('2email', $_GET)) {
 
 // UNSUCCESSFUL question sent 
 if (array_key_exists('unsuccessful_new_question', $_GET)) {
-    echo ("An error occurred in sending your question."); 
+    echo ("Please, use at least one tag and maximum 5 tags."); 
 }
 
 

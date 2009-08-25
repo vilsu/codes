@@ -144,7 +144,7 @@ function check_authority_for_an_answer ( $answer_id, $user_id) {
         }
 
         // to allow the asker to remove his own questions
-        if ( $result_clear > 0 )
+        if ( $result_clear == $_SESSION['login']['user_id'] )
             return true;
         else if ( $_SESSION['login']['a_moderator'] == 1 )
             return true;

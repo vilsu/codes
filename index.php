@@ -36,7 +36,7 @@ parse_str($query, $params);
 include ( './official_content/html_head_body.php' );
 
 // debugging code must be inside HTML
-include( "debugging_code.php" );
+// include( "debugging_code.php" );
 
 include( './PATHs.php' );
 ?>
@@ -95,20 +95,20 @@ else if( $_GET['tab_tag'] == 'newest'
     OR $_GET['tab_tag'] == 'oldest' ) {
         require ( './handlers/searches/handle_questions_by_tag.php' );
     }
+// Tagged questions
+else if( array_key_exists( 'tag', $_GET ) ) {
+    require ('./handlers/searches/handle_questions_by_tag.php');
+}
 // username search
 else if( $_GET['tab_user'] == 'newest'
     OR $_GET['tab_user'] == 'oldest' ) {
         require ( './handlers/searches/handle_questions_by_username.php' );
     }
-
-// Tagged questions
-if( array_key_exists( 'tag', $_GET ) ) {
-    require ('./handlers/searches/handle_questions_by_tag.php');
-}
 // Questions of a username
 else if( array_key_exists( 'username', $_GET ) ) {
     require ('./handlers/searches/handle_questions_by_username.php');
 }
+
 
 
 // Static content

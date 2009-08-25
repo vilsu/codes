@@ -22,7 +22,7 @@ function create_question_count_box ( $question_id ) {
     $number_of_answers = get_answer_count ( $question_id );
 
     echo ("<div class='question_summary'>");
-    echo ( "<a id='no_underline' href='?question_id=" . $question_id . "'>");
+    echo ( "<a class='username_box' id='no_underline' href='?question_id=" . $question_id . "'>");
     if ( $number_of_answers[$question_id]['count'] == 1 ) {
         echo ( "<div id='answered'>"
             . "<div id='answer_count'>" 

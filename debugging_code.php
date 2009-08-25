@@ -15,4 +15,12 @@ var_dump($_GET);
 echo ("HTTP_REFERER\n"
     . $_SERVER['HTTP_REFERER']
     );
+
 ?>
+        <style>
+        p { background:yellow; font-weight:bold; cursor:pointer; 
+            padding:5px; }
+        p.over { background: #ccc; }
+        span { color:red; }
+        </style>
+

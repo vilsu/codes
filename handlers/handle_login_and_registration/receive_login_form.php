@@ -72,8 +72,8 @@ function get_username ( $email )
 }
 
 
-function get_question_id ( ) {
-    if ( is_integer ( $_GET['question_id'] ) )
+function get_question_id_ref ( ) {
+    if ( empty ( $_GET['question_id'] ) )
         return $_GET['question_id'];
     else if ( !empty ( $_SERVER['HTTP_REFERER'] ) ) 
     {
@@ -95,39 +95,17 @@ function get_question_id ( ) {
 
 function direct_right ()
 {
-    if ( is_integer ( get_question_id() ) )
-    {
-        header ( "Location: /codes/index.php?question_id=" 
-            . $question_id 
-            . "&successful_login" );
-    }
-    else if ( $_GET['login'] ) 
-    {  
-        header("Location: /codes/index.php?"
-            . "successful_login"
-        );
-    }
-    else 
-        header ("Location: /codes/index.php");
+    header("Location: /codes/index.php?"
+        . "successful_login"
+    );
 }
 
-function direct_wrong ( ) { 
-    if ( is_integer ( get_question_id() ) )
-    {
-        header ( "Location: /codes/index.php?question_id=" 
-            . $question_id 
-            . "&unsuccessful_login" );
-    }
-    else if ( $_GET['login'] ) 
-    {  
-        header("Location: /codes/index.php?"
-            . "login"
-            . "&"
-            . "unsuccessful_login"
-        );
-    }
-    else 
-        header ("Location: /codes/index.php");
+function direct_wrong () { 
+    header("Location: /codes/index.php?"
+        . "login"
+        . "&"
+        . "unsuccessful_login"
+    );
 }
 
 function get_passhash_for_email ( $email ) {
@@ -183,8 +161,7 @@ if ( validate( $email, $password ) ) {
 }
 else 
 {
-    echo ("Password must have 6 characters."
-        . "Email must be in the standard form.");
+    direct_wrong( );
 }
 
 ob_end_flush();

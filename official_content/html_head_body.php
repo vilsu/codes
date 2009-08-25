@@ -24,23 +24,19 @@ jQuery('a.flag_question').live('click', function(){
             alert ("Question is now flagged as spam.");
 });
  
-jQuery('a.no_flag_question').live('click', function(){
-    jQuery.post('/codes/handlers/no_flag_question.php', 
-        { question_id: jQuery(this).attr('rel') });
-            $(".question_box").removeAttr("yellow");  // problem here
-            alert ("Question is now not spam.");
+jQuery('a.username_button').live('click', function(){
+    jQuery.post('/codes/handlers/delete_an_answer.php', 
+        { question_id: jQuery(this).attr('rel'),
+          answer_id: jQuery(this).attr('rel') }),
+        function() {
+            $(".").addClass("red");
+        })
 });
-    
+ 
 
 
 </script>
 
-        <style>
-        p { background:yellow; font-weight:bold; cursor:pointer; 
-            padding:5px; }
-        p.over { background: #ccc; }
-        span { color:red; }
-        </style>
 </head>
 
 <body>

@@ -1,5 +1,6 @@
 <?php
 
+ob_start();
 include ('getters_for_search.php');
 
 function get_raw_data () {
@@ -37,9 +38,9 @@ function get_tags () {
         )
         ORDER BY question_id",
         array( $_GET['tag'] )
-    )
+    );
 
-    while( $tags_and_Qid = pg_fetch_array( $result_tags )) {
+    while ( $tags_and_Qid = pg_fetch_array ( $result_tags ) ) {
         // Add the Tag to an array of tags for that question
         $end_array [ $tags_and_Qid['question_id'] ] ['tag'] [] = $tags_and_Qid['tag'];
     }
@@ -55,7 +56,7 @@ function get_tags () {
 
 
 function create_headings () {
-    $end_array = get_raw_data();
+    $end_array = get_tags();
     // to check if 0 messages
     if ( count ( $end_array ) == 0 ) {
         mainheader( "Questions tagged by " . $_GET['tag'], false );
@@ -111,4 +112,5 @@ function organize_questions_by_tag () {
 create_headings ();
 organize_questions_by_tag ();
 
+ob_end_flush();
 ?>

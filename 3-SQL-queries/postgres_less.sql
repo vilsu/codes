@@ -32,7 +32,7 @@ CREATE TABLE tags (
     tag_id SERIAL NOT NULL PRIMARY KEY,
     tag VARCHAR(320) NOT NULL,
     question_id INTEGER NOT NULL, 
-    CONSTRAINT no_duplicate_tag UNIQUE (question_id, tag_id)
+    CONSTRAINT no_duplicate_tag UNIQUE (question_id, tag)
 );
 
 CREATE TABLE answers (

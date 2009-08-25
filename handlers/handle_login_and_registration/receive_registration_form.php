@@ -144,6 +144,7 @@ function direct_right ()
 function direct_wrong ( ) { 
     header ( "Location: /codes/index.php?"
         . "unsuccessful_registration"
+        . "&login"
     );
 }
 
