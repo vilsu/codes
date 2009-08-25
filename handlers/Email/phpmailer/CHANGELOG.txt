@@ -1,0 +1,80 @@
+ChangeLog
+** NOTE **
+As of Version 1.1, the license has changed to GPL. This change
+is made to support new third-party software modules included in
+this version.
+
+Version: 1.6 (August 18, 2009)
+- Fixed multiple list selection from Campaigns
+
+Version: 1.5 (June 13, 2009)
+- Changed installation procedure, default mailing list database now gets information
+  from the inc.settings.php file edited before uploading to server
+- Changed the confirmation email from the subscription to HTML / Text format
+- CSS errors corrected
+- New User Interface
+- Added ability to import CSV records without field enclosures
+- Fixed the date inserted into database on CSV import
+- Fixed path on checking for writable folders
+- Fixed path on template copy
+- Fixed CSV bulk upload issues
+- Split the inc.settings.php file into three separate settings files
+  - db settings in inc.settings_db.php
+  - smtp settings in inc.settings_smtp.php (no need to edit if using Sendmail)
+* many thanks to Steve Morton for improvements in the registration functionality
+
+Version: 1.4 (April 04, 2009)
+- fixed a bug in inc.campaigns.php at approximately line 154 with misplaced )
+- updated PHPMailer included with PHPMailer-ML to version 2.0.4 released April 02, 2009
+- set $SMTPKeepAlive to true to maximize speed, minimize connections (when using SMTP)
+  - will help with even small mailing lists
+
+Version: 1.3 (January 13, 2009)
+- withdrew version 1.2 from distribution
+- fixed a bug in the functions that create the database tables (thanks to hvanmeer)
+- fixed a bug in the lists functionality that prevented "Delete Selected" from working
+
+Version: 1.2 (UPGRADE FROM 1.1) (January 11, 2009)
+- fixed a bug in root folder index.php - now calls all the config files needed
+- fixed a bug in changing default mailing list (was not working properly)
+- added a superb CSV import utility (from "Subscribers" tab)
+  - supports CSV with and without header row
+  - supports field/CSV mapping where header row does not match database field names
+  - supports field/CSV mapping where header row does not exist
+  - supports any field separator
+  - supports either single quote, double quote or no quote for field enclosure
+- added new language variables and icons to support import utility
+
+NOTE: to use the new import functionality, create a files/ directory off the root of
+      your PHPMailer-ML installation and make the directory writable
+
+Version: 1.1 (January 01, 2009)
+- added support for unlimited email templates with previews (2 included)
+- added total number of confirmed subscribers column in Mailing List view
+- removed "Database" options in 'Configuration' pane when data exists
+- added "Preferences" options in 'Configuration' pane for simpler updating of application variables
+- added Javascript to control SMTP/Sendmail form fields (disabled, clearing fields, etc.)
+- changed default send type to Sendmail
+- added new language variables for new functionality
+- changed language variable to display "Mailing Lists" instead of "Lists"
+- changed the WYSIWYG editor to Solmetra's SPAW2 editor
+  - uses modified toolbars
+  - uses modified theme (SPAW1)
+  - supports image upload
+- added code to inc.settings.php to display warning and exit() if upload directory is not writable
+- added code to inc.settings.php to display warning and exit() if settings file is not writable
+
+Version: 1.0.0 rc1 (July 17 2008)
+- added open source WYSIWYG editor
+- added functionality to save campaigns
+- added ability to save/send campaigns
+- added ability to multi-edit campaigns
+- added ability to send HTML & Text messages, or Text Only (previous was Text Only)
+- added auto-stripping HTML to create text portion of message using HTML2Text
+- no known bugs (none reported from beta2)
+
+Version: 1.0.0 beta2
+* Initial external beta test
+
+Version: 1.0.0 beta1
+* Initial internal beta test, limited rollout to volunteer beta testers

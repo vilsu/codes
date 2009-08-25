@@ -1,5 +1,7 @@
 <?php
 
+include ("/codes/Email/email.php");
+
 $subject = "Flagged question"; 
 $question_id = $_POST['question_id']; // to get data from jQuery.post
 $headers = 'MIME-Version: 1.0' . "\r\n"; 
