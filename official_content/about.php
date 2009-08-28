@@ -1,4 +1,3 @@
 <p>
-Sivusto on keskustelusivusto.
-Se on toteutettu harjoitustyössä.
+This site is for nerds.
 </p>

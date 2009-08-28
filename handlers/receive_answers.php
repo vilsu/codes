@@ -1,5 +1,7 @@
 <?php
 
+include ("getters_at_question.php");
+
 // This handlers the receiving of answers to a question from 
 // ../forms/lomake_answer.php
 
@@ -16,16 +18,6 @@ function check_user_status () {
         return false;
     else
         return true;
-}
-
-function get_question_id_for_receive_question () {
-    $pattern = '/question_id=([^#&]*)/';
-    $subject = $_SERVER['HTTP_REFERER'];
-    $query = preg_match($pattern, $subject, $match) ? $match[1] : '';  // extract query from URL
-    parse_str( $query, $params );
-    $question_id = explode( "=", $query );      // this is an array
-
-    return $question_id[0];
 }
 
 
@@ -69,7 +61,7 @@ function set_answer ( $question_id ) {
 if ( !(empty ( $_POST['answer'] ) ) )
 {
     if ( check_user_status () )
-        set_answer ( get_question_id_for_receive_question() );
+        set_answer ( get_questionID_at_question() );
 }
 else
     header( "Location: /codes/index.php" );

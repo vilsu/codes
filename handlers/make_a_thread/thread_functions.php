@@ -111,9 +111,15 @@ function create_moderator_box_for_a_question ( $question_id, $user_id ) {
             . " title='vote to remove this post'>delete</a>"
             . "<span class='link_separator'>|</span>"
         );
+        // user can edit his answer
+        echo ("<a href='?edit_question" . "&question_id=" . $question_id . "'"
+            . " class='edit_question'"
+            . " title='edit your question'>edit</a>"
+            . "<span class='link_separator'>|</span>"
+        );
         echo ("<a href='#'"
             . "class='flag_question'"
-            . " question_id='" . $question_id . "'"
+            . " rel='" . $question_id . "'"
             . " title='flag this post for serious problems'>flag</a>"
         );
     }

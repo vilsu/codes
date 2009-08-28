@@ -78,7 +78,7 @@ function get_question_id_ref ( ) {
     else if ( !empty ( $_SERVER['HTTP_REFERER'] ) ) 
     {
         // To redirect the user back to the question where he logged in
-        $pattern = '/\?([^#&]*)/';
+        $pattern = '/question_id=([^#&]*)/';
         $subject = $_SERVER['HTTP_REFERER'];
         // extract query from URL
         $query = preg_match($pattern, $subject, $match) ? $match[1] : '';  
@@ -91,6 +91,7 @@ function get_question_id_ref ( ) {
     else 
         return false;
 }
+
 
 
 function direct_right ()
@@ -161,7 +162,7 @@ if ( validate( $email, $password ) ) {
 }
 else 
 {
-    direct_wrong( );
+    direct_wrong();
 }
 
 ob_end_flush();

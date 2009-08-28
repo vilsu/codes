@@ -48,6 +48,8 @@ function validate_password ( $password )
 
 function validate_username ( $username )
 {
+//    $allowed_username = preg_match ( '/^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/', $username );
+
     if ( !( ctype_alnum ( $username ) ) ) 
     {
         echo ("Your password contains illegal characters");
@@ -76,7 +78,7 @@ function validate ( $email, $password, $username )
         echo "password wrong";
         return false;
     }
-    else if ( !validate_username ( $password ) )
+    else if ( !validate_username ( $username ) )
     {
         echo "username wrong";
         return false;
@@ -116,17 +118,21 @@ function get_user_id ( $email )
     return $user_id;
 }
 
+function get_question_id ( ) {
+    $pattern = '/question_id=([^#&]*)/';
+    $subject = $_SERVER['HTTP_REFERER'];
+    // extract query from URL
+    $query = preg_match($pattern, $subject, $match) ? $match[1] : '';  
+    parse_str($query, $params);
+    $question_id = explode ( '=', $query );
+}
+
 function direct_right ()
 {
     if ( array_key_exists ( 'question_id', $_GET ) ) {
         // To redirect the user back to the question where he logged in
-        $pattern = '/\?([^#&]*)/';
-        $subject = $_SERVER['HTTP_REFERER'];
-        // extract query from URL
-        $query = preg_match($pattern, $subject, $match) ? $match[1] : '';  
-        parse_str($query, $params);
-        $question_id = explode ( '=', $query );
-
+    
+        $question_id = get_question_id ();
         header ( "Location: /codes/index.php?question_id=" 
             . $question_id 
             . "&successful_login" );
