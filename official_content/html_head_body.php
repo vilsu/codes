@@ -6,6 +6,8 @@
 
    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js" type="text/javascript"></script>
 
+<script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/validate/jquery.validate.js"></script>
+
 <script type="text/javascript"> 
 
 // Detele and Flag buttons in reading questions
@@ -27,46 +29,25 @@ jQuery('a.flag_question').live('click', function(){
             $("div.successful").append("<strong class=\"addedtext\">Question was flagged as Spam.</strong>");
 });
 
-var input = $(":button").css({background:"yellow", border:"3px red solid"});
-$("div").text("For this type jQuery found " + input.length + ".")
-        .css("color", "red");
-$("form").submit(function () { return false; }); // so it won't submit
-
-var $submit = $("input[type=submit]");
-if ( $("input:empty").length > 0 ) {
-   $submit.attr("disabled","disabled");
-} else {
-   $submit.removeAttr("disabled");
-}
-
-
-
+// TODO buggy
 //$(document).ready(function(){
-//    $("#ask_form").validate(){
-//        rules: {
-//            username {
-//                required: true,
-//                minlenghth: 2
-//            },
-//            email: {
-//                required: true;
-//                minlength: 6
-//            },
-//            password {
-//                required: true,
-//                minlength: 6
-//            }
-//        } 
-//    });
-//}
+//    // if ( $("textarea:empty").val().length() == 0 && $("input.title:empty").length() == 0 ) {
+//    if ( $('input.title').is(":empty") ) 
+//    {
+//        $('.ask_question').attr('enabled', 'enabled'); 
+//    }
+//    else
+//    {
+//        $('.ask_question').attr('disabled', 'disabled'); 
+//    }
+//});
+//
+
+
+
 
 
 </script>
-
-
-
-
-
 
 <style>#field { margin-left: .5em; float: left; }
     #field, label { float: left; font-family: Arial, Helvetica, sans-serif; font-size: small; }
@@ -95,21 +76,3 @@ if ( $("input:empty").length > 0 ) {
 </head>
 
 <body>
-
-<script type="text/javascript">
-
-$(document).ready(function(){
-
-    function notEmpty() {
-        //put this in a function and call it when the user tries to submit
-        var tags = $("#required").val();
-        if (tags == '' || tags == null) {
-            alert('Please enter one or more tags');
-            return false;
-        }
-        return true;
-    }
-
-});
-
-</script>
