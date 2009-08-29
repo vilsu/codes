@@ -5,6 +5,8 @@
  * the conditions when a given action happens. 
  */
 
+include ("getters_question_check.php");
+
 // Functions
 include ("./handlers/header_functions.php");
 
@@ -104,44 +106,11 @@ function create_view () {
     else if( array_key_exists( 'search', $_GET ) ) {
         require ('./handlers/searches/search_body.php');
     }
-
-    // Static content
-    require './views/about.php';
 }
 
-function get_status_of_question_in_database ( $question_id ) {
-    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
-
-    $result = pg_query_params ( $dbconn,
-        'SELECT question_id
-        FROM questions
-        WHERE question_id = $1',
-        array ( $question_id )
-    );
-
-    if ( $result !== FALSE )
-    {
-        $row = pg_num_rows ( $result );
-
-        if ( $row !== 0 )
-        {
-            echo "hurray";
-            return true;
-        }
-        else
-        {
-            echo "argh: on question_id";
-            return false;
-        }
-    }
-    else {
-        echo "argh: ei ole question_id";
-        return false;
-    }
-}
 
 function get_question_id_home ( ) {
-    if ( empty ( $_GET['question_id'] ) )
+    if ( !empty ( $_GET['question_id'] ) )
         return $_GET['question_id'];
     else if ( !empty ( $_SERVER['HTTP_REFERER'] ) ) 
     {
@@ -150,14 +119,12 @@ function get_question_id_home ( ) {
         $subject = $_SERVER['HTTP_REFERER'];
         // extract query from URL
         $query = preg_match($pattern, $subject, $match) ? $match[1] : '';  
-        parse_str($query, $params);
+        parse_str ( $query, $params );
         $question_id = explode ( '=', $query );
         $question_id = $question_id[0];
 
         return $question_id;
     }
-    else 
-        return false;
 }
 
 function create_logged_in_view () {
@@ -246,9 +213,10 @@ $question_id = get_question_id_home ();
 create_view ();
 if ( get_status_of_question_in_database ( $question_id ) )
     create_content_without_headings ( $question_id );
+else if ( array_key_exists ( 'about', $_GET ) )
+    require './views/about.php';
 else
 {
-    create_notices ();
     echo ("No question found");
 }
 
@@ -262,4 +230,5 @@ else
 <?php
 // http://www.php.net/manual/en/function.session-regenerate-id.php#85433
 ob_end_flush();
+
 ?>
