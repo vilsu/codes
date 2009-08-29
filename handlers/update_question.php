@@ -104,9 +104,9 @@ function set_question ( $question_id ) {
     // This needs to be before Tags, since we need the question_id
     // Body of the question TO DB 
     $result_question = pg_query_params($dbconn, 
-        "UPDATE questions
+        'UPDATE questions
         SET body = $1, title = $2
-        WHERE question_id = $3",
+        WHERE question_id = $3',
             array ( $body, $title, $question_id )
         );
     if ( $result_question ) 

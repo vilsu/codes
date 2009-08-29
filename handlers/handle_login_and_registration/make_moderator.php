@@ -3,11 +3,10 @@
 // only for reference
 
 $result = pg_prepare ( $dbconn, "make_moderator", 
-    "UPDATE users 
+    'UPDATE users 
     SET a_moderator = 1
-    WHERE email = $1;"
+    WHERE email = $1',
+    array ( $_POST['login']['email'] ) 
 );
-
-$result = pg_execute ( $dbconn, "make_moderator", array ( $_POST['login']['email'] ) );
 
 ?>
