@@ -32,37 +32,4 @@ function create_moderator_box_for_a_question ( $question_id, $user_id ) {
     echo ("</div>");
 }
 
-
-function create_moderator_box_for_an_answer ( $answer, $user_id ) {
-
-    echo ("<div class='post_menu'>");
-    echo ("<div class='answer_" . $answer . "'>");
-    if ( check_authority_for_an_answer( $answer, $user_id ) ) {
-        // user can delete his own answer
-        echo ("<a href='#'"
-            . "class='delete_answer'"
-            . " rel='" . $answer . "'"
-            . " title='delete your this answer'>delete</a>"
-            . "<span class='link_separator'>|</span>"
-        );
-        // user can flag his own answer
-        echo ("<a href='#'"
-            . "class='flag_answer'"
-            . " rel='" . $answer . "'"
-            . " title='flag this answer for serious problems'>flag</a>"
-        );
-    }
-    else
-    {
-        echo ("<a href='#'"
-            . "class='flag_answer'"
-            . " rel='" . $answer . "'"
-            . " title='flag this answer for serious problems'>flag</a>"
-        );
-    }
-    echo ("</div>");
-    echo ("</div>");
-}
-
-
 ?>

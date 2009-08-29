@@ -127,7 +127,6 @@ function create_answer_box ( $question_id ) {
     {
         $result_answers = fetch_answers ( $question_id );
 
-        $user_id = get_user_id_for_answer( $question_id );
         $username = get_username_for_answer( $question_id );
         $was_sent_at_time = get_was_sent_time_for_answer( $question_id ); 
 
@@ -137,11 +136,10 @@ function create_answer_box ( $question_id ) {
             $answer = $answer_row['answer'];
             create_answer( $answer );
             echo ("<div class='clear'> </div>");
+
+            $user_id = get_user_id_for_answer ( $question_id );
             create_user_info_box_question( $user_id, $username, $was_sent_at_time, "answered" );
 
-            // buggy
-            $user_id = get_user_id_for_answer( $question_id );
-            create_moderator_box_for_an_answer ( $answer, $user_id );
             echo("</div>");
         }
         echo ("</div>");
