@@ -73,50 +73,15 @@ function create_subheader_for_answers ( $question_id ) {
 }
 
 
-
-
 function get_was_sent_time_for_answer ( $question_id ) {
-    $result_answers = fetch_answers ( $question_id );
+    // Grab the was_sent_at_time for the question from the second array
+    $was_sent_at_time_unformatted = $answer_row['was_sent_at_time'];
+    $was_sent_at_time_array = explode( " ", $was_sent_at_time_unformatted, 4 );
+    $was_sent_at_time = $was_sent_at_time_array[0];
 
-    $answers_real = pg_fetch_all( $result_answers );
-    foreach ( $answers_real as $answer_row ) {
-        // Grab the was_sent_at_time for the question from the second array
-        $was_sent_at_time_unformatted = $answer_row['was_sent_at_time'];
-        $was_sent_at_time_array = explode( " ", $was_sent_at_time_unformatted, 4 );
-        $was_sent_at_time = $was_sent_at_time_array[0];
-    }
     return $was_sent_at_time;
 }
 
-function get_user_id_for_answer ( $question_id ) {
-    $result_answers = fetch_answers ( $question_id );
-
-    $answers_real = pg_fetch_all( $result_answers );
-    foreach ( $answers_real as $answer_row ) {
-        $user_id = $answer_row['user_id'];
-    }
-    return $user_id;
-}
-
-function get_username_for_answer ( $question_id ) {
-    $result_answers = fetch_answers ( $question_id );
-
-    $answers_real = pg_fetch_all( $result_answers );
-    foreach ( $answers_real as $answer_row ) {
-        $username = $answer_row['username'];
-    }
-    return $username;
-}
-
-function get_answer_id ( $question_id ) {
-    $result_answers = fetch_answers ( $question_id );
-
-    $answers_real = pg_fetch_all( $result_answers );
-    foreach ( $answers_real as $answer_row ) {
-        $answer_id = $answer_row['answer_id'];
-    }
-    return $answer_id;
-}
 
 function create_answer_box ( $question_id ) {
     $result_answers = fetch_answers ( $question_id );
@@ -126,10 +91,6 @@ function create_answer_box ( $question_id ) {
     if ( $number_of_answers !== 0 ) 
     {
         $result_answers = fetch_answers ( $question_id );
-
-        $username = get_username_for_answer( $question_id );
-        $was_sent_at_time = get_was_sent_time_for_answer( $question_id ); 
-
         $answers_real = pg_fetch_all( $result_answers );
         foreach ( $answers_real as $answer_row ) {
             echo ("<div id='one_answer'>");
@@ -137,7 +98,12 @@ function create_answer_box ( $question_id ) {
             create_answer( $answer );
             echo ("<div class='clear'> </div>");
 
-            $user_id = get_user_id_for_answer ( $question_id );
+            $user_id = $answer_row['user_id'];
+            $username = $answer_row['username'];
+
+            $was_sent_at_time = $answer_row['was_sent_at_time'];
+            $was_sent_at_time = get_was_sent_time_for_answer ( $question_id );
+
             create_user_info_box_question( $user_id, $username, $was_sent_at_time, "answered" );
 
             echo("</div>");
@@ -146,6 +112,11 @@ function create_answer_box ( $question_id ) {
     }
 
 }
+
+
+
+
+
 
 
 
