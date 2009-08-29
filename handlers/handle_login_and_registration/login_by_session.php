@@ -30,9 +30,9 @@ function get_original_passhash_md5 ()
     if ( !empty ( $_POST['login']['email'] ) ) 
     {
         $result = pg_query_params ( $dbconn, 
-            "SELECT passhash_md5 
+            'SELECT passhash_md5 
             FROM users
-            WHERE email=$1",
+            WHERE email=$1',
             array( $_POST['login']['email'] ) 
         );
         while ( $row = pg_fetch_array ( $result ) )
@@ -43,9 +43,9 @@ function get_original_passhash_md5 ()
     else if ( !empty ( $_SESSION['login']['email'] ) )
     {
         $result = pg_query_params ( $dbconn, 
-            "SELECT passhash_md5 
+            'SELECT passhash_md5 
             FROM users
-            WHERE email=$1",
+            WHERE email=$1',
             array( $_SESSION['login']['email'] ) 
         );
         while ( $row = pg_fetch_array ( $result ) )

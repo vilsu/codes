@@ -6,7 +6,7 @@ function get_raw_data () {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     // to get titles and question_ids
     $result_titles = pg_query_params( $dbconn,
-        "SELECT q.question_id, q.title, q.was_sent_at_time, u.username, u.user_id
+        'SELECT q.question_id, q.title, q.was_sent_at_time, u.username, u.user_id
         FROM questions q
         LEFT JOIN users u
         ON q.user_id=u.user_id 
@@ -17,7 +17,7 @@ function get_raw_data () {
             LIMIT 50 
         ) 
         ORDER BY was_sent_at_time DESC
-        LIMIT 50",
+        LIMIT 50',
         array()
     );
 
@@ -42,14 +42,14 @@ function get_tags () {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
     $result_tags = pg_query_params( $dbconn, 
-        "SELECT question_id, tag
+        'SELECT question_id, tag
         FROM tags
         WHERE question_id IN 
         ( 
             SELECT question_id
             FROM questions
             LIMIT 50
-        )",
+        )',
         array()
     );
     while( $tags_and_Qid = pg_fetch_array( $result_tags )) {

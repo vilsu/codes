@@ -12,7 +12,6 @@ $message = "<a href='index.php?question_id=" . $question_id . "'>"
     . "The question " . $question_id . "</a> is flagged by an user. Please, review it.";
 
 if ( mail( $to, $subject, $message, $headers, "-fville.tapsu@gmail.com" ) ) {
-    echo ("Thank you for your report!");
 }
 
 ?>

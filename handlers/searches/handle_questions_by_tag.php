@@ -9,7 +9,7 @@ function get_raw_data () {
     // to get titles and question_ids
     // When tag is given by the user
     $result_titles = pg_query_params( $dbconn,
-        "SELECT q.question_id, q.title, q.was_sent_at_time, u.username, u.user_id
+        'SELECT q.question_id, q.title, q.was_sent_at_time, u.username, u.user_id
         FROM questions q
         INNER JOIN tags t 
         ON q.question_id=t.question_id
@@ -17,7 +17,7 @@ function get_raw_data () {
         ON q.user_id=u.user_id
         WHERE tag = $1
         ORDER BY q.was_sent_at_time
-        DESC LIMIT 50",
+        DESC LIMIT 50',
         array( strip_tags( $_GET['tag'] ) )
     );
 
@@ -28,7 +28,7 @@ function get_tags () {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
     $result_tags = pg_query_params( $dbconn, 
-        "SELECT question_id, tag
+        'SELECT question_id, tag
         FROM tags
         WHERE question_id IN
         (
@@ -36,7 +36,7 @@ function get_tags () {
             FROM tags
             WHERE tag = $1
         )
-        ORDER BY question_id",
+        ORDER BY question_id',
         array( $_GET['tag'] )
     );
 

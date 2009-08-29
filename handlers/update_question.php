@@ -136,9 +136,9 @@ function set_tags ( $question_id) {
         );
 
         $result = pg_prepare ( $dbconn, "query_777",
-            "INSERT INTO tags
+            'INSERT INTO tags
             (tag, question_id)
-            VALUES ($1, $2)"
+            VALUES ($1, $2)'
         );
 
 

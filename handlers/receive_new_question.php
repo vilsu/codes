@@ -109,9 +109,9 @@ function get_user_id () {
     $email = $_SESSION['login']['email'];
 
     $result = pg_query_params ( $dbconn,
-        "SELECT user_id
+        'SELECT user_id
         FROM users
-        WHERE email = $1",
+        WHERE email = $1',
         array ( $email )
     );
     // to read the value
@@ -132,9 +132,9 @@ function set_question () {
     // This needs to be before Tags, since we need the question_id
     // Body of the question TO DB 
     $result_question = pg_query_params($dbconn, 
-        "INSERT INTO questions
+        'INSERT INTO questions
         (body, title, user_id)
-        VALUES ($1, $2, $3)",
+        VALUES ($1, $2, $3)',
             array($body, $title, $user_id)
         );
     if ( $result_question ) 
@@ -151,11 +151,11 @@ function get_question_id () {
 
     // to get the question_id from the db
     $result = pg_query_params($dbconn, 
-        "SELECT question_id
+        'SELECT question_id
         FROM questions
         WHERE title = $1
         AND body = $2
-        AND user_id = $3",
+        AND user_id = $3',
         array( $title, $body, $user_id )
     );
     while ($row = pg_fetch_row($result)) {
@@ -179,9 +179,9 @@ function set_tags () {
     if ( !empty ( $tags_array ) ) {
         // TAGS to DB
         $result = pg_prepare($dbconn, "query2", 
-            "INSERT INTO tags
+            'INSERT INTO tags
             (tag, question_id)
-            VALUES ($1, $2)"
+            VALUES ($1, $2)'
         );
 
         if ( count ( $tags_array ) < 6 ) {

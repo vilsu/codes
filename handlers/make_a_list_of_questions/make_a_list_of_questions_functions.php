@@ -7,10 +7,11 @@ function get_answer_count ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     // to get the number of answers for the question
     $result = pg_query_params ( $dbconn,
-        "SELECT count(answer)
+        'SELECT count(answer)
         FROM answers
-        WHERE question_id = $1",
-        array ( $question_id ) );
+        WHERE question_id = $1',
+        array ( $question_id ) 
+    );
 
     while ( $row = pg_fetch_array ( $result ) ) {
         $number_of_answers[$question_id]['count'] = $row['count'];

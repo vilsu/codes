@@ -19,29 +19,27 @@ function get_question_id_for_answer () {
 
 
 
-function fetch_answers () {
+function fetch_answers ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
-    $question_id = get_question_id_for_answer ();
-
     if ( !($_GET['sort'] == 'oldest' ) )
     {
         $result = pg_query_params ( $dbconn, 
-            "SELECT a.answer, u.username, a.was_sent_at_time, u.user_id, a.answer_id
+            'SELECT a.answer, u.username, a.was_sent_at_time, u.user_id, a.answer_id
             FROM answers a
             LEFT JOIN users u ON a.user_id = u.user_id
             WHERE question_id = $1
-            ORDER BY a.was_sent_at_time DESC",
+            ORDER BY a.was_sent_at_time DESC',
             array ( $question_id )
         );
     }
     else
     {
         $result = pg_query_params ( $dbconn, 
-            "SELECT a.answer, u.username, a.was_sent_at_time, u.user_id, a.answer_id
+            'SELECT a.answer, u.username, a.was_sent_at_time, u.user_id, a.answer_id
             FROM answers a
             LEFT JOIN users u ON a.user_id = u.user_id
             WHERE question_id = $1
-            ORDER BY a.was_sent_at_time ASC",
+            ORDER BY a.was_sent_at_time ASC',
             array ( $question_id )
         );
     }
@@ -49,10 +47,9 @@ function fetch_answers () {
     return $result;
 }
 
-function create_subheader_for_answers () {
-    $result_answers = fetch_answers ();
-    $question_id = get_question_id_for_answer ();
-    // to print subheader for Answers/*{{{*/
+function create_subheader_for_answers ( $question_id ) {
+    $result_answers = fetch_answers ( $question_id );
+    // to print subheader for Answers
     $number_of_answers = pg_num_rows ( $result_answers );
 
     if ( $number_of_answers == 1 ) 
@@ -78,8 +75,8 @@ function create_subheader_for_answers () {
 
 
 
-function get_was_sent_time_for_answer () {
-    $result_answers = fetch_answers ();
+function get_was_sent_time_for_answer ( $question_id ) {
+    $result_answers = fetch_answers ( $question_id );
 
     $answers_real = pg_fetch_all( $result_answers );
     foreach ( $answers_real as $answer_row ) {
@@ -91,8 +88,8 @@ function get_was_sent_time_for_answer () {
     return $was_sent_at_time;
 }
 
-function get_user_id_for_answer () {
-    $result_answers = fetch_answers ();
+function get_user_id_for_answer ( $question_id ) {
+    $result_answers = fetch_answers ( $question_id );
 
     $answers_real = pg_fetch_all( $result_answers );
     foreach ( $answers_real as $answer_row ) {
@@ -101,8 +98,8 @@ function get_user_id_for_answer () {
     return $user_id;
 }
 
-function get_username_for_answer () {
-    $result_answers = fetch_answers ();
+function get_username_for_answer ( $question_id ) {
+    $result_answers = fetch_answers ( $question_id );
 
     $answers_real = pg_fetch_all( $result_answers );
     foreach ( $answers_real as $answer_row ) {
@@ -111,8 +108,8 @@ function get_username_for_answer () {
     return $username;
 }
 
-function get_answer_id () {
-    $result_answers = fetch_answers ();
+function get_answer_id ( $question_id ) {
+    $result_answers = fetch_answers ( $question_id );
 
     $answers_real = pg_fetch_all( $result_answers );
     foreach ( $answers_real as $answer_row ) {
@@ -121,18 +118,18 @@ function get_answer_id () {
     return $answer_id;
 }
 
-function create_answer_box () {
-    $result_answers = fetch_answers ();
-    // to print subheader for Answers/*{{{*/
+function create_answer_box ( $question_id ) {
+    $result_answers = fetch_answers ( $question_id );
+    // to print subheader for Answers
     $number_of_answers = pg_num_rows ( $result_answers );
 
     if ( $number_of_answers !== 0 ) 
     {
-        $result_answers = fetch_answers ();
+        $result_answers = fetch_answers ( $question_id );
 
-        $user_id = get_user_id_for_answer();
-        $username = get_username_for_answer();
-        $was_sent_at_time = get_was_sent_time_for_answer(); 
+        $user_id = get_user_id_for_answer( $question_id );
+        $username = get_username_for_answer( $question_id );
+        $was_sent_at_time = get_was_sent_time_for_answer( $question_id ); 
 
         $answers_real = pg_fetch_all( $result_answers );
         foreach ( $answers_real as $answer_row ) {
@@ -143,7 +140,8 @@ function create_answer_box () {
             create_user_info_box_question( $user_id, $username, $was_sent_at_time, "answered" );
 
             // buggy
-            //            create_moderator_box_for_an_answer ( $answer_id, $user_id );
+            $user_id = get_user_id_for_answer( $question_id );
+            create_moderator_box_for_an_answer ( $answer, $user_id );
             echo("</div>");
         }
         echo ("</div>");
@@ -156,7 +154,7 @@ function create_answer_box () {
 
 
 // Let's fire!
-create_subheader_for_answers ();
-create_answer_box ();
+create_subheader_for_answers ( get_question_id_for_answer () );
+create_answer_box ( get_question_id_for_answer () );
 
 ?>

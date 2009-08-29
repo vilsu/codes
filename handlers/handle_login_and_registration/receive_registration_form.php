@@ -10,9 +10,9 @@ function validate_email ( $email )
 {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     $result = pg_query_params($dbconn,
-        "SELECT count(email) 
+        'SELECT count(email) 
         FROM users
-        WHERE email = $1", 
+        WHERE email = $1', 
         array( $email )
     );
     while ( $row = pg_fetch_row ( $result ) ) {
@@ -95,9 +95,9 @@ function add_new_user ( $email, $passhash_md5, $username )
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     // Save to db
     $result = pg_query_params($dbconn, 
-        "INSERT INTO users 
+        'INSERT INTO users 
         (username, email, passhash_md5)
-        VALUES ($1, $2, $3)",
+        VALUES ($1, $2, $3)',
             array($username, $email, $passhash_md5)
         );
 }
@@ -107,9 +107,9 @@ function get_user_id ( $email )
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     // grap the user_id
     $result = pg_query_params( $dbconn,
-        "SELECT user_id
+        'SELECT user_id
         FROM users
-        WHERE email = $1",
+        WHERE email = $1',
         array( $email )  
     );
     while ( $row = pg_fetch_array( $result ) ) {
@@ -154,10 +154,15 @@ function direct_wrong ( ) {
     );
 }
 
+function hash_password ( $password ) {
+    $passhash_md5 = md5 ( $password );
+    return $passhash_md5;
+}
+
 // Let's rock!
 $username = $_POST['login']['username'];
 $password = $_POST['login']['password'];
-$passhash_md5 = md5 ( $password );
+$passhash_md5 = hash_password ( $password );
 $email = $_POST['login']['email'];
 
 if ( validate( $email, $password, $username) ) {

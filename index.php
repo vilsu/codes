@@ -19,7 +19,7 @@ ob_start();
 require ( './handlers/handle_login_and_registration/login_by_session.php' );
 require ( './handlers/handle_login_and_registration/moderator_check.php' );
 
-include ( './official_content/html_head_body.php' );
+include ( './html_head_body.php' );
 
 // debugging code must be inside HTML
 include( "debugging_code.php" );
@@ -109,13 +109,58 @@ function create_view () {
     require './views/about.php';
 }
 
+function get_status_of_question_in_database ( $question_id ) {
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
+    $result = pg_query_params ( $dbconn,
+        'SELECT question_id
+        FROM questions
+        WHERE question_id = $1',
+        array ( $question_id )
+    );
 
-function create_content_without_headings () {
-    // inside a question functions
-    include ("./handlers/make_a_thread/thread_functions.php");
-    create_notices ();
+    if ( $result !== FALSE )
+    {
+        $row = pg_num_rows ( $result );
 
+        if ( $row !== 0 )
+        {
+            echo "hurray";
+            return true;
+        }
+        else
+        {
+            echo "argh: on question_id";
+            return false;
+        }
+    }
+    else {
+        echo "argh: ei ole question_id";
+        return false;
+    }
+}
+
+function get_question_id_home ( ) {
+    if ( empty ( $_GET['question_id'] ) )
+        return $_GET['question_id'];
+    else if ( !empty ( $_SERVER['HTTP_REFERER'] ) ) 
+    {
+        // To redirect the user back to the question where he logged in
+        $pattern = '/question_id=([^#&]*)/';
+        $subject = $_SERVER['HTTP_REFERER'];
+        // extract query from URL
+        $query = preg_match($pattern, $subject, $match) ? $match[1] : '';  
+        parse_str($query, $params);
+        $question_id = explode ( '=', $query );
+        $question_id = $question_id[0];
+
+        return $question_id;
+    }
+    else 
+        return false;
+}
+
+function create_logged_in_view () {
     // Login and Logout
     if (isset($_GET['login'])) {
         // to have login at userbar
@@ -127,55 +172,85 @@ function create_content_without_headings () {
         session_destroy();
         header("Location: index.php");
     } 
+}
 
+function get_login_status () {
+    if ( isset( $_SESSION['login']['logged_in'] ) )
+        return true;
+    else
+        return false;
+}
+
+function create_ask_question_view () {
     // Ask question -view
-    else if ( isset( $_GET['ask_question'] ) ) {
+    if ( isset( $_GET['ask_question'] ) ) {
         // change the layout by adding question form by getting data from 
         include './forms/lomake_ask_question.php';
 
         // LOGIN at the bottom of Ask_question
-        if ( !isset( $_SESSION['login']['logged_in'] ) ) {
-            // change the layout by adding question form by getting data
+        if ( !get_login_status () )
             include( "./views/login.php" );
-        }
     }
+}
 
+function create_answers_box ( $question_id ) {
+    echo ("<table><tr><td>");
+    // to sort the answers of the given question
+    require ("./handlers/make_a_thread/fetch_answers.php");
+
+    require ('./forms/lomake_answer.php');
+
+    // LOGIN at the bottom
+    if ( !get_login_status () )
+        include( "./views/login.php" );
+    echo ("</div>");    // to end container two
+
+    echo ("</td><td><div class='right_bar'>");
+    create_global_tag_count_box_for_a_question ( $question_id );
+    echo ("</div></td></tr></table>");
+}
+
+
+function create_in_question_view ( $question_id ) {
     // Content with headers
     // Question selected by the user
-    else if( array_key_exists('question_id', $_GET ) ) 
+    if( array_key_exists('question_id', $_GET ) ) 
     {
         if ( array_key_exists ( 'edit_question', $_GET ) ) 
-        {
             require ('./handlers/edit_question.php');
-        }
         else
         {
             require ('./handlers/make_a_thread/fetch_a_question.php');
-
-            echo ("<table><tr><td>");
-            // to sort the answers of the given question
-            require ("./handlers/make_a_thread/fetch_answers.php");
-
-            require ('./forms/lomake_answer.php');
-
-            // LOGIN at the bottom
-            if (!isset($_SESSION['login']['logged_in'])) {
-                // change the layout by adding question form by getting data
-                include( "./views/login.php" );
-            }
-            echo ("</div>");    // to end container two
-
-            echo ("</td><td><div class='right_bar'>");
-            create_global_tag_count_box_for_a_question ( $question_id );
-            echo ("</div></td></tr></table>");
+            create_answers_box ( $question_id );
         }
     }
 }
 
-// Let's fire!
-create_view ();
-create_content_without_headings ();
 
+
+
+function create_content_without_headings ( $question_id ) {
+    // inside a question functions
+    include ("./handlers/make_a_thread/thread_functions.php");
+    create_notices ();
+    create_logged_in_view ();
+    create_ask_question_view ();
+
+    create_in_question_view ( $question_id );
+}
+
+
+
+// Let's fire!
+$question_id = get_question_id_home ();
+create_view ();
+if ( get_status_of_question_in_database ( $question_id ) )
+    create_content_without_headings ( $question_id );
+else
+{
+    create_notices ();
+    echo ("No question found");
+}
 
 ?>
     </div>

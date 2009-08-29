@@ -44,9 +44,9 @@ function get_user_id ( $email )
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     // grap the user_id
     $result = pg_query_params( $dbconn,
-        "SELECT user_id
+        'SELECT user_id
         FROM users
-        WHERE email = $1",
+        WHERE email = $1',
         array( $email )  
     );
     while ( $row = pg_fetch_array( $result ) ) {
@@ -60,9 +60,9 @@ function get_username ( $email )
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     // grap the user_id
     $result = pg_query_params( $dbconn,
-        "SELECT username
+        'SELECT username
         FROM users
-        WHERE email = $1",
+        WHERE email = $1',
         array( $email )  
     );
     while ( $row = pg_fetch_array( $result ) ) {
@@ -113,9 +113,9 @@ function get_passhash_for_email ( $email ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
     $result = pg_query_params ( $dbconn,
-        "SELECT passhash_md5
+        'SELECT passhash_md5
         FROM users
-        WHERE email = $1",
+        WHERE email = $1',
         array ( $email ) 
     );
 

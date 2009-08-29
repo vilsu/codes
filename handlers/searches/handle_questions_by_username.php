@@ -11,13 +11,13 @@ function get_raw_data () {
         // to get titles and question_ids
         // When tag is given by the user
         $result_titles = pg_query_params( $dbconn,
-            "SELECT q.question_id, q.title, q.was_sent_at_time, u.username, u.user_id
+            'SELECT q.question_id, q.title, q.was_sent_at_time, u.username, u.user_id
             FROM questions q
             LEFT JOIN users u
             ON q.user_id=u.user_id
             WHERE u.username = $1
             ORDER BY q.was_sent_at_time
-            DESC LIMIT 50",
+            DESC LIMIT 50',
             array( strip_tags( $_GET['username'] ) )
         );
     }
@@ -26,13 +26,13 @@ function get_raw_data () {
         // to get titles and question_ids
         // When tag is given by the user
         $result_titles = pg_query_params( $dbconn,
-            "SELECT q.question_id, q.title, q.was_sent_at_time, u.username, u.user_id
+            'SELECT q.question_id, q.title, q.was_sent_at_time, u.username, u.user_id
             FROM questions q
             LEFT JOIN users u
             ON q.user_id=u.user_id
             WHERE u.user_id = $1
             ORDER BY q.was_sent_at_time
-            DESC LIMIT 50",
+            DESC LIMIT 50',
             array( strip_tags( $_GET['user_id'] ) )
         );
     }
@@ -46,7 +46,7 @@ function get_tags () {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     if ( empty ( $_GET['user_id'] ) ) {
         $result_tags = pg_query_params( $dbconn, 
-            "SELECT t.question_id, t.tag
+            'SELECT t.question_id, t.tag
             FROM tags t
             WHERE t.question_id IN
             (
@@ -59,7 +59,7 @@ function get_tags () {
                     WHERE u.username=$1
                 )
             )
-            ORDER BY t.question_id",
+            ORDER BY t.question_id',
             array( $_GET['username'] )
         );
     }
@@ -67,7 +67,7 @@ function get_tags () {
     {
         // strip_tags removes HTML and php from the GET
         $result_tags = pg_query_params( $dbconn, 
-            "SELECT t.question_id, t.tag
+            'SELECT t.question_id, t.tag
             FROM tags t
             WHERE t.question_id IN
             (
@@ -80,7 +80,7 @@ function get_tags () {
                     WHERE u.user_id=$1
                 )
             )
-            ORDER BY t.question_id",
+            ORDER BY t.question_id',
             array( $_GET['user_id'] )
         );
     }

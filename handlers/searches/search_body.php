@@ -7,15 +7,16 @@ function get_raw_data () {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
     $result = pg_query_params ( $dbconn, 
-        "SELECT q.question_id, q.body, q.title, q.was_sent_at_time, 
+        'SELECT q.question_id, q.body, q.title, q.was_sent_at_time, 
             u.username, u.user_id
         FROM questions q
         LEFT JOIN users u
         ON q.user_id=u.user_id
         WHERE body ilike $1
+            OR title ilike $1
         ORDER BY was_sent_at_time DESC
-        LIMIT 50",
-        array ( '%' . $_GET['search'] . '%' )
+        LIMIT 50',
+        array ( '%' . $_GET['search'] . '%')
     );
 
     if ( pg_num_rows( $result ) == 0 ) {
@@ -38,16 +39,17 @@ function get_tags () {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
     $result_tags = pg_query_params( $dbconn, 
-        "SELECT question_id, tag
+        'SELECT question_id, tag
         FROM tags
         WHERE question_id IN 
         ( 
             SELECT question_id
             FROM questions
             WHERE BODY ilike $1
+            OR title ilike $1
             LIMIT 50
-        )",
-        array ( '%' . $_GET['search'] . '%' )
+        )',
+        array ( '%' . $_GET['search'] . '%')
     );
     while( $tags_and_Qid = pg_fetch_array( $result_tags )) {
         // Add the Tag to an array of tags for that question

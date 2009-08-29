@@ -7,11 +7,10 @@ function get_raw_data_list ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     // to get title and body of the question
     $result = pg_query_params ( $dbconn,
-        "SELECT q.title, q.body, u.username, q.was_sent_at_time, u.user_id
+        'SELECT q.title, q.body, u.username, q.was_sent_at_time, u.user_id
         FROM questions q
         LEFT JOIN users u ON q.user_id = u.user_id
-        WHERE question_id = $1",
-        // array( $_GET['question_id'] ) 
+        WHERE question_id = $1',
         array( $question_id ) 
     );
     return $result;
@@ -40,9 +39,9 @@ function get_tag_list ( $question_id ) {
 
     // to get the tags of the question
     $result_tags = pg_query_params ( $dbconn,
-        "SELECT tag
+        'SELECT tag
         FROM tags
-        WHERE question_id = $1",
+        WHERE question_id = $1',
         array( $question_id ) 
     );
     $tags_array = pg_fetch_all ( $result_tags );

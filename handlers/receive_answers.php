@@ -28,9 +28,9 @@ function set_answer ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     // to put answer and question_id to Answers -table
     $result = pg_query_params ( $dbconn,
-        "INSERT INTO answers 
+        'INSERT INTO answers 
         (answer, question_id, user_id)
-        VALUES ($1, $2, $3)",
+        VALUES ($1, $2, $3)',
             array( $answer_sanitized, 
             $question_id,
             $_SESSION['login']['user_id'] ) 

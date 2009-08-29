@@ -1,15 +1,4 @@
-<html>
-<head>
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>Keskustelusivu</title>
-
-   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js" type="text/javascript"></script>
-
-<script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/validate/jquery.validate.js"></script>
-
 <script type="text/javascript"> 
-
 // Detele and Flag buttons in reading questions
 jQuery('a.delete_question').live('click', function(){
     jQuery.post('/codes/handlers/delete_a_question.php', 
@@ -22,12 +11,39 @@ jQuery('a.delete_question').live('click', function(){
         })
 });
 
+// TODO
+var answer = $('#answer').val;
+jQuery('div.answer_' + answer + ' a.delete_answer').live('click', function(){
+    jQuery.post('/codes/handlers/delete_an_answer.php', 
+        { question_id: jQuery(this).attr('rel') }, 
+        function(){
+            $("#one_answer").removeClass("yellow");
+            $("#one_answer").addClass("red");
+            $("strong").removeClass("addedtext");
+            $("div.successful").append("<strong class=\"addedtext\">Answer was removed.</strong>");
+        })
+});
+
+
+
+
+
+
 jQuery('a.flag_question').live('click', function(){
     jQuery.post('/codes/handlers/flag_question.php', 
         { question_id: jQuery(this).attr('rel') });
             $(".question_box").addClass("yellow");
             $("div.successful").append("<strong class=\"addedtext\">Question was flagged as Spam.</strong>");
 });
+
+jQuery('a.flag_answer').live('click', function(){
+    jQuery.post('/codes/handlers/flag_answer.php', 
+        { question_id: jQuery(this).attr('rel') });
+            $("#one_answer").addClass("yellow");
+            $("div.successful").append("<strong class=\"addedtext\">Answer was flagged as Spam.</strong>");
+});
+
+
 
 // TODO buggy
 //$(document).ready(function(){
@@ -43,36 +59,4 @@ jQuery('a.flag_question').live('click', function(){
 //});
 //
 
-
-
-
-
 </script>
-
-<style>#field { margin-left: .5em; float: left; }
-    #field, label { float: left; font-family: Arial, Helvetica, sans-serif; font-size: small; }
-    br { clear: both; }
-    input { border: 1px solid black; margin-bottom: .5em;  }
-    input.error { border: 1px solid red; }
-    label.error {
-        background: url('http://dev.jquery.com/view/trunk/plugins/validate/demo/images/unchecked.gif') no-repeat;
-        padding-left: 16px;
-        margin-left: .3em;
-    }
-    label.valid {
-        background: url('http://dev.jquery.com/view/trunk/plugins/validate/demo/images/checked.gif') no-repeat;
-        display: block;
-        width: 16px;
-        height: 16px;
-    }
-</style>
-
-
-
-
-
-
-
-</head>
-
-<body>

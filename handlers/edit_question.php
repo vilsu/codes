@@ -6,9 +6,9 @@ function get_question_body ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
     $result = pg_query_params ( $dbconn,
-        "SELECT body
+        'SELECT body
         FROM questions
-        WHERE question_id = $1",
+        WHERE question_id = $1',
         array ( $question_id  ) 
     );
     while ( $row = pg_fetch_array ( $result ) ) {
@@ -21,9 +21,9 @@ function get_question_title ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
     $result = pg_query_params ( $dbconn,
-        "SELECT title 
+        'SELECT title 
         FROM questions
-        WHERE question_id = $1",
+        WHERE question_id = $1',
         array ( $question_id  ) 
     );
     while ( $row = pg_fetch_array ( $result ) ) {
@@ -36,9 +36,9 @@ function get_question_tags ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
     $result = pg_query_params ( $dbconn,
-        "SELECT tag
+        'SELECT tag
         FROM tags 
-        WHERE question_id = $1",
+        WHERE question_id = $1',
         array ( $question_id  ) 
     );
     while ( $row = pg_fetch_array ( $result ) ) {

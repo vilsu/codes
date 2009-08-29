@@ -1,6 +1,7 @@
 <?php
 
-// Functions
+include ("check_authority_functions.php");
+include ("delete_edit_flag_buttons.php");
 
 // to create the title of the question
 function create_question_title( $title, $question_id )
@@ -35,7 +36,6 @@ function create_answer ( $answer ) {
 
 // organize answers according inside a question
 function create_tab_box_thread( $question_id ) {
-
     echo ( "<div id='tabs'>" );
     if ( $_GET['sort'] == 'newest'
         OR !($_GET['sort'] == 'oldest') ) {
@@ -73,131 +73,15 @@ function create_tab_box_thread( $question_id ) {
     echo ("</div>");
 }
 
-function create_moderator_box_for_a_question ( $question_id, $user_id ) {
-
-    function check_authority_for_a_question ( $question_id, $user_id) {
-        if ( $_SESSION['login']['logged_in'] == 1 ) {
-
-            $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
-            $result = pg_query_params ( $dbconn, 
-                "SELECT user_id
-                FROM questions
-                WHERE user_id = $1
-                AND question_id = $2",
-                array ( $_SESSION['login']['user_id'], 
-                $_GET['question_id'] ) 
-            );
-            while ( $row = pg_fetch_array ( $result ) ) {
-                $result_clear = (int) $row['user_id'];
-            }
-
-            // to allow the asker to remove his own questions
-            if ( is_integer ( $result_clear ) )
-                return true;
-            else if ( $_SESSION['login']['a_moderator'] == 1 )
-                return true;
-            else 
-                return false;
-        }
-        else
-            return false;
-    }
-
-    echo ("<div class='post_menu'>");
-    if ( check_authority_for_a_question ( $question_id, $user_id ) ) {
-        echo ("<a href='#' class='delete_question'" 
-            . " class='question_id'"
-            . " rel='" . $question_id . "'"
-            . " title='vote to remove this post'>delete</a>"
-            . "<span class='link_separator'>|</span>"
-        );
-        // user can edit his answer
-        echo ("<a href='?edit_question" . "&question_id=" . $question_id . "'"
-            . " class='edit_question'"
-            . " title='edit your question'>edit</a>"
-            . "<span class='link_separator'>|</span>"
-        );
-        echo ("<a href='#'"
-            . "class='flag_question'"
-            . " rel='" . $question_id . "'"
-            . " title='flag this post for serious problems'>flag</a>"
-        );
-    }
-    else 
-    {
-        echo ("<a href='#'"
-            . " class='flag_question'"
-            . " rel='" . $question_id . "'"
-            . " title='flag this post for serious problems'>flag</a>"
-        );
-    }
-    echo ("</div>");
-}
-
-function check_authority_for_an_answer ( $answer_id, $user_id) {
-
-    if ( $_SESSION['login']['logged_in'] == 1 ) {
-
-        $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
-        $result = pg_query_params ( $dbconn, 
-            "SELECT user_id
-            FROM answers
-            WHERE user_id = $1
-            AND answer_id = $2",
-            array ( $user_id, $answer_id ) 
-        );
-        while ( $row = pg_fetch_array ( $result ) ) {
-            $result_clear = $row['user_id'];
-        }
-
-        // to allow the asker to remove his own questions
-        if ( $result_clear == $_SESSION['login']['user_id'] )
-            return true;
-        else if ( $_SESSION['login']['a_moderator'] == 1 )
-            return true;
-        else 
-            return false;
-    }
-    else 
-        return false;
-}
-
-function create_moderator_box_for_an_answer ( $answer_id, $user_id ) {
-
-    echo ("<div class='post_menu'>");
-    if ( check_authority_for_an_answer( $answer_id, $user_id ) ) {
-        echo ("<a href='#' class='delete_answer'" 
-            . " id=answer_id'" . $answer_id . "'"
-            . " title='vote to remove this post'>delete</a>"
-            . "<span class='link_separator'>|</span>"
-        );
-        // user can flag his own answer
-        echo ("<a href='#'"
-            . "class='flag_answer'"
-            . " answer_id='" . $answer_id . "'"
-            . " title='flag this answer for serious problems'>flag</a>"
-        );
-    }
-    else
-    {
-        echo ("<a href='#'"
-            . "class='flag_answer'"
-            . " rel='" . $answer_id . "'"
-            . " title='flag this answer for serious problems'>flag</a>"
-        );
-    }
-    echo ("</div>");
-}
-
 
 function get_tags_for_a_question ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
     // to get tags
     $result = pg_query_params ( $dbconn,
-        "SELECT tag
+        'SELECT tag
         FROM tags 
-        WHERE question_id = $1",
+        WHERE question_id = $1',
         array ( $_GET['question_id'] ) 
     );
     $tags_array_summary = pg_fetch_all ( $result );
@@ -212,9 +96,9 @@ function create_global_tag_count_box_for_a_question ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     // to get the amout of tags Globally
     $result = pg_prepare ( $dbconn, "query_tag_amount",
-        "SELECT count(tag)
+        'SELECT count(tag)
         FROM tags 
-        WHERE tag = $1"
+        WHERE tag = $1'
     );
 
     echo ("<div class='tags_summary'>");
