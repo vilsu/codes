@@ -1,4 +1,9 @@
 <script type="text/javascript"> 
+
+/*
+ *    Questions
+ */
+
 // Detele and Flag buttons in reading questions
 jQuery('a.delete_question').live('click', function(){
     jQuery.post('/codes/handlers/delete_a_question.php', 
@@ -10,25 +15,7 @@ jQuery('a.delete_question').live('click', function(){
             $("div.successful").append("<strong class=\"addedtext\">Question was removed.</strong>");
         })
 });
-
-// TODO
-var answer = $('#answer').val;
-jQuery('div.answer_' + answer + ' a.delete_answer').live('click', function(){
-    jQuery.post('/codes/handlers/delete_an_answer.php', 
-        { question_id: jQuery(this).attr('rel') }, 
-        function(){
-            $("#one_answer").removeClass("yellow");
-            $("#one_answer").addClass("red");
-            $("strong").removeClass("addedtext");
-            $("div.successful").append("<strong class=\"addedtext\">Answer was removed.</strong>");
-        })
-});
-
-
-
-
-
-
+// Flag
 jQuery('a.flag_question').live('click', function(){
     jQuery.post('/codes/handlers/flag_question.php', 
         { question_id: jQuery(this).attr('rel') });
@@ -36,9 +23,25 @@ jQuery('a.flag_question').live('click', function(){
             $("div.successful").append("<strong class=\"addedtext\">Question was flagged as Spam.</strong>");
 });
 
+
+
+/*
+ * Answers
+ */
+
+// TODO
+var answer = $('#answer').val();
+jQuery('div.answer_' + answer + ' a.delete_answer').live('click', function(){
+    jQuery.post('/codes/handlers/delete_an_answer.php', 
+        { delete_answer: jQuery(this).attr('rel') });
+            $("#one_answer").addClass("red");
+            $("div.successful").append("<strong class=\"addedtext\">Answer was removed.</strong>");
+});
+
+
 jQuery('a.flag_answer').live('click', function(){
     jQuery.post('/codes/handlers/flag_answer.php', 
-        { question_id: jQuery(this).attr('rel') });
+        { flag_answer: jQuery(this).attr('rel') });
             $("#one_answer").addClass("yellow");
             $("div.successful").append("<strong class=\"addedtext\">Answer was flagged as Spam.</strong>");
 });

@@ -5,8 +5,6 @@
  * the conditions when a given action happens. 
  */
 
-include ("getters_question_check.php");
-
 // Functions
 include ("./handlers/header_functions.php");
 
@@ -160,6 +158,11 @@ function create_ask_question_view () {
     }
 }
 
+function create_about_view () {
+    if ( array_key_exists ( 'about', $_GET ) )
+        require './views/about.php';
+}
+
 function create_answers_box ( $question_id ) {
     echo ("<table><tr><td>");
     // to sort the answers of the given question
@@ -185,7 +188,7 @@ function create_in_question_view ( $question_id ) {
     {
         if ( array_key_exists ( 'edit_question', $_GET ) ) 
             require ('./handlers/edit_question.php');
-        else
+        else 
         {
             require ('./handlers/make_a_thread/fetch_a_question.php');
             create_answers_box ( $question_id );
@@ -202,6 +205,7 @@ function create_content_without_headings ( $question_id ) {
     create_notices ();
     create_logged_in_view ();
     create_ask_question_view ();
+    create_about_view ();
 
     create_in_question_view ( $question_id );
 }
@@ -211,14 +215,7 @@ function create_content_without_headings ( $question_id ) {
 // Let's fire!
 $question_id = get_question_id_home ();
 create_view ();
-if ( get_status_of_question_in_database ( $question_id ) )
-    create_content_without_headings ( $question_id );
-else if ( array_key_exists ( 'about', $_GET ) )
-    require './views/about.php';
-else
-{
-    echo ("No question found");
-}
+create_content_without_headings ( $question_id );
 
 ?>
     </div>
