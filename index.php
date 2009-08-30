@@ -1,9 +1,18 @@
 <?php 
 
-/* 
- * This file tells you the basic HTML structure of the site and
- * the conditions when a given action happens. 
+/**
+ * @file    index.php
+ * @Author  sam (sam@gmail.com)
+ * @date    2009-08-30
+ * @brief   To create HTML structure of the site and the conditions for the 
+ * given actions 
+ *
+ * Tiedosto sis\"{a}lt\"{a}\"{a} sivun, johon muut tiedostot generoidaan.
+ * Se sis\"{a}lt\"{a}\"{a} lukuisia if -lauseita.
+ * Se liitt\"{a}\"{a} jQuery 1.3:sen tiedostosta `html_head_body.php`.
  */
+
+
 
 // Functions
 include ("./handlers/header_functions.php");
@@ -111,7 +120,8 @@ function create_view () {
 }
 
 
-/** Ota kysymystunniste
+/** 
+ * Ota kysymystunniste
  * @param string $pattern
  * @param string $subject
  * @param string $query

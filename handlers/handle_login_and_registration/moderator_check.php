@@ -1,15 +1,14 @@
 <?php
 
-$dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
-if(!$dbconn) {
-    echo "An error occurred - Hhhh\n";
-    exit;
-}
-
 session_save_path("/tmp/");
 session_start();
 
 function get_moderator_status () {
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+    if(!$dbconn) {
+        echo "An error occurred - Hhhh\n";
+        exit;
+    }
     $result = pg_query_params ( $dbconn, 
             'SELECT a_moderator 
             FROM users
