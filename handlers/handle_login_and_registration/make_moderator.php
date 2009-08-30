@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @brief   Tee moderaattori
+ * @file    make_moderator.php
+ */
+
 // do not bind this to anything
 // only for reference
 

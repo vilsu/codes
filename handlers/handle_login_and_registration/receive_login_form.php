@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @brief   Ota sisaankirjautumiskentat, email ja salasana
+ * @file    receive_login_form.php
+ */
+
 ob_start();
 
 session_save_path("/tmp/");
@@ -7,7 +12,8 @@ session_start();
 
 // Tata lomaketta suoritetaan vain, kun kayttaa *lomake_login.php*
 
-/** Tarkasta salasana
+/** 
+ * @brief   Tarkasta salasana
  * @param string $password
  * @return boolean
  */
@@ -19,7 +25,9 @@ function validate_password ( $password )
         return true;
 }
 
-/** Tarkasta email
+
+/** 
+ * @brief   Tarkasta email
  * @param string $email
  * @return boolean
  */
@@ -37,7 +45,7 @@ function validate_email ( $email )
     }
 }
 
-/** Tarkasta sis\"{a}\"{a}nkirjautumislomake
+/** Tarkasta sisaankirjautumislomake
  * @param string $email
  * @param string $password
  * @return boolean
@@ -52,7 +60,7 @@ function validate ( $email, $password )
 }
 
 
-/** Ota k\"{a}ytt\"{a}j\"{a}tunniste
+/** Ota kayttajatunniste
  * @param string $email
  * @param integer $user_id
  * @return integer
@@ -73,7 +81,7 @@ function get_user_id ( $email )
     return $user_id;
 }
 
-/** Ota sis\"{a}\"{a}nkirjautujan nimi
+/** Ota sisaankirjautujan nimi
  * @param string $email
  * @param string $username
  * @return string

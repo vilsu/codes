@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @brief   Tee sininen kayttajalaatikko
+ * @file    user_info_functions.php
+ */
+
 /** Luo k\"{a}ytt\"{a}j\"{a}tietolaatikko
  * @param integer $user_id
  * @param string $username

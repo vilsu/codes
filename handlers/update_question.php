@@ -5,7 +5,9 @@ ob_start();
 session_save_path("/tmp/");
 session_start();
 
-/** Ota kysymys lomakkeelta lomake_ask_question.php
+/** 
+ * @file    update_question.php
+ * @brief   Ota kysymys lomakkeelta lomake_ask_question.php
  */
 
 /** Ota sis\"{a}\"{a}nkirjautumistila

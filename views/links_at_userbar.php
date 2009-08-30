@@ -1,6 +1,15 @@
 <div class="hlinks">
 <ul>
     <?php
+
+/**
+ * @brief   Tee linkit ylapalkkiin
+ * @file    links_at_userbar.php
+ */
+
+
+
+
     if (!$_SESSION['login']['logged_in']) {
         echo ("<li><a href='index.php?"
             . "login"

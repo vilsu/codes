@@ -1,6 +1,14 @@
 <!-- to change the layout of the "Ask question" -button -->
 
 <?php
+
+/**
+ * @brief   Tee linkki 'Ask question'
+ * @file    ask_question_link.php
+ */
+
+
+
     // to use SESSIONS
     if (isset($_REQUEST['email'])) {
         if(isset($_REQUEST['ask_question'])) {

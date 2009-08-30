@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * @brief   Tarkasta kayttajan oikeudet
+ * @file    check_authority_functions.php
+ */
+
+
+
 /** Tarkasta oikeudet kysymyksen muokkaamiseen ja poistoon
  * @param integer $question_id
  * @param integer $user_id

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @brief   Tee delete, edit ja flag napit
+ * @file    delete_edit_flag_buttons.php
+ */
+
 /** Luo HTML moderaattorioikeuslaatikko
  * @param integer $question_id
  * @param integer $user_id

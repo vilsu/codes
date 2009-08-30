@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @brief   Jarjesta kysymyslista ajan mukaan, kun valintana on aika, aihe tai 
+ * kayttajanimi
+ * @file    organize_a_list_of_questions_functions.php
+ */
 
 /** Luo HTML kysymysten j\"{a}rjest\"{a}miseen listassa
  */

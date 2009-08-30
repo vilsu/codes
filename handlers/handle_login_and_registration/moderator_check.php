@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @brief   Tarkasta Moderaattoritila
+ * @file    moderator_check.php
+ */
+
 session_save_path("/tmp/");
 session_start();
 

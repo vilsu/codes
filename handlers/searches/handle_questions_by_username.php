@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @brief   Hae kysymykset kayttajanimen mukaan
+ * @file    handle_questions_by_username.php
+ */
+
 ob_start();
 include ('getters_for_search.php');
 

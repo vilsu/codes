@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @brief   Hae kysymykset tagin mukaan
+ * @file    handle_questions_by_tag.php
+ */
+
 ob_start();
 include ('getters_for_search.php');
 

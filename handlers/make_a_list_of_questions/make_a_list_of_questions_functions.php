@@ -1,6 +1,11 @@
 <?php
 
-// Functions
+/**
+ * @brief   Tee lista kysymyksista erikoisominaisuuksineen
+ * @file    make_a_list_of_questions_functions.php
+ */
+
+
 
 /** Ota vastausten lukum\"{a}\"{a}
  * @param integer $question_id

@@ -1,4 +1,11 @@
 <?php
+
+/**
+ * @brief   Ota kysymykset kannasta
+ * @file    fetch_answers.php
+ */
+
+
 // To get answers for the question
 
 /** Ota kysymystunniste vastaukselle

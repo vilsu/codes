@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @brief   Tee kysymyksen sisalto
+ * @file    thread_functions.php
+ */
+
 include ("check_authority_functions.php");
 include ("delete_edit_flag_buttons.php");
 

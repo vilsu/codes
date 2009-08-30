@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @brief   Hae kysymykset otsikon ja sisallon mukaan
+ * @file    search_body.php
+ */
+
 ob_start();
 include ('getters_for_search.php');
 

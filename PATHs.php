@@ -1,4 +1,8 @@
 <?php
+/**
+ * @brief   Sisaltaa ohjelmiston PATHit.
+ * @file    PATHs.php
+ */
 
 // Do NOT use absolute PATHs when including a file
 set_include_path(':/var/www/codes/handlers/:' 

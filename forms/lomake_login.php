@@ -1,4 +1,11 @@
 <?php 
+
+    /**
+     * @brief    Sisaankirjautumislomake.
+     * @file     lomake_login.php
+     */
+
+
     echo (" <form method='post'" 
         . "action='/codes/handlers/handle_login_and_registration/receive_login_form.php"
         . "'>"

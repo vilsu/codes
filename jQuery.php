@@ -1,9 +1,8 @@
 <script type="text/javascript"> 
 
 /*
- * @file jQuery.php
- *
- * @brief Laukaise huomautukset, jos tapahtuma onnistuu.
+ * @file    jQuery.php
+ * @brief   Laukaise huomautukset, jos tapahtuma onnistuu.
  *
  * Tiedosto laukaisee huomautukset, jos tiedostot /handlers/flag_question.php ja 
  * /handlers/delete_a_question.php suoritetaan onnistuneesti.

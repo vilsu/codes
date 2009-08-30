@@ -1,7 +1,8 @@
 <?php
 
 /**
- * @file delete_a_question.php
+ * @file    delete_a_question.php
+ * @brief   Poista kysymys
  *
  * Tiedosto laukaisee jQuery funktion tiedosta jQuery.php.
  */

@@ -1,4 +1,11 @@
 <?php
+
+/**
+ * @brief   Tee sisaankirjautuminen
+ * @file    login.php
+ */
+
+
 // change the layout by adding question form by getting data
 
 echo ("<div id='login_box'>");

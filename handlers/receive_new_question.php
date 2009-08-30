@@ -1,6 +1,8 @@
 <?php
 
-/** Tarkasta ja ota uusi kysymys tietokantaan
+/** 
+ * @file    receive_new_question.php
+ * @brief   Tarkasta ja ota uusi kysymys tietokantaan
  */
 
 

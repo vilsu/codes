@@ -2,6 +2,13 @@
 <p>
 <?php
 
+/**
+ * @brief   Tee onnistumisilmoitus
+ * @file    successful_notice.php
+ */
+
+
+
 // SUCCESSFUL REGISTRARATION
 if ( array_key_exists('successful_registration', $_GET)
 AND !array_key_exists ( 'question_id', $_GET ) 

@@ -1,4 +1,11 @@
 <?php 
+
+    /**
+      * @brief  Vastauslomake
+      * @file   lomake_answer.php
+     */
+
+
     echo ("<form method='post'" 
     . "action='./handlers/receive_answers.php'"
     . "'>"

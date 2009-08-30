@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file    login_by_session.php
+ * @brief   Tarkasta sisaankirjautumistila
+ */
+
 // 1. If the user is not authenticated, he is thrown back to the login page
 // 2. If the user is authenticated, he get true for login var 
 // 3. Then when the user is browsing the main page or other pages that need auth, they just check if the login -var is set.

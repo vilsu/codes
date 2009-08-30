@@ -1,9 +1,13 @@
 <?php
 
-/** Luo otsikot HTML koodin kanssa
+
+
+/** 
+ * @file    header_functions.php
+ * @brief   Luo otsikot HTML koodin kanssa
  */
 
-/** Luo p\"{a}\"{a}otsikko
+/** Luo paaotsikko
  * @param string $mainheader
  * @param boolean $link
  */

@@ -1,6 +1,16 @@
 <div class="unsuccessful">
 <p>
 <?php
+
+
+/**
+ * @brief   Tee epaonnistumisilmoitus
+ * @file    unsuccessful_notice.php
+ */
+
+
+
+
 // UNSUCCESSFUL LOGIN
 if (array_key_exists('unsuccessful_login', $_GET)) {
     echo ("Unsuccessful login. Please try again.");

@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @file    edit_question.php
+ * @brief   Muokkaustoiminnot
+ */
+
+
 include ("getters_at_question.php");
 
 /** Luo kysymys

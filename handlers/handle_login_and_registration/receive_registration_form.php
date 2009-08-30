@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file    receive_registration_form.php
+ * @brief   Ota rekisterointikentat: nimi, email ja salasana
+ */
+
 ob_start();
 session_save_path("/tmp/");
 session_start();

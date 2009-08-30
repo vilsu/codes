@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @brief   Ota kysymys
+ * @file    fetch_a_question.php
+ */
+
+
 // This fetches the question and its answers to a thread
 // according to the $_GET['question_id'].
 

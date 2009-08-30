@@ -1,4 +1,11 @@
 <?php 
+
+    /**
+     * @brief   Kysy -lomake.
+     * @file    lomake_ask_question.php
+     */
+
+
     echo (" <form id='ask_form' method='post' onsubmit='javascript:notEmpty()'" 
         . "action='./handlers/receive_new_question.php"
         . "'>"

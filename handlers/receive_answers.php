@@ -1,6 +1,8 @@
 <?php
 
-/** Ota vastaus kysymykseen
+/** 
+ * @file    receive_answers.php
+ * @brief   Ota vastaus kysymykseen
  */
 
 include ("getters_at_question.php");

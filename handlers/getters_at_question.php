@@ -1,5 +1,11 @@
 <?php 
 
+/**
+ * @file    getters_at_question.php
+ * @brief   Gettereita kysyksessa
+ */
+
+
 /** Ota kysymystunniste
  * @param integer $question_id
  * @param string $subject

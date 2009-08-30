@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @brief   Getterit hauille
+ * @file    getters_for_search.php
+ */
+
+
 /** Ota kysymysten otsikot
  * @param array $titles
  * @return array

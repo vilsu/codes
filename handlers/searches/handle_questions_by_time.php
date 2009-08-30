@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @brief   Hae kysymykset ajan mukaan
+ * @file    handle_questions_by_time.php
+ */
+
 ob_start();
 include ('getters_for_search.php');
 

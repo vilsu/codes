@@ -1,9 +1,9 @@
 <?php
 
 /** 
- * @file flag_question.php
+ * @file    flag_question.php
  *
- * @brief L\"{a}het\"{a} email moderaattorille asiattomasta viestist\"{a}.
+ * @brief   Laheta email moderaattorille asiattomasta viestista.
  *
  * Tiedosto laukaisee jQuery funktion tiedostosta jQuery.php.
  */
