@@ -1,5 +1,8 @@
 <?php
 
+/** Ota vastaus kysymykseen
+ */
+
 include ("getters_at_question.php");
 
 // This handlers the receiving of answers to a question from 
@@ -11,7 +14,9 @@ ob_start ();
 session_save_path("/tmp/");
 session_start();
 
-
+/** Tarkasta k\"{a}ytt\"{a}n sis\"{a}\"{a}nkirjautumistila
+ * @return boolean
+ */
 function check_user_status () {
     // TODO may be buggy
     if ( $_SESSION['login']['user_id'] == '' )
@@ -20,8 +25,10 @@ function check_user_status () {
         return true;
 }
 
-
-
+/** Aseta vastaus
+ * @param integer $question_id
+ * @param string $answer_sanitized
+ */
 function set_answer ( $question_id ) {
     $answer_sanitized = pg_escape_string( $_POST['answer'] );   // to sanitize answer
 
@@ -58,6 +65,9 @@ function set_answer ( $question_id ) {
 
 // Let's fire!
 
+/** Tarkasta, ettei vastaus ole tyh\"{a} ja salli vain kirjautunet 
+ * k\"{a}ytt\"{a}j\"{a}
+ */
 if ( !(empty ( $_POST['answer'] ) ) )
 {
     if ( check_user_status () )

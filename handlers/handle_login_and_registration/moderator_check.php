@@ -9,21 +9,26 @@ if(!$dbconn) {
 session_save_path("/tmp/");
 session_start();
 
+function get_moderator_status () {
+    $result = pg_query_params ( $dbconn, 
+            'SELECT a_moderator 
+            FROM users
+            WHERE email = $1',
+            array( $_SESSION['login']['email'] ) 
+        );
+    $rows = pg_fetch_all ( $result );
+
+    return $rows;
+}
+
+
 // test data with type-safe identity comparator
 if ( $_SESSION['login']['logged_in'] == 1 ) {
-    $result = pg_query_params ( $dbconn, 
-        'SELECT a_moderator 
-        FROM users
-        WHERE email = $1',
-        array( $_SESSION['login']['email'] ) 
-    );
-
-    $rows = pg_fetch_all ( $result );
+    $rows = get_moderator_status ();
     // to compile the data
     foreach ( $rows as $row ) {
         $_SESSION['login']['a_moderator'] = (int) $row['a_moderator'];
     }
 }
 
-// no pg_close() here
 ?>

@@ -7,14 +7,22 @@ session_start();
 
 // Tata lomaketta suoritetaan vain, kun kayttaa *lomake_login.php*
 
+/** Tarkasta salasana
+ * @param string $password
+ * @return boolean
+ */
 function validate_password ( $password )
 {
     if ( mb_strlen ( $password ) < 6)
-        return "too_short_password";
+        return false;
     else
         return true;
 }
 
+/** Tarkasta email
+ * @param string $email
+ * @return boolean
+ */
 function validate_email ( $email ) 
 {
     if ( filter_var ( $email, FILTER_VALIDATE_EMAIL ) ) 
@@ -29,6 +37,11 @@ function validate_email ( $email )
     }
 }
 
+/** Tarkasta sis\"{a}\"{a}nkirjautumislomake
+ * @param string $email
+ * @param string $password
+ * @return boolean
+ */
 function validate ( $email, $password )
 {
     if (  (validate_email ( $email ) )
@@ -39,6 +52,11 @@ function validate ( $email, $password )
 }
 
 
+/** Ota k\"{a}ytt\"{a}j\"{a}tunniste
+ * @param string $email
+ * @param integer $user_id
+ * @return integer
+ */
 function get_user_id ( $email ) 
 {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
@@ -55,6 +73,11 @@ function get_user_id ( $email )
     return $user_id;
 }
 
+/** Ota sis\"{a}\"{a}nkirjautujan nimi
+ * @param string $email
+ * @param string $username
+ * @return string
+ */
 function get_username ( $email ) 
 {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
@@ -72,6 +95,13 @@ function get_username ( $email )
 }
 
 
+/** Ota kysymystunniste
+ * @param string $pattern
+ * @param string $subject
+ * @param string $query
+ * @param integer $question_id
+ * @return integer 
+ */
 function get_question_id_ref ( ) {
     if ( empty ( $_GET['question_id'] ) )
         return $_GET['question_id'];
@@ -93,7 +123,8 @@ function get_question_id_ref ( ) {
 }
 
 
-
+/** Ohjaa halutulle sivulle
+ */
 function direct_right ()
 {
     header("Location: /codes/index.php?"
@@ -101,6 +132,8 @@ function direct_right ()
     );
 }
 
+/** Ohjaa virheraporttiin
+ */
 function direct_wrong () { 
     header("Location: /codes/index.php?"
         . "login"
@@ -109,6 +142,12 @@ function direct_wrong () {
     );
 }
 
+
+/** Ota salasanan hash annetun emailin mukaan
+ * @param string $email
+ * @param string $passhash_md5_original
+ * @return string
+ */
 function get_passhash_for_email ( $email ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
@@ -127,6 +166,12 @@ function get_passhash_for_email ( $email ) {
     return $passhash_md5_original;
 }
 
+
+/** Varmista salasanan hash annetun emailin mukaan
+ * @param string $passhash_md5
+ * @param string $passhash_md5_original
+ * @return boolean
+ */
 function verify_passhash_for_email ( $passhash_md5, $passhash_md5_original ) {
     // unsuccessful attempts
     if ( $passhash_md5_original == $passhash_md5 )
@@ -140,6 +185,8 @@ $password = $_POST['login']['password'];
 $passhash_md5 = md5 ( $password );
 $email = $_POST['login']['email'];
 
+/** Tarkasta annetun datan aitous ja ainutlaatuisuus
+ */
 if ( validate( $email, $password ) ) {
     echo ("Validaation works");
     $passhash_original = get_passhash_for_email ( $email );

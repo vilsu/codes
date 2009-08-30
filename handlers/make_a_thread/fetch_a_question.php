@@ -3,6 +3,10 @@
 // This fetches the question and its answers to a thread
 // according to the $_GET['question_id'].
 
+/** Ota vastausten l\"{a}hde
+ * @param resource $result
+ * @return resource
+ */
 function get_raw_data_list ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     // to get title and body of the question
@@ -16,6 +20,13 @@ function get_raw_data_list ( $question_id ) {
     return $result;
 }
 
+/** Ota kysymystunniste
+ * @param string $pattern
+ * @param string $subject
+ * @param string $query
+ * @param integer $question_id
+ * @return integer
+ */
 function get_question_id_for_question () {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     if ( !( empty ( $_GET['question_id'] ) ) ) {
@@ -34,6 +45,12 @@ function get_question_id_for_question () {
 
 
 
+/** Ota tagilista kysymykselle
+ * @param integer $question_id
+ * @param resource $result_tags
+ * @param array $tags_array
+ * @return array
+ */
 function get_tag_list ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
@@ -49,6 +66,13 @@ function get_tag_list ( $question_id ) {
     return $tags_array;
 }
 
+/** Luo HTML alaotsikoille
+ * @param integer $question_id
+ * @param string $title
+ * @param resource $raw_data
+ * @param string $username
+ * @return string
+ */
 function create_headings ( $question_id ) {
     $title = get_title ( $question_id );
 
@@ -58,6 +82,12 @@ function create_headings ( $question_id ) {
     echo ("</div>");        // to end question_title block
 }
 
+/** Ota k\"{a}ytt\"{a}j\"{a}nimi
+ * @param integer $question_id
+ * @param resourse $raw_data
+ * @param string $username
+ * @return string
+ */
 function get_username ( $question_id ) {
     $raw_data = get_raw_data_list( $question_id );
     while ( $question = pg_fetch_array( $raw_data ) ) {
@@ -66,6 +96,12 @@ function get_username ( $question_id ) {
     return $username;
 }
 
+/** Ota k\"{a}ytt\"{a}j\"{a}tunniste kysymykselle
+ * @param integer $question_id
+ * @param resource $raw_data
+ * @param integer $user_id
+ * @resurt integer
+ */
 function get_user_id ( $question_id ) {
     $raw_data = get_raw_data_list( $question_id );
     while ( $question = pg_fetch_array( $raw_data ) ) {
@@ -74,6 +110,12 @@ function get_user_id ( $question_id ) {
     return $user_id;
 }
 
+/** Ota kysymys
+ * @param integer $question_id
+ * @param resource $raw_data
+ * @param string $body
+ * @return string
+ */
 function get_body ( $question_id ) {
     $raw_data = get_raw_data_list( $question_id );
     while ( $question = pg_fetch_array( $raw_data ) ) {
@@ -83,6 +125,12 @@ function get_body ( $question_id ) {
     return $body;
 }
 
+/** Ota otsikko
+ * @param integer $question_id
+ * @param string $title
+ * @param resource $raw_data
+ * @return string
+ */
 function get_title ( $question_id ) {
     $raw_data = get_raw_data_list ( $question_id );
     while ( $question = pg_fetch_array ( $raw_data ) ) {
@@ -91,6 +139,11 @@ function get_title ( $question_id ) {
     return $title;
 }
 
+
+/** Luo HTML kysymykselle
+ * @param integer $question_id
+ * @param string $body
+ */
 function create_body ( $question_id ) {
     $body = get_body ( $question_id );
     echo ("<div class='question_box'>"
@@ -102,6 +155,14 @@ function create_body ( $question_id ) {
     );
 }
 
+/** Ota kysymyksen l\"{a}hetysaika
+ * @param integer $question_id
+ * @param resource $raw_data
+ * @param string $was_sent_at_time
+ * @param array $was_sent_at_time_array
+ * @param string $was_sent_at_time_unformatted
+ * @return string
+ */
 function get_was_sent_at_time ( $question_id ) {
     $raw_data = get_raw_data_list( $question_id );
 
@@ -114,9 +175,12 @@ function get_was_sent_at_time ( $question_id ) {
     return $was_sent_at_time;
 }
 
+/** Tee tagilista kysymykselle
+ * @param integer $question_id
+ * @param array $tags_array
+ */
 function create_tag_list ( $question_id ) {
     $tags_array = get_tag_list ( $question_id );
-    $raw_data = get_raw_data_list( $question_id );
 
     echo ("<div id='tag_list'>");
     for ( $i = 0; $i < count( $tags_array ); $i++ ) {
@@ -125,6 +189,12 @@ function create_tag_list ( $question_id ) {
     echo ("</div>");
 }
 
+/** Tee kysymykselle infolaatikko
+ * @param integer $question_id
+ * @param string $was_sent_at_time
+ * @param string $username
+ * @param integer $user_id
+ */
 function create_bottom_bar ( $question_id ) {
     $was_sent_at_time = get_was_sent_at_time( $question_id );
     $user_id = get_user_id ( $question_id );
@@ -143,7 +213,9 @@ function create_bottom_bar ( $question_id ) {
 
 
 
-
+/** Luo koko kysymys
+ * @param integer $question_id
+ */
 function create_question_content ( $question_id ) {
     create_headings ( $question_id );
     create_body ( $question_id );
@@ -153,6 +225,9 @@ function create_question_content ( $question_id ) {
 
 
 // Let's fire!
+
+/** Tee kysymys
+ */
 create_question_content ( get_question_id_for_question () );
 
 ?>

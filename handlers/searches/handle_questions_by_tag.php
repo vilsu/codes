@@ -3,6 +3,10 @@
 ob_start();
 include ('getters_for_search.php');
 
+/** Ota kysymyksen tiedot tietokannasta
+ * @param array $result_titles
+ * @return array
+ */
 function get_raw_data () {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
@@ -23,6 +27,12 @@ function get_raw_data () {
 
     return $result_titles;
 }
+
+/** Ota tagit tietokannasta
+ * @param array $result_tags
+ * @param array $end_array
+ * @return array
+ */
 
 function get_tags () {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
@@ -55,6 +65,9 @@ function get_tags () {
 }
 
 
+/** Luo otsikot
+ * @param array $end_array
+ */
 function create_headings () {
     $end_array = get_tags();
     // to check if 0 messages
@@ -74,6 +87,16 @@ function create_headings () {
     }
 }
 
+
+/** J\"{a}rjest\"{a} kysymykset tagin mukaan
+ * @param array $end_array
+ * @param array $tags_and_Qid
+ * @param array $titles_and_Qid
+ * @param array $titles
+ * @param array $was_sent_at_times
+ * @param array $usernames
+ * @param array $user_ids
+ */
 function organize_questions_by_tag () {
     $end_array = get_tags ();
     $tags_and_Qid = get_tags ();
@@ -109,6 +132,8 @@ function organize_questions_by_tag () {
 
 // Let's fire
 
+/** Luo otsikot ja j\"{a}rjest\"{a} kysymykset
+ */
 create_headings ();
 organize_questions_by_tag ();
 

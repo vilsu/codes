@@ -1,5 +1,9 @@
 <?php
 
+/** Luo HTML moderaattorioikeuslaatikko
+ * @param integer $question_id
+ * @param integer $user_id
+ */
 function create_moderator_box_for_a_question ( $question_id, $user_id ) {
     echo ("<div class='post_menu'>");
     if ( check_authority_for_a_question ( $question_id, $user_id ) ) {

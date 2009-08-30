@@ -35,6 +35,10 @@ function validate_email ( $email )
     }
 }
 
+/** Tarkasta salasana
+ * @param string $password
+ * @return boolean
+ */
 function validate_password ( $password )
 {
     if ( mb_strlen ( $password ) < 6)
@@ -46,6 +50,10 @@ function validate_password ( $password )
     }
 }
 
+/**Tarkasta k\"{a}ytt\"{a}j\"{a}nimi
+ * @param string $username
+ * @return boolean
+ */
 function validate_username ( $username )
 {
 //    $allowed_username = preg_match ( '/^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/', $username );
@@ -65,6 +73,12 @@ function validate_username ( $username )
         return true;
     }
 }
+/** Tarkasta rekister\"{o}intilomake
+ * @param string $email
+ * @param string $password
+ * @param string $username
+ * @return boolean
+ */
 
 function validate ( $email, $password, $username )
 {
@@ -102,6 +116,11 @@ function add_new_user ( $email, $passhash_md5, $username )
         );
 }
 
+/** Ota k\"{a}ytt\"{a}j\"{a}tunniste
+ * @param string $email
+ * @param integer $user_id
+ * @return integer
+ */
 function get_user_id ( $email ) 
 {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
@@ -153,7 +172,11 @@ function direct_wrong ( ) {
         . "&login"
     );
 }
-
+/** Hashaa salasana
+ * @param string $password
+ * @param string $passhash_md5
+ * @return string
+ */
 function hash_password ( $password ) {
     $passhash_md5 = md5 ( $password );
     return $passhash_md5;
@@ -165,6 +188,8 @@ $password = $_POST['login']['password'];
 $passhash_md5 = hash_password ( $password );
 $email = $_POST['login']['email'];
 
+/** Tarkasta annetun datan aitous ja ainutlaatuisuus
+ */
 if ( validate( $email, $password, $username) ) {
     echo ("validaatio toimii"); 
     add_new_user ( $email, $passhash_md5, $username ); 
@@ -179,7 +204,7 @@ if ( validate( $email, $password, $username) ) {
 }
 else
 {
-    direct_wrong( );
+    direct_wrong();
 }
 
 ob_end_flush();

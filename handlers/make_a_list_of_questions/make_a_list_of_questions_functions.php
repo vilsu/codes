@@ -2,7 +2,11 @@
 
 // Functions
 
-
+/** Ota vastausten lukum\"{a}\"{a}
+ * @param integer $question_id
+ * @param array $number_of_answers
+ * @return integer
+ */
 function get_answer_count ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     // to get the number of answers for the question
@@ -18,6 +22,11 @@ function get_answer_count ( $question_id ) {
     }
     return $number_of_answers;
 }
+
+/** Luo HTML vastausten lukum\"{a}\"{a}r\"{a}lle
+ * @param integer $question_id
+ * @param array $number_of_answers
+ */
 
 function create_question_count_box ( $question_id ) {
     $number_of_answers = get_answer_count ( $question_id );
@@ -54,9 +63,15 @@ function create_question_count_box ( $question_id ) {
     echo ("</a>");
 }
 
-
-
-// Create all the parts of a question in a list
+/** Luo HTML kysymykselle
+ * @param string $title
+ * @param array $tags
+ * @param integer $question_id
+ * @param integer $user_id
+ * @param string $username
+ * @param string $was_sent_at_time
+ * @param string $describtion
+ */
 function create_question( 
     $title,
     $tags,
@@ -97,9 +112,10 @@ function create_tags($tags)
     echo ("</div>");
 }
 
-// Functions which need database connection
-
-// Print the Title for a list of questions
+/** Luo HTML otsikolle kysymyslistassa
+ * @param string $title
+ * @param integer $question_id
+ */
 function create_title($title, $question_id)
 {
     echo ("<h3>"
@@ -114,6 +130,15 @@ function create_title($title, $question_id)
     );
 }
 
+/** J\"{a}rjest\"{a} kysymykset ajan mukaan
+ * @param array $end_array
+ * @param array $tags_and_Qid
+ * @param array $titles_and_Qid
+ * @param array $titles
+ * @param array $was_sent_at_times
+ * @param array $usernames
+ * @param array $user_ids
+ */
 function organize_questions (
     $end_array, 
     $tags_and_Qid,

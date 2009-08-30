@@ -1,5 +1,11 @@
 <?php
 
+/** Luo k\"{a}ytt\"{a}j\"{a}tietolaatikko
+ * @param integer $user_id
+ * @param string $username
+ * @param string $was_sent_at_time
+ * @param string $describtion
+ */
 function create_user_info_box_question( 
     $user_id,       // to allow users to have spaces in their names 
     $username, 

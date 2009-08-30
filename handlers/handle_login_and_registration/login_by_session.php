@@ -8,6 +8,10 @@
 session_save_path("/tmp/");
 session_start();
 
+/** Aseta istuntotunniste
+ * @param integer $random_number
+ * @param integer $session_id
+ */
 function set_session_id () 
 {
     // This needs to before any session variables and random nunmber generation
@@ -18,6 +22,10 @@ function set_session_id ()
     }
 }
 
+/** Ota salasanan hash tietokannasta
+ * @param string $passhash_md5
+ * @return string
+ */
 function get_original_passhash_md5 () 
 {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
@@ -56,6 +64,10 @@ function get_original_passhash_md5 ()
     return $passhash_md5;
 }
 
+
+/** Aseta istuntomuuttujat
+ * @param string $passhash_md5
+ */
 function set_login_session ( $passhash_md5 ) 
 {
     // users from registration/login form
@@ -74,6 +86,9 @@ function set_login_session ( $passhash_md5 )
 }
 
 // Let's fire!
+
+/** Aseta istuntotunniste ja tee istuntomuuttujat
+ */
 set_session_id ();
 if ( !get_original_passhash_md5 () == '' ) {
     set_login_session ( get_original_passhash_md5() );
@@ -81,5 +96,4 @@ if ( !get_original_passhash_md5 () == '' ) {
 
 // http://stackoverflow.com/questions/415005/php-session-variables-not-carrying-over-to-my-logged-in-page-but-session-id-is
 
-// no pg_close() here
 ?>

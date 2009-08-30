@@ -1,5 +1,8 @@
 <?php
 
+/** L\"{a}het\"{a} email moderaattorille asiattomasta viestist\"{a}
+ */
+
 include ("/codes/Email/email.php");
 
 $subject = "Flagged question"; 

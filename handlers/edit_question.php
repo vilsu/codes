@@ -2,6 +2,11 @@
 
 include ("getters_at_question.php");
 
+/** Luo kysymys
+ * @param string $body
+ * @param integer $question_id
+ * @return string
+ */
 function get_question_body ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
@@ -17,6 +22,11 @@ function get_question_body ( $question_id ) {
     return $body;
 }
 
+/** Luo kysymyksen otsikko 
+ * @param string $title
+ * @param integer $question_id
+ * @return string
+ */
 function get_question_title ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
@@ -32,6 +42,11 @@ function get_question_title ( $question_id ) {
     return $title;
 }
 
+/** Ota kysymysksen tagit 
+ * @param string $tags
+ * @param integer $question_id
+ * @return string
+ */
 function get_question_tags ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
@@ -51,7 +66,9 @@ function get_question_tags ( $question_id ) {
 }
 
 
-
+/** Luo HTML kysymykselle
+ * @param string @body
+ */
 function create_body_at_question ( $body ) {
     echo ("<div class='resizable-textarea'>"
         . "<textarea id='input' class='textarea' id='required' tabindex='101' rows='15' cols='92' name='question[body]'>"
@@ -60,6 +77,9 @@ function create_body_at_question ( $body ) {
         . "</div>");
 }
 
+/** Luo HTML kysymyksen otsikolle 
+ * @param string @title
+ */
 function create_title_at_question ( $title ) {
     echo ("<label for='title'>Title</label>"
         . "<input name='question[title]' type='text' cols='92' class='title' id='required'"
@@ -68,10 +88,9 @@ function create_title_at_question ( $title ) {
 }
 
 
-function create_update_button ( $question_id ) {
-
-}
-
+/** Luo HTML tageille 
+ * @param string @tags
+ */
 function create_tags_at_question ( $tags ) {
     echo ("<label for='tags'>Tags</label>"
         . "<input name='question[tags]' type='text' cols='92' class='tags' id='required'"
@@ -84,6 +103,13 @@ function create_tags_at_question ( $tags ) {
 
 }
 
+// TODO
+/** Luo kysymys muokkausn\"{a}kym\"{a}ss\"{a}
+ * @param string $body
+ * @param string $title
+ * @param string $tags
+ * @param integer $question_id
+ */
 function create_edit_box ( $question_id ) {
     $body = get_question_body ( $question_id ); 
     $title = get_question_title ( $question_id );
@@ -98,12 +124,14 @@ function create_edit_box ( $question_id ) {
     . create_body_at_question ( $body )
     . create_tags_at_question ( $tags )
     . "</fieldset>"
-    . create_update_button ( $question_id )
     );
     echo ("<input class='update_question' onclick='checkFields();' type='submit' value='Update Your Question' /></form>");
 }
 
+
 // Let's fire!
+/** Luo muokkauslaatikko
+ */
 create_edit_box ( get_questionID_at_question ()  );
 
 ?>

@@ -3,7 +3,11 @@
 include ("check_authority_functions.php");
 include ("delete_edit_flag_buttons.php");
 
-// to create the title of the question
+/** Luo HTML otsikko kysymykselle
+ * @param string $title
+ * @param integer $question_id
+ * @param string $title_clear
+ */
 function create_question_title( $title, $question_id )
 {
     // to read sanitized data
@@ -23,7 +27,10 @@ function create_question_title( $title, $question_id )
     );
 }
 
-// this may be buggy
+/** Luo HTML vastaukselle
+ * @param string $answer
+ * @param string $answer_clear
+ */
 function create_answer ( $answer ) {
     // to read sanitized data
     $answer = preg_replace('/\n\s*\n/', "<br />\n<br />\n", htmlentities( $answer ) );
@@ -34,7 +41,9 @@ function create_answer ( $answer ) {
     );
 }
 
-// organize answers according inside a question
+/** Luo aikaj\"{a}rjestys tekstihaun mukaan
+ * @param integer $question_id
+ */
 function create_tab_box_thread( $question_id ) {
     echo ( "<div id='tabs'>" );
     if ( $_GET['sort'] == 'newest'
@@ -74,6 +83,12 @@ function create_tab_box_thread( $question_id ) {
 }
 
 
+/** Ota tagit kysymykselle
+ * @param integer $question_id
+ * @param array $tags_array_summary
+ * @param resource $result
+ * @return array
+ */
 function get_tags_for_a_question ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
@@ -89,7 +104,12 @@ function get_tags_for_a_question ( $question_id ) {
     return $tags_array_summary;
 }
 
-
+/** Luo HTML sivustolaajuinen tagilistam\"{a}\"{a}r\"{a}t kysymykselle
+ * @param integer $question_id
+ * @param resource $result
+ * @param array $tags_array_summary
+ * @param array $figure
+ */
 function create_global_tag_count_box_for_a_question ( $question_id ) {
     $tags_array_summary = get_tags_for_a_question ( $question_id );
 

@@ -1,17 +1,17 @@
 <?php
 
-// This handles the receiving of new questions to database
-// and gives users feedback about the completion.
-
 ob_start();
-
-// to process question sent from the lomake_ask_question.php
 
 session_save_path("/tmp/");
 session_start();
 
-//$passhash_md5 = $_SESSION['login']['passhash_md5'];
+/** Ota kysymys lomakkeelta lomake_ask_question.php
+ */
 
+/** Ota sis\"{a}\"{a}nkirjautumistila
+ * @param string $email
+ * @return boolean
+ */
 function check_user_status () 
 {
     #if ( empty ( $email ) ) exit("Please, fill your email."); 
@@ -28,7 +28,11 @@ function check_user_status ()
         return false;
 }
 
-/*{{{*/
+
+/** Tarkasta otsikko
+ * @param string $title
+ * @return boolean
+ */
 function validate_title( $title )
 { 
     if ( empty ( $title ) ) {
@@ -43,6 +47,10 @@ function validate_title( $title )
         return true;
 }
 
+/** Tarkasta kysymys
+ * @param string $body
+ * @return boolean
+ */
 function validate_body( $body )
 {
     if ( empty ( $body ) ) {
@@ -51,9 +59,12 @@ function validate_body( $body )
     }
     else
         return true;
-    #if ( mb_strlen ( $body ) > 1000 ) exit("Too long body.");
 }
 
+/** Tarkasta tagit
+ * @param string $tags
+ * @return boolean
+ */
 function validate_tags( $tags )
 {
     $tags = pg_escape_string ( $_POST['question']['tags'] );
@@ -77,6 +88,12 @@ function validate_tags( $tags )
         return false;
 }
 
+/** Tarkasta kysymys
+ * @param string $title
+ * @param string $body
+ * @param string $tags
+ * @return boolean
+ */
 function validate_input ( $title, $body, $tags) 
 {
     echo ("sisalla validaatiossa");
@@ -94,8 +111,14 @@ function validate_input ( $title, $body, $tags)
     }
     else
         return true;
-}/*}}}*/
+}
 
+/** Aseta kysymys tietokantaan
+ * @param integer $question_id
+ * @param string $body
+ * @param string $title
+ * @return boolean
+ */
 function set_question ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     $body = $_POST['question']['body'];
@@ -117,7 +140,11 @@ function set_question ( $question_id ) {
 
 
 
-
+/** Aseta tagit tietokantaan
+ * @param integer $question_id
+ * @param string $tags
+ * @param array $tags_array
+ */
 function set_tags ( $question_id) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     // to sanitize data
@@ -154,7 +181,13 @@ function set_tags ( $question_id) {
     }
 }
 
-
+/** Ota kysymystunniste
+ * @param string $pattern
+ * @param string $subject
+ * @param string $query
+ * @param integer $question_id
+ * @return integer
+ */
 function get_question_id () {
     $pattern = '/(question_id=[^#&]*)/';
     $subject = $_SERVER['HTTP_REFERER'];
@@ -167,6 +200,12 @@ function get_question_id () {
     return $question_id;
 }
 
+/** Laita kysymys tietokantaan
+ * @param integer $question_id
+ * @param string $title
+ * @param string $body
+ * @param string $tags
+ */
 function put_question_to_db ( $question_id ){
     if ( check_user_status () ) 
     {
@@ -204,7 +243,12 @@ function put_question_to_db ( $question_id ){
             );
 }
 
+
+
+
 // Let's fire!
+
+// Laita kysymystietokantaan
 put_question_to_db ( get_question_id() );
 
 ob_end_flush();

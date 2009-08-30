@@ -57,6 +57,8 @@ require './views/ask_question_link.php';
         <div class="container_two">
 <?php
 
+/** Luo huomautukset
+ */
 function create_notices () {
     // Notices about successes and failures in the site
     require ('views/successful_notice.php');
@@ -72,6 +74,8 @@ function create_notices () {
     }
 }
 
+/** Luo perusn\"{a}kymym\"{a}
+ */
 function create_view () {
     // search functions
     include ("./handlers/make_a_list_of_questions/make_a_list_of_questions_functions.php");
@@ -107,6 +111,13 @@ function create_view () {
 }
 
 
+/** Ota kysymystunniste
+ * @param string $pattern
+ * @param string $subject
+ * @param string $query
+ * @param integer $question_id
+ * @return integer
+ */
 function get_question_id_home ( ) {
     if ( !empty ( $_GET['question_id'] ) )
         return $_GET['question_id'];
@@ -125,6 +136,9 @@ function get_question_id_home ( ) {
     }
 }
 
+
+/** Luo sis\"{a}\"{a}nkirjautumisn\"{a}kym\"{a}
+ */
 function create_logged_in_view () {
     // Login and Logout
     if (isset($_GET['login'])) {
@@ -139,6 +153,10 @@ function create_logged_in_view () {
     } 
 }
 
+
+/** Ota sis\"{a}\"{a}nkirjautumistila
+ * @return boolean
+ */
 function get_login_status () {
     if ( isset( $_SESSION['login']['logged_in'] ) )
         return true;
@@ -146,6 +164,9 @@ function get_login_status () {
         return false;
 }
 
+
+/** Luo kysy -n\"{a}kym\"{a}
+ */
 function create_ask_question_view () {
     // Ask question -view
     if ( isset( $_GET['ask_question'] ) ) {
@@ -158,11 +179,17 @@ function create_ask_question_view () {
     }
 }
 
+/** Luo yleist\"{a} -n\"{a}kym\"{a}
+ */
 function create_about_view () {
     if ( array_key_exists ( 'about', $_GET ) )
         require './views/about.php';
 }
 
+
+/** Luo HTML vastauss\"{a}ili\"{o}
+ * @param integer $question_id
+ */
 function create_answers_box ( $question_id ) {
     echo ("<table><tr><td>");
     // to sort the answers of the given question
@@ -181,6 +208,9 @@ function create_answers_box ( $question_id ) {
 }
 
 
+/** Luo n\"{a}kym\"{a} kysymyksess\"{a}
+ * @param integer $question_id
+ */
 function create_in_question_view ( $question_id ) {
     // Content with headers
     // Question selected by the user
@@ -199,6 +229,9 @@ function create_in_question_view ( $question_id ) {
 
 
 
+/** Luo n\"{a}kym\"{a}t ilman otsikoita
+ * @param integer $question_id
+ */
 function create_content_without_headings ( $question_id ) {
     // inside a question functions
     include ("./handlers/make_a_thread/thread_functions.php");
@@ -213,6 +246,11 @@ function create_content_without_headings ( $question_id ) {
 
 
 // Let's fire!
+
+/** Luo p\"{a}\"{a}n\"{a}kym\"{a} otetulle kysymystunnisteelle ja luo
+ * sis\"{a}lt\"{o}, jolla ei ole otsikoita
+ * @param integer $question_id
+ */
 $question_id = get_question_id_home ();
 create_view ();
 create_content_without_headings ( $question_id );

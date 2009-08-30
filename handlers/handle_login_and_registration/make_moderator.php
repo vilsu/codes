@@ -2,6 +2,8 @@
 // do not bind this to anything
 // only for reference
 
+/** Tee moderaattori
+ */
 $result = pg_prepare ( $dbconn, "make_moderator", 
     'UPDATE users 
     SET a_moderator = 1

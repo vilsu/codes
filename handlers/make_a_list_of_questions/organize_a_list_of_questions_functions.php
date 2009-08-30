@@ -1,8 +1,8 @@
 <?php
 
-// Organizing functions
 
-// list of questions at the homepage
+/** Luo HTML kysymysten j\"{a}rjest\"{a}miseen listassa
+ */
 function create_tab_box_question( ) {
     echo ( "<div id='tabs'>");
     if ( $_GET['tab'] == 'newest'
@@ -23,7 +23,10 @@ function create_tab_box_question( ) {
     echo ("</div>");
 }
 
-// list of questions by the given tag or username
+/** Luo HTML j\"{a}rjestyslaatikko kysymyksille listassa tagihaun tai yleishaun
+ * GET muuttujan mukaan
+ * @param string $tag
+ */
 function create_tab_box_question_tags( $tag ) {
     echo ( "<div id='tabs'>");
     if ( ( $_GET['tab_tag'] == 'newest' )
@@ -56,7 +59,11 @@ function create_tab_box_question_tags( $tag ) {
     echo ("</div>");
 }
 
-// list of questions by the given tag or username
+
+/** Luo HTML j\"{a}rjestyslaatikko kysymyksille listassa k\"{a}ytt\"{a}j\"{a}nimi-
+ * tai tagihaun GET muuttujan mukaan
+ * @param string $username
+ */
 function create_tab_box_question_usernames ( $username ) {
     echo ( "<div id='tabs'>" );
     if ( ( $_GET['tab_user'] == 'newest' )
@@ -89,7 +96,6 @@ function create_tab_box_question_usernames ( $username ) {
     } 
     echo ("</div>");
 }
-
 
 
 

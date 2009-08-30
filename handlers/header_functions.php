@@ -1,10 +1,12 @@
 <?php
 
-// we cannot use the function name `header`
-// because it is taken by PHP
+/** Luo otsikot HTML koodin kanssa
+ */
 
-// this is for headers without values in the variable OR
-// for headers without varibles
+/** Luo p\"{a}\"{a}otsikko
+ * @param string $mainheader
+ * @param boolean $link
+ */
 function mainheader( $mainheader, $link ) {
     if( $link ) {
         echo ("<div id='mainheader'>"
@@ -25,6 +27,9 @@ function mainheader( $mainheader, $link ) {
     }
 }
 
+/** Luo alaotsikko
+ * @param string $subheader
+ */
 function subheader( $subheader ) {
     echo ("<div id='subheader'>"
         . "<h2>"

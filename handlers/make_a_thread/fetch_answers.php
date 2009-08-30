@@ -1,6 +1,13 @@
 <?php
 // To get answers for the question
 
+/** Ota kysymystunniste vastaukselle
+ * @param string $pattern
+ * @param string $subject
+ * @param string $query
+ * @param integer $question_id
+ * @return integer
+ */
 function get_question_id_for_answer () {
     if ($_GET['question_id'] > 0 ) 
     {
@@ -18,7 +25,10 @@ function get_question_id_for_answer () {
 }
 
 
-
+/** Ota vastaukset kysymykselle
+ * @param integer $question_id
+ * @return resource
+ */
 function fetch_answers ( $question_id ) {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     if ( !($_GET['sort'] == 'oldest' ) )
@@ -47,6 +57,11 @@ function fetch_answers ( $question_id ) {
     return $result;
 }
 
+/** Luo HTML alaotsikko vastauksille
+ * @param integer $question_id
+ * @param array $result_answers
+ * @param integer $number_of_answers
+ */
 function create_subheader_for_answers ( $question_id ) {
     $result_answers = fetch_answers ( $question_id );
     // to print subheader for Answers
@@ -73,6 +88,12 @@ function create_subheader_for_answers ( $question_id ) {
 }
 
 
+/** Ota vastauksen l\"{a}hetysaika
+ * @param integer $question_id
+ * @param string $was_sent_at_time
+ * @param array $was_sent_at_time_array
+ * @return string
+ */
 function get_was_sent_time_for_answer ( $question_id ) {
     // Grab the was_sent_at_time for the question from the second array
     $was_sent_at_time_unformatted = $answer_row['was_sent_at_time'];
@@ -83,6 +104,16 @@ function get_was_sent_time_for_answer ( $question_id ) {
 }
 
 
+/** Luo HTML vastausten s\"{a}ili\"{o}
+ * @param integer $question_id
+ * @param integer $number_of_answers
+ * @param array $result_answers
+ * @param array $answers_real
+ * @param string $answer
+ * @param integer $user_id
+ * @param string $username
+ * @param string $was_sent_at_time
+ */
 function create_answer_box ( $question_id ) {
     $result_answers = fetch_answers ( $question_id );
     // to print subheader for Answers
@@ -123,6 +154,10 @@ function create_answer_box ( $question_id ) {
 
 
 // Let's fire!
+
+/** Luo alaotsikko vastauksille ja tee vastauss\"{a}ili\"{o}
+ */
+
 create_subheader_for_answers ( get_question_id_for_answer () );
 create_answer_box ( get_question_id_for_answer () );
 

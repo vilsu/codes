@@ -1,7 +1,8 @@
 <?php
 
-// This handles the receiving of new questions to database
-// and gives users feedback about the completion.
+/** Tarkasta ja ota uusi kysymys tietokantaan
+ */
+
 
 ob_start();
 
@@ -16,8 +17,10 @@ $tags = $_POST['question']['tags'];
 
 
 
-//$passhash_md5 = $_SESSION['login']['passhash_md5'];
-
+/** Ota sis\"{a}\"{a}nkirjautumistila
+ * @param string $email
+ * @return boolean
+ */
 function check_user_status () 
 {
     #if ( empty ( $email ) ) exit("Please, fill your email."); 
@@ -34,6 +37,10 @@ function check_user_status ()
         return false;
 }
 
+/** Tarkasta kysymyksen otsikko
+ * @param string $title
+ * return boolean
+ */
 function validate_title( $title )
 { 
     if ( empty ( $title ) ) {
@@ -48,6 +55,10 @@ function validate_title( $title )
         return true;
 }
 
+/** Tarkasta kysymys
+ * @param $body
+ * @return boolean
+ */
 function validate_body( $body )
 {
     if ( empty ( $body ) ) {
@@ -56,9 +67,13 @@ function validate_body( $body )
     }
     else
         return true;
-    #if ( mb_strlen ( $body ) > 1000 ) exit("Too long body.");
 }
 
+/** Tarkasta tagit
+ * @param string $tags
+ * @param array $tags_array
+ * @return boolean
+ */
 function validate_tags( $tags )
 {
     // May fail if user gives " , hello" as a tag
@@ -84,6 +99,12 @@ function validate_tags( $tags )
         return false;
 }
 
+/** Tarkasta kysymys
+ * @param string $title
+ * @param string $body
+ * @param string $tags
+ * @return boolean
+ */
 function validate_input ( $title, $body, $tags) 
 {
     echo ("sisalla validaatiossa");
@@ -104,6 +125,11 @@ function validate_input ( $title, $body, $tags)
 }
 
 
+/** Ota kysymystunniste
+ * @param string $email
+ * @param integer $user_id
+ * @return integer
+ */
 function get_user_id () {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     $email = $_SESSION['login']['email'];
@@ -122,7 +148,12 @@ function get_user_id () {
     return $user_id;
 }
 
-
+/** Laita kysymys tietokantaan
+ * @param string $body
+ * @param string $title
+ * @param integer $user_id
+ * @return boolean
+ */
 function set_question () {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     $body = $_POST['question']['body'];
@@ -143,6 +174,12 @@ function set_question () {
         return false;
 }
 
+/** Ota kysymystunniste
+ * @param string $title
+ * @param string $body
+ * @param integer $user_id
+ * @return integer
+ */
 function get_question_id () {
     $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
     $user_id = get_user_id ();
@@ -165,6 +202,11 @@ function get_question_id () {
     return $question_id;
 }
 
+/** Aseta tagit tietokantaan
+ * @param integer $question_id
+ * @param string $tags
+ * @param array $tags_array
+ */
 function set_tags () {
     $question_id = get_question_id ();
 
@@ -198,6 +240,12 @@ function set_tags () {
 
 // Let's fire!
 
+/** Tarkasta sis\"{a}\"{a}nkirjaus
+ * @param integer $question_id
+ * @param string $title
+ * @param string $body
+ * @param string $tags
+ */
 if ( check_user_status () ) 
 {
     echo ("User status pelaa");
