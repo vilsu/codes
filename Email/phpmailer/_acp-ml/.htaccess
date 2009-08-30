@@ -1,7 +1,0 @@
-<FilesMatch "^(index|inc.campaigns|inc.lists|inc.subscribers|campaign)*$">
-AuthUserFile /your/path/to/_acp-ml/.htpasswd
-AuthGroupFile /dev/null
-AuthName "Admin area"
-AuthType Basic
-Require valid-user
-</FilesMatch>
