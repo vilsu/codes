@@ -1,7 +1,12 @@
 <script type="text/javascript"> 
 
 /*
- *    Questions
+ * @file jQuery.php
+ *
+ * @brief Laukaise huomautukset, jos tapahtuma onnistuu.
+ *
+ * Tiedosto laukaisee huomautukset, jos tiedostot /handlers/flag_question.php ja 
+ * /handlers/delete_a_question.php suoritetaan onnistuneesti.
  */
 
 // Detele and Flag buttons in reading questions
@@ -22,30 +27,6 @@ jQuery('a.flag_question').live('click', function(){
             $(".question_box").addClass("yellow");
             $("div.successful").append("<strong class=\"addedtext\">Question was flagged as Spam.</strong>");
 });
-
-
-
-/*
- * Answers
- */
-
-// TODO
-var answer = $('#answer').val();
-jQuery('div.answer_' + answer + ' a.delete_answer').live('click', function(){
-    jQuery.post('/codes/handlers/delete_an_answer.php', 
-        { delete_answer: jQuery(this).attr('rel') });
-            $("#one_answer").addClass("red");
-            $("div.successful").append("<strong class=\"addedtext\">Answer was removed.</strong>");
-});
-
-
-jQuery('a.flag_answer').live('click', function(){
-    jQuery.post('/codes/handlers/flag_answer.php', 
-        { flag_answer: jQuery(this).attr('rel') });
-            $("#one_answer").addClass("yellow");
-            $("div.successful").append("<strong class=\"addedtext\">Answer was flagged as Spam.</strong>");
-});
-
 
 
 // TODO buggy

@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @file delete_a_question.php
+ *
+ * Tiedosto laukaisee jQuery funktion tiedosta jQuery.php.
+ */
+
 $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
 
 // remove the body and title of the question

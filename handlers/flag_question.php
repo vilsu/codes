@@ -1,6 +1,11 @@
 <?php
 
-/** L\"{a}het\"{a} email moderaattorille asiattomasta viestist\"{a}
+/** 
+ * @file flag_question.php
+ *
+ * @brief L\"{a}het\"{a} email moderaattorille asiattomasta viestist\"{a}.
+ *
+ * Tiedosto laukaisee jQuery funktion tiedostosta jQuery.php.
  */
 
 include ("/codes/Email/email.php");
