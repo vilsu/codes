@@ -9,11 +9,13 @@ ob_start();
 include ('getters_for_search.php');
 
 /** Ota kysymykset tietokannasta
- * @param array $result
  * @return array
  */
 function get_raw_data () {
-    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+ /* 
+  * $result array
+  */
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noaa user=noaa password=123");
 
     $result = pg_query_params ( $dbconn, 
         'SELECT q.question_id, q.body, q.title, q.was_sent_at_time, 
@@ -30,28 +32,25 @@ function get_raw_data () {
 
     if ( pg_num_rows( $result ) == 0 ) {
         echo ("Pieleen alussa");
-        header ( "Location: /codes/index.php?"
+        header ( "Location: /pgCodesS/index.php?"
             . "no_question_found"
         );
     }
-    else if ( pg_num_rows( $result ) !== 0 ) {
+    else if ( pg_num_rows( $result ) !== 0 )
         return $result;
-    }
     else
-    {
         echo ("No raw data from the first query");
-//        return false;
-    }
 }
 
 /** Ota tagit tietokannasta
- * @param array $result_tags
- * @param array $end_array
  * @return array
  */
 
 function get_tags () {
-    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+ /* $result_tags array
+ * $end_array array
+ */
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noaa user=noaa password=123");
 
     $result_tags = pg_query_params( $dbconn, 
         'SELECT question_id, tag
@@ -93,15 +92,17 @@ function create_headings () {
 
 
 /** J\"{a}rjest\"{a} kysymykset tagin mukaan
- * @param array $end_array
- * @param array $tags_and_Qid
- * @param array $titles_and_Qid
- * @param array $titles
- * @param array $was_sent_at_times
- * @param array $usernames
- * @param array $user_ids
  */
 function organize_questions_by_keyword () {
+
+ /* $end_array array
+ * $tags_and_Qid array
+ * $titles_and_Qid array
+ * $titles array
+ * $was_sent_at_times array
+ * $usernames array
+ * $user_ids array
+ */
     $end_array = get_tags ();
     $tags_and_Qid = get_tags ();
     $titles_and_Qid = get_titles ();

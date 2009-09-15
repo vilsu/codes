@@ -2,17 +2,21 @@
 
 /**
  * @file    getters_at_question.php
- * @brief   Gettereita kysyksessa
+ * @brief   Gettereita kysymyksessa
  */
 
 
-/** Ota kysymystunniste
- * @param integer $question_id
- * @param string $subject
- * @param string $pattern
- * @param string $query
+/** 
+ * Ota kysymystunniste
+ * @return integer
  */
 function get_questionID_at_question () {
+/**
+ * $question_id	integer
+ * $subject	string
+ * pattern 	string
+ * $query	string
+ */
     $pattern = '/question_id=([^#&]*)/';
     $subject = $_SERVER['HTTP_REFERER'];
     $query = preg_match($pattern, $subject, $match) ? $match[1] : '';  // extract query from URL

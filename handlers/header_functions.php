@@ -1,15 +1,13 @@
 <?php
 
-
-
 /** 
  * @file    header_functions.php
  * @brief   Luo otsikot HTML koodin kanssa
  */
 
 /** Luo paaotsikko
- * @param string $mainheader
- * @param boolean $link
+ * @param $mainheader string 
+ * @param $link boolean 
  */
 function mainheader( $mainheader, $link ) {
     if( $link ) {
@@ -32,7 +30,7 @@ function mainheader( $mainheader, $link ) {
 }
 
 /** Luo alaotsikko
- * @param string $subheader
+ * @param $subheader string 
  */
 function subheader( $subheader ) {
     echo ("<div id='subheader'>"

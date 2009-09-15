@@ -8,13 +8,13 @@
 
 include ("getters_at_question.php");
 
-/** Luo kysymys
- * @param string $body
- * @param integer $question_id
+/** 
+ * Tee kysymys
+ * @param $question_id integer
  * @return string
  */
 function get_question_body ( $question_id ) {
-    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noaa user=noaa password=123");
 
     $result = pg_query_params ( $dbconn,
         'SELECT body
@@ -22,6 +22,9 @@ function get_question_body ( $question_id ) {
         WHERE question_id = $1',
         array ( $question_id  ) 
     );
+ /*
+  * @param $body string
+  */
     while ( $row = pg_fetch_array ( $result ) ) {
         $body = $row['body'];
     }
@@ -29,12 +32,11 @@ function get_question_body ( $question_id ) {
 }
 
 /** Luo kysymyksen otsikko 
- * @param string $title
- * @param integer $question_id
+ * @param $question_id integer
  * @return string
  */
 function get_question_title ( $question_id ) {
-    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noaa user=noaa password=123");
 
     $result = pg_query_params ( $dbconn,
         'SELECT title 
@@ -42,6 +44,9 @@ function get_question_title ( $question_id ) {
         WHERE question_id = $1',
         array ( $question_id  ) 
     );
+    /* 
+     * $title string
+     */
     while ( $row = pg_fetch_array ( $result ) ) {
         $title = $row['title'];
     }
@@ -49,13 +54,15 @@ function get_question_title ( $question_id ) {
 }
 
 /** Ota kysymysksen tagit 
- * @param string $tags
- * @param integer $question_id
+ * @param $question_id integer
  * @return string
  */
 function get_question_tags ( $question_id ) {
-    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noaa user=noaa password=123");
 
+ /* 
+  * $tags string
+  */
     $result = pg_query_params ( $dbconn,
         'SELECT tag
         FROM tags 
@@ -73,7 +80,8 @@ function get_question_tags ( $question_id ) {
 
 
 /** Luo HTML kysymykselle
- * @param string @body
+ * @param @body string
+ * 	kysymys	
  */
 function create_body_at_question ( $body ) {
     echo ("<div class='resizable-textarea'>"
@@ -84,7 +92,8 @@ function create_body_at_question ( $body ) {
 }
 
 /** Luo HTML kysymyksen otsikolle 
- * @param string @title
+ * @param @title string
+ * 	kysymyksen otsikko
  */
 function create_title_at_question ( $title ) {
     echo ("<label for='title'>Title</label>"
@@ -95,7 +104,7 @@ function create_title_at_question ( $title ) {
 
 
 /** Luo HTML tageille 
- * @param string @tags
+ * @param @tags string
  */
 function create_tags_at_question ( $tags ) {
     echo ("<label for='tags'>Tags</label>"
@@ -111,12 +120,14 @@ function create_tags_at_question ( $tags ) {
 
 // TODO
 /** Luo kysymys muokkausn\"{a}kym\"{a}ss\"{a}
- * @param string $body
- * @param string $title
- * @param string $tags
- * @param integer $question_id
+ * @param $question_id integer
  */
 function create_edit_box ( $question_id ) {
+/**
+ * $body string
+ * $title string
+ * $tags string
+ */
     $body = get_question_body ( $question_id ); 
     $title = get_question_title ( $question_id );
     $tags = get_question_tags ( $question_id );

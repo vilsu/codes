@@ -14,26 +14,27 @@ session_save_path("/tmp/");
 session_start();
 
 /** Aseta istuntotunniste
- * @param integer $random_number
- * @param integer $session_id
  */
 function set_session_id () 
 {
     // This needs to before any session variables and random nunmber generation
     if( $_SESSION['login']['logged_in'] == 0 )
     {
+/**
+ * $random_number integer
+ * $session_id	  integer
+ */
         $random_number = rand(1,100000);
         $session_id = session_id($random_number);
     }
 }
 
 /** Ota salasanan hash tietokannasta
- * @param string $passhash_md5
  * @return string
  */
 function get_original_passhash_md5 () 
 {
-    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noaa user=noaa password=123");
     if(!$dbconn) 
     {
         echo "An error occurred - Hhhh\n";
@@ -50,6 +51,9 @@ function get_original_passhash_md5 ()
         );
         while ( $row = pg_fetch_array ( $result ) )
         {
+ 	    /* 
+	     * $passhash_md5 string
+             */
             $passhash_md5 = $row['passhash_md5'];
         }
     }
@@ -71,7 +75,7 @@ function get_original_passhash_md5 ()
 
 
 /** Aseta istuntomuuttujat
- * @param string $passhash_md5
+ * @param $passhash_md5 string
  */
 function set_login_session ( $passhash_md5 ) 
 {

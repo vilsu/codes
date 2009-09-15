@@ -9,12 +9,14 @@ ob_start();
 include ('getters_for_search.php');
 
 /** Ota kysymyksen tiedot tietokannasta
- * @param array $result_titles
  * @return array
  */
 function get_raw_data () {
-    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noaa user=noaa password=123");
 
+ /*
+  * $result_titles array
+  */
     // to get titles and question_ids
     // When tag is given by the user
     $result_titles = pg_query_params( $dbconn,
@@ -34,13 +36,14 @@ function get_raw_data () {
 }
 
 /** Ota tagit tietokannasta
- * @param array $result_tags
- * @param array $end_array
  * @return array
  */
 
 function get_tags () {
-    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+ /* $result_tags array
+ * $end_array array
+ */
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noaa user=noaa password=123");
 
     $result_tags = pg_query_params( $dbconn, 
         'SELECT question_id, tag
@@ -70,10 +73,13 @@ function get_tags () {
 }
 
 
-/** Luo otsikot
- * @param array $end_array
+/** 
+ * Luo otsikot
  */
 function create_headings () {
+ /* 
+  * $end_array array
+  */
     $end_array = get_tags();
     // to check if 0 messages
     if ( count ( $end_array ) == 0 ) {
@@ -94,15 +100,17 @@ function create_headings () {
 
 
 /** J\"{a}rjest\"{a} kysymykset tagin mukaan
- * @param array $end_array
- * @param array $tags_and_Qid
- * @param array $titles_and_Qid
- * @param array $titles
- * @param array $was_sent_at_times
- * @param array $usernames
- * @param array $user_ids
  */
 function organize_questions_by_tag () {
+
+ /* $end_array array
+ * $tags_and_Qid array
+ * $titles_and_Qid array
+ * $titles array
+ * $was_sent_at_times array
+ * $usernames array
+ * $user_ids array
+ */
     $end_array = get_tags ();
     $tags_and_Qid = get_tags ();
     $titles_and_Qid = get_titles ();

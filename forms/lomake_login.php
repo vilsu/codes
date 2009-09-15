@@ -7,7 +7,7 @@
 
 
     echo (" <form method='post'" 
-        . "action='/codes/handlers/handle_login_and_registration/receive_login_form.php"
+        . "action='/pgCodesS/handlers/handle_login_and_registration/receive_login_form.php"
         . "'>"
     );
 ?>

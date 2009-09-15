@@ -30,7 +30,7 @@ function create_tab_box_question( ) {
 
 /** Luo HTML j\"{a}rjestyslaatikko kysymyksille listassa tagihaun tai yleishaun
  * GET muuttujan mukaan
- * @param string $tag
+ * @param $tag string
  */
 function create_tab_box_question_tags( $tag ) {
     echo ( "<div id='tabs'>");
@@ -65,9 +65,9 @@ function create_tab_box_question_tags( $tag ) {
 }
 
 
-/** Luo HTML j\"{a}rjestyslaatikko kysymyksille listassa k\"{a}ytt\"{a}j\"{a}nimi-
+/** Luo HTML jarjestyslaatikko kysymyksille listassa k\"{a}ytt\"{a}j\"{a}nimi-
  * tai tagihaun GET muuttujan mukaan
- * @param string $username
+ * @param $username string
  */
 function create_tab_box_question_usernames ( $username ) {
     echo ( "<div id='tabs'>" );

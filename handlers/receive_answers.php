@@ -28,13 +28,15 @@ function check_user_status () {
 }
 
 /** Aseta vastaus
- * @param integer $question_id
- * @param string $answer_sanitized
+ * @param $question_id integer
  */
 function set_answer ( $question_id ) {
+ /* 
+  * $answer_sanitized string
+  */
     $answer_sanitized = pg_escape_string( $_POST['answer'] );   // to sanitize answer
 
-    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noaa user=noaa password=123");
     // to put answer and question_id to Answers -table
     $result = pg_query_params ( $dbconn,
         'INSERT INTO answers 
@@ -47,7 +49,7 @@ function set_answer ( $question_id ) {
 
     // to redirect the user
     if ( $result ) {
-        header("Location: /codes/index.php?"
+        header("Location: /pgCodesS/index.php?"
             . "answer_sent"
             . "&"
             . "question_id="
@@ -55,7 +57,7 @@ function set_answer ( $question_id ) {
         );
     } 
     else {
-        header("Location: /codes/index.php?"
+        header("Location: /pgCodesS/index.php?"
             . "answer_not_sent"
             . "&"
             . "question_id="
@@ -76,7 +78,7 @@ if ( !(empty ( $_POST['answer'] ) ) )
         set_answer ( get_questionID_at_question() );
 }
 else
-    header( "Location: /codes/index.php" );
+    header( "Location: /pgCodesS/index.php" );
 
 ob_flush ();
 

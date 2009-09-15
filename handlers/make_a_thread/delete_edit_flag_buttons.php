@@ -6,8 +6,8 @@
  */
 
 /** Luo HTML moderaattorioikeuslaatikko
- * @param integer $question_id
- * @param integer $user_id
+ * @param $question_id integer
+ * @param $user_id integer
  */
 function create_moderator_box_for_a_question ( $question_id, $user_id ) {
     echo ("<div class='post_menu'>");

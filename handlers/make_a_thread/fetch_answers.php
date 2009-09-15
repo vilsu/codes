@@ -9,13 +9,14 @@
 // To get answers for the question
 
 /** Ota kysymystunniste vastaukselle
- * @param string $pattern
- * @param string $subject
- * @param string $query
- * @param integer $question_id
  * @return integer
  */
 function get_question_id_for_answer () {
+ /* $pattern string
+ * $subject string
+ * $query string
+ * $question_id integer
+ */
     if ($_GET['question_id'] > 0 ) 
     {
         $question_id = $_GET['question_id'];
@@ -33,11 +34,11 @@ function get_question_id_for_answer () {
 
 
 /** Ota vastaukset kysymykselle
- * @param integer $question_id
+ * @param $question_id integer
  * @return resource
  */
 function fetch_answers ( $question_id ) {
-    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noaa user=noaa password=123");
     if ( !($_GET['sort'] == 'oldest' ) )
     {
         $result = pg_query_params ( $dbconn, 
@@ -65,11 +66,12 @@ function fetch_answers ( $question_id ) {
 }
 
 /** Luo HTML alaotsikko vastauksille
- * @param integer $question_id
- * @param array $result_answers
- * @param integer $number_of_answers
+ * @param $question_id integer
  */
 function create_subheader_for_answers ( $question_id ) {
+ /* $result_answers array
+  * $number_of_answers integer
+  */
     $result_answers = fetch_answers ( $question_id );
     // to print subheader for Answers
     $number_of_answers = pg_num_rows ( $result_answers );
@@ -96,12 +98,14 @@ function create_subheader_for_answers ( $question_id ) {
 
 
 /** Ota vastauksen l\"{a}hetysaika
- * @param integer $question_id
- * @param string $was_sent_at_time
- * @param array $was_sent_at_time_array
+ * @param $question_id integer
  * @return string
  */
 function get_was_sent_time_for_answer ( $question_id ) {
+
+ /* $was_sent_at_time string
+ * $was_sent_at_time_array array
+ */
     // Grab the was_sent_at_time for the question from the second array
     $was_sent_at_time_unformatted = $answer_row['was_sent_at_time'];
     $was_sent_at_time_array = explode( " ", $was_sent_at_time_unformatted, 4 );
@@ -112,16 +116,18 @@ function get_was_sent_time_for_answer ( $question_id ) {
 
 
 /** Luo HTML vastausten s\"{a}ili\"{o}
- * @param integer $question_id
- * @param integer $number_of_answers
- * @param array $result_answers
- * @param array $answers_real
- * @param string $answer
- * @param integer $user_id
- * @param string $username
- * @param string $was_sent_at_time
+ * @param $question_id integer
  */
 function create_answer_box ( $question_id ) {
+ /* $number_of_answers integer
+ * $result_answers array
+ * $answers_real array
+ * $answer string
+ * $user_id integer
+ * $username string
+ * $was_sent_at_time string
+ */
+
     $result_answers = fetch_answers ( $question_id );
     // to print subheader for Answers
     $number_of_answers = pg_num_rows ( $result_answers );

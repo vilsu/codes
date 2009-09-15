@@ -9,12 +9,14 @@ include ("check_authority_functions.php");
 include ("delete_edit_flag_buttons.php");
 
 /** Luo HTML otsikko kysymykselle
- * @param string $title
- * @param integer $question_id
- * @param string $title_clear
+ * @param $title string
+ * @param $question_id integer
  */
 function create_question_title( $title, $question_id )
 {
+ /* 
+  * $title_clear string
+  */
     // to read sanitized data
     $title_clear = htmlentities ( $title, ENT_QUOTES );
 
@@ -33,10 +35,12 @@ function create_question_title( $title, $question_id )
 }
 
 /** Luo HTML vastaukselle
- * @param string $answer
- * @param string $answer_clear
+ * @param $answer string
  */
 function create_answer ( $answer ) {
+ /* 
+  * $answer_clear string
+  */
     // to read sanitized data
     $answer = preg_replace('/\n\s*\n/', "<br />\n<br />\n", htmlentities( $answer ) );
     $answer_clear = $answer;
@@ -47,7 +51,7 @@ function create_answer ( $answer ) {
 }
 
 /** Luo aikaj\"{a}rjestys tekstihaun mukaan
- * @param integer $question_id
+ * @param $question_id integer
  */
 function create_tab_box_thread( $question_id ) {
     echo ( "<div id='tabs'>" );
@@ -89,14 +93,15 @@ function create_tab_box_thread( $question_id ) {
 
 
 /** Ota tagit kysymykselle
- * @param integer $question_id
- * @param array $tags_array_summary
- * @param resource $result
+ * @param $question_id integer
  * @return array
  */
 function get_tags_for_a_question ( $question_id ) {
-    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noaa user=noaa password=123");
 
+ /* $tags_array_summary array
+ * $result resource
+ */
     // to get tags
     $result = pg_query_params ( $dbconn,
         'SELECT tag
@@ -110,15 +115,16 @@ function get_tags_for_a_question ( $question_id ) {
 }
 
 /** Luo HTML sivustolaajuinen tagilistam\"{a}\"{a}r\"{a}t kysymykselle
- * @param integer $question_id
- * @param resource $result
- * @param array $tags_array_summary
- * @param array $figure
+ * @param $question_id integer
  */
 function create_global_tag_count_box_for_a_question ( $question_id ) {
+ /* $result resource
+ * $tags_array_summary array
+ * $figure array
+ */
     $tags_array_summary = get_tags_for_a_question ( $question_id );
 
-    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noaa user=noaa password=123");
     // to get the amout of tags Globally
     $result = pg_prepare ( $dbconn, "query_tag_amount",
         'SELECT count(tag)

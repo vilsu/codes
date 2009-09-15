@@ -8,8 +8,11 @@
 session_save_path("/tmp/");
 session_start();
 
+/**
+ * Ota k\"{a}ytt\"{a}j\"{a}n moderaattoritila
+ */
 function get_moderator_status () {
-    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noaa user=noaa password=123");
     if(!$dbconn) {
         echo "An error occurred - Hhhh\n";
         exit;

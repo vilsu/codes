@@ -8,12 +8,11 @@
 
 
 /** Ota vastausten lukum\"{a}\"{a}
- * @param integer $question_id
- * @param array $number_of_answers
+ * @param $question_id integer
  * @return integer
  */
 function get_answer_count ( $question_id ) {
-    $dbconn = pg_connect("host=localhost port=5432 dbname=noa user=noa password=123");
+    $dbconn = pg_connect("host=localhost port=5432 dbname=noaa user=noaa password=123");
     // to get the number of answers for the question
     $result = pg_query_params ( $dbconn,
         'SELECT count(answer)
@@ -22,6 +21,9 @@ function get_answer_count ( $question_id ) {
         array ( $question_id ) 
     );
 
+    /* 
+     * $number_of_answers array
+     */
     while ( $row = pg_fetch_array ( $result ) ) {
         $number_of_answers[$question_id]['count'] = $row['count'];
     }
@@ -29,11 +31,12 @@ function get_answer_count ( $question_id ) {
 }
 
 /** Luo HTML vastausten lukum\"{a}\"{a}r\"{a}lle
- * @param integer $question_id
- * @param array $number_of_answers
+ * @param $question_id integer
  */
-
 function create_question_count_box ( $question_id ) {
+    /* 
+     * $number_of_answers array
+     */
     $number_of_answers = get_answer_count ( $question_id );
 
     echo ("<div class='question_summary'>");
@@ -69,13 +72,13 @@ function create_question_count_box ( $question_id ) {
 }
 
 /** Luo HTML kysymykselle
- * @param string $title
- * @param array $tags
- * @param integer $question_id
- * @param integer $user_id
- * @param string $username
- * @param string $was_sent_at_time
- * @param string $describtion
+ * @param $title string
+ * @param $tags array
+ * @param $question_id integer
+ * @param $user_id integer
+ * @param $username string
+ * @param $was_sent_at_time string
+ * @param $describtion string
  */
 function create_question( 
     $title,
@@ -90,9 +93,11 @@ function create_question(
 )
 {
 
+    // TODO include("validate_url_parameters.php");
     create_question_count_box ( $question_id );
 
     create_title( $title, $question_id );
+
     create_tags( $tags );
     create_user_info_box_question( 
         $user_id,
@@ -104,6 +109,10 @@ function create_question(
 }
 
 // Loop Through Each Tag and Print it
+/**
+ * Tee tagit
+ * @param @tags array
+ */
 function create_tags($tags)
 {
     echo ("<div class='tags'>");
@@ -118,8 +127,8 @@ function create_tags($tags)
 }
 
 /** Luo HTML otsikolle kysymyslistassa
- * @param string $title
- * @param integer $question_id
+ * @param $title string
+ * @param $question_id integer
  */
 function create_title($title, $question_id)
 {
@@ -136,13 +145,13 @@ function create_title($title, $question_id)
 }
 
 /** J\"{a}rjest\"{a} kysymykset ajan mukaan
- * @param array $end_array
- * @param array $tags_and_Qid
- * @param array $titles_and_Qid
- * @param array $titles
- * @param array $was_sent_at_times
- * @param array $usernames
- * @param array $user_ids
+ * @param $end_array array
+ * @param $tags_and_Qid array
+ * @param $titles_and_Qid array
+ * @param $titles array
+ * @param $was_sent_at_times array
+ * @param $usernames array
+ * @param $user_ids array
  */
 function organize_questions (
     $end_array, 
